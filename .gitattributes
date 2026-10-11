@@ -1,0 +1,11 @@
+# Preserve packaged bytes so SHA256SUMS also works after cloning.
+* -text
+*.pdf binary
+*.png binary
+*.jpg binary
+*.webp binary
+*.wasm binary
+*.traineddata binary
+*.gz binary
+*.exe binary
+*.node binary

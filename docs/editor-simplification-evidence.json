@@ -1,0 +1,13 @@
+{
+  "source": "grup-36---programci(1).pdf",
+  "input": "previously verified real PDF conversion; conversion pipeline unchanged in this edit",
+  "expected": 50,
+  "questions": 50,
+  "rows": 50,
+  "pdfAnswerKeyPage": 12,
+  "pdfAnswersDetected": 50,
+  "existingAnswers": 0,
+  "missingQuestionRows": 0,
+  "ambiguousRows": 0,
+  "displayDefaults": true
+}

@@ -1,0 +1,753 @@
+{
+  "measurementOnly": true,
+  "keySource": "PDF page 12, local scoring only",
+  "thresholdUnchanged": true,
+  "metric": "dark <160; erase ratio uses production reddish threshold; z against other four choices, exploratory flag |z| >=2",
+  "comparability": "Old 18/23 used strong-red components >=30 pixels and approximate tight boxes; new overlap uses the same >=30 component filter, but full-cell geometry differs; differences cannot be attributed solely to masking.",
+  "oldOverlap": {
+    "match": 18,
+    "affected": 23,
+    "ratio": 0.782608695652174
+  },
+  "newOverlap": {
+    "affected": 24,
+    "match": 17,
+    "ratio": 0.7083333333333334
+  },
+  "rawThresholdOverlap": {
+    "affected": 181,
+    "match": 40,
+    "ratio": 0.22099447513812154
+  },
+  "first11": {
+    "affected": 8,
+    "match": 8,
+    "ratio": 1
+  },
+  "rows": [
+    {
+      "number": 1,
+      "option": 4,
+      "matchesKey": true,
+      "markerRed": 136,
+      "bodyRed": 0
+    },
+    {
+      "number": 2,
+      "option": 3,
+      "matchesKey": true,
+      "markerRed": 160,
+      "bodyRed": 0
+    },
+    {
+      "number": 3,
+      "option": 1,
+      "matchesKey": true,
+      "markerRed": 110,
+      "bodyRed": 0
+    },
+    {
+      "number": 4,
+      "option": 2,
+      "matchesKey": true,
+      "markerRed": 148,
+      "bodyRed": 0
+    },
+    {
+      "number": 8,
+      "option": 3,
+      "matchesKey": true,
+      "markerRed": 130,
+      "bodyRed": 0
+    },
+    {
+      "number": 9,
+      "option": 2,
+      "matchesKey": true,
+      "markerRed": 85,
+      "bodyRed": 0
+    },
+    {
+      "number": 10,
+      "option": 0,
+      "matchesKey": true,
+      "markerRed": 0,
+      "bodyRed": 78
+    },
+    {
+      "number": 11,
+      "option": 1,
+      "matchesKey": true,
+      "markerRed": 0,
+      "bodyRed": 143
+    },
+    {
+      "number": 12,
+      "option": 3,
+      "matchesKey": true,
+      "markerRed": 0,
+      "bodyRed": 120
+    },
+    {
+      "number": 13,
+      "option": 2,
+      "matchesKey": true,
+      "markerRed": 0,
+      "bodyRed": 111
+    },
+    {
+      "number": 14,
+      "option": 2,
+      "matchesKey": false,
+      "markerRed": 0,
+      "bodyRed": 73
+    },
+    {
+      "number": 15,
+      "option": 3,
+      "matchesKey": true,
+      "markerRed": 0,
+      "bodyRed": 95
+    },
+    {
+      "number": 16,
+      "option": 1,
+      "matchesKey": false,
+      "markerRed": 114,
+      "bodyRed": 195
+    },
+    {
+      "number": 17,
+      "option": 3,
+      "matchesKey": true,
+      "markerRed": 152,
+      "bodyRed": 356
+    },
+    {
+      "number": 18,
+      "option": 2,
+      "matchesKey": true,
+      "markerRed": 0,
+      "bodyRed": 76
+    },
+    {
+      "number": 19,
+      "option": 1,
+      "matchesKey": true,
+      "markerRed": 0,
+      "bodyRed": 234
+    },
+    {
+      "number": 19,
+      "option": 2,
+      "matchesKey": false,
+      "markerRed": 0,
+      "bodyRed": 56
+    },
+    {
+      "number": 20,
+      "option": 0,
+      "matchesKey": true,
+      "markerRed": 73,
+      "bodyRed": 0
+    },
+    {
+      "number": 20,
+      "option": 4,
+      "matchesKey": false,
+      "markerRed": 126,
+      "bodyRed": 332
+    },
+    {
+      "number": 22,
+      "option": 0,
+      "matchesKey": true,
+      "markerRed": 117,
+      "bodyRed": 0
+    },
+    {
+      "number": 23,
+      "option": 1,
+      "matchesKey": false,
+      "markerRed": 455,
+      "bodyRed": 137
+    },
+    {
+      "number": 23,
+      "option": 4,
+      "matchesKey": false,
+      "markerRed": 62,
+      "bodyRed": 2
+    },
+    {
+      "number": 24,
+      "option": 3,
+      "matchesKey": true,
+      "markerRed": 0,
+      "bodyRed": 98
+    },
+    {
+      "number": 25,
+      "option": 1,
+      "matchesKey": false,
+      "markerRed": 368,
+      "bodyRed": 0
+    }
+  ],
+  "questions": [
+    {
+      "number": 1,
+      "status": "measured",
+      "options": [
+        {
+          "letter": "A",
+          "markerDarkBefore": 0.10294117647058823,
+          "markerDarkClean": 0.10180995475113122,
+          "markerDarkMasked": 0.001142857142857143,
+          "erasedArea": 0.0011312217194570137,
+          "bodyDarkLoss": 0,
+          "bodyRed": 0,
+          "bodyPixelsRetained": true,
+          "disabled": false
+        },
+        {
+          "letter": "B",
+          "markerDarkBefore": 0.10972850678733032,
+          "markerDarkClean": 0.10972850678733032,
+          "markerDarkMasked": 0.002197802197802198,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0,
+          "bodyRed": 0,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "C",
+          "markerDarkBefore": 0.0916289592760181,
+          "markerDarkClean": 0.09049773755656108,
+          "markerDarkMasked": 0.001098901098901099,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.00012906556530717546,
+          "bodyRed": 0.00012906556530717606,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "D",
+          "markerDarkBefore": 0.12217194570135746,
+          "markerDarkClean": 0.12217194570135746,
+          "markerDarkMasked": 0.0032967032967032967,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.000645327826535879,
+          "bodyRed": 0.00012906556530717606,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "E",
+          "markerDarkBefore": 0.021836007130124777,
+          "markerDarkClean": 0.02094474153297683,
+          "markerDarkMasked": 0.0004329004329004329,
+          "erasedArea": 0.06060606060606061,
+          "bodyDarkLoss": 0,
+          "bodyRed": 0,
+          "bodyPixelsRetained": true,
+          "disabled": false
+        }
+      ],
+      "contrastBefore": {
+        "difference": -0.08478163992869875,
+        "z": -7.661723481490074,
+        "uniqueExtreme": true,
+        "flag": true
+      },
+      "contrastClean": {
+        "difference": -0.08510729466611819,
+        "z": -7.370742549134429,
+        "uniqueExtreme": true,
+        "flag": true
+      },
+      "contrastMasked": {
+        "difference": -0.001501165501165501,
+        "z": -1.6654322725125164,
+        "uniqueExtreme": true,
+        "flag": false
+      },
+      "bodyLossContrast": {
+        "difference": -0.00019359834796076362,
+        "z": -0.7276068751089986,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "erasedContrast": {
+        "difference": 0.060323255176196355,
+        "z": 123.15056196441745,
+        "uniqueExtreme": true,
+        "flag": true
+      },
+      "warning": "Five choices from one question are descriptive samples, not a validated statistical leakage classifier."
+    },
+    {
+      "number": 5,
+      "status": "insufficient-option-geometry",
+      "options": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "contrastBefore": null,
+      "contrastClean": null,
+      "contrastMasked": null,
+      "bodyLossContrast": null,
+      "erasedContrast": null,
+      "warning": "Five choices from one question are descriptive samples, not a validated statistical leakage classifier."
+    },
+    {
+      "number": 6,
+      "status": "insufficient-option-geometry",
+      "options": [
+        null,
+        {
+          "letter": "B",
+          "markerDarkBefore": 0.1180952380952381,
+          "markerDarkClean": 0.1180952380952381,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.0012598425196850352,
+          "bodyRed": 0.0010498687664041995,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "C",
+          "markerDarkBefore": 0.06878306878306878,
+          "markerDarkClean": 0.06878306878306878,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0,
+          "bodyRed": 0,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "D",
+          "markerDarkBefore": 0.11816578483245149,
+          "markerDarkClean": 0.1111111111111111,
+          "markerDarkMasked": 0,
+          "erasedArea": 0.005291005291005291,
+          "bodyDarkLoss": 0.00029163021289005386,
+          "bodyRed": 0.00029163021289005544,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "E",
+          "markerDarkBefore": 0.05714285714285714,
+          "markerDarkClean": 0.05238095238095238,
+          "markerDarkMasked": 0,
+          "erasedArea": 0.002380952380952381,
+          "bodyDarkLoss": 0.00006544502617801193,
+          "bodyRed": 0.00013089005235602096,
+          "bodyPixelsRetained": true,
+          "disabled": false
+        }
+      ],
+      "contrastBefore": null,
+      "contrastClean": null,
+      "contrastMasked": null,
+      "bodyLossContrast": null,
+      "erasedContrast": null,
+      "warning": "Five choices from one question are descriptive samples, not a validated statistical leakage classifier."
+    },
+    {
+      "number": 9,
+      "status": "measured",
+      "options": [
+        {
+          "letter": "A",
+          "markerDarkBefore": 0.04462474645030426,
+          "markerDarkClean": 0.04462474645030426,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0,
+          "bodyRed": 0,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "B",
+          "markerDarkBefore": 0.058823529411764705,
+          "markerDarkClean": 0.058823529411764705,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.00011649580615098049,
+          "bodyRed": 0,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "C",
+          "markerDarkBefore": 0.018518518518518517,
+          "markerDarkClean": 0.016339869281045753,
+          "markerDarkMasked": 0,
+          "erasedArea": 0.09259259259259259,
+          "bodyDarkLoss": 0.00012263919548687746,
+          "bodyRed": 0,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "D",
+          "markerDarkBefore": 0.06372549019607843,
+          "markerDarkClean": 0.06372549019607843,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.0004489337822671177,
+          "bodyRed": 0.0002244668911335578,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "E",
+          "markerDarkBefore": 0.025657071339173967,
+          "markerDarkClean": 0.025657071339173967,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0,
+          "bodyRed": 0,
+          "bodyPixelsRetained": true,
+          "disabled": false
+        }
+      ],
+      "contrastBefore": {
+        "difference": -0.02968919083081182,
+        "z": -2.0075093357286207,
+        "uniqueExtreme": true,
+        "flag": true
+      },
+      "contrastClean": {
+        "difference": -0.03186784006828458,
+        "z": -2.154824185379746,
+        "uniqueExtreme": true,
+        "flag": true
+      },
+      "contrastMasked": {
+        "difference": 0,
+        "z": null,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "bodyLossContrast": {
+        "difference": -0.00001871820161764709,
+        "z": -0.10181918317351606,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "erasedContrast": {
+        "difference": 0.09259259259259259,
+        "z": null,
+        "uniqueExtreme": true,
+        "flag": true
+      },
+      "warning": "Five choices from one question are descriptive samples, not a validated statistical leakage classifier."
+    },
+    {
+      "number": 18,
+      "status": "measured",
+      "options": [
+        {
+          "letter": "A",
+          "markerDarkBefore": 0.11428571428571428,
+          "markerDarkClean": 0.11428571428571428,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.0011895321173671716,
+          "bodyRed": 0.0009251916468411313,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "B",
+          "markerDarkBefore": 0.12486772486772486,
+          "markerDarkClean": 0.12486772486772486,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.0003818251240931547,
+          "bodyRed": 0.00012727504136438844,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "C",
+          "markerDarkBefore": 0.09010989010989011,
+          "markerDarkClean": 0.09010989010989011,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.001053740779768178,
+          "bodyRed": 0.010142255005268703,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "D",
+          "markerDarkBefore": 0.11098901098901098,
+          "markerDarkClean": 0.10659340659340659,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.002246893999471325,
+          "bodyRed": 0.0018503832936822627,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "E",
+          "markerDarkBefore": 0.06341463414634146,
+          "markerDarkClean": 0.06341463414634146,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.0002505846976278009,
+          "bodyRed": 0.0002505846976277982,
+          "bodyPixelsRetained": true,
+          "disabled": false
+        }
+      ],
+      "contrastBefore": {
+        "difference": -0.013279380962307796,
+        "z": -0.5616850886781465,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "contrastClean": {
+        "difference": -0.012180479863406687,
+        "z": -0.5213403702559718,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "contrastMasked": {
+        "difference": 0,
+        "z": null,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "bodyLossContrast": {
+        "difference": 0.00003653179512831499,
+        "z": 0.04590524726174589,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "erasedContrast": {
+        "difference": 0,
+        "z": null,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "warning": "Five choices from one question are descriptive samples, not a validated statistical leakage classifier."
+    },
+    {
+      "number": 19,
+      "status": "measured",
+      "options": [
+        {
+          "letter": "A",
+          "markerDarkBefore": 0.10330578512396695,
+          "markerDarkClean": 0.08677685950413223,
+          "markerDarkMasked": 0,
+          "erasedArea": 0.002066115702479339,
+          "bodyDarkLoss": 0,
+          "bodyRed": 0,
+          "bodyPixelsRetained": true,
+          "disabled": false
+        },
+        {
+          "letter": "B",
+          "markerDarkBefore": 0.11363636363636363,
+          "markerDarkClean": 0.11212121212121212,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.0008743169398907069,
+          "bodyRed": 0.025573770491803278,
+          "bodyPixelsRetained": true,
+          "disabled": false
+        },
+        {
+          "letter": "C",
+          "markerDarkBefore": 0.08874458874458875,
+          "markerDarkClean": 0.08874458874458875,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.0012449424214130075,
+          "bodyRed": 0.008714596949891068,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "D",
+          "markerDarkBefore": 0.10031347962382445,
+          "markerDarkClean": 0.10031347962382445,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.0014649537976109996,
+          "bodyRed": 0.0010141987829614604,
+          "bodyPixelsRetained": true,
+          "disabled": false
+        },
+        {
+          "letter": "E",
+          "markerDarkBefore": 0.03925619834710744,
+          "markerDarkClean": 0.03925619834710744,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.00044563279857397567,
+          "bodyRed": 0.00024757377698554167,
+          "bodyPixelsRetained": true,
+          "disabled": false
+        }
+      ],
+      "contrastBefore": {
+        "difference": 0.030731350676491742,
+        "z": 1.192032045630574,
+        "uniqueExtreme": true,
+        "flag": false
+      },
+      "contrastClean": {
+        "difference": 0.03334843056629891,
+        "z": 1.4255292867239824,
+        "uniqueExtreme": true,
+        "flag": false
+      },
+      "contrastMasked": {
+        "difference": 0,
+        "z": null,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "bodyLossContrast": {
+        "difference": 0.00008543468549121122,
+        "z": 0.1441425539943228,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "erasedContrast": {
+        "difference": -0.0005165289256198347,
+        "z": -0.5773502691896257,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "warning": "Five choices from one question are descriptive samples, not a validated statistical leakage classifier."
+    },
+    {
+      "number": 21,
+      "status": "insufficient-option-geometry",
+      "options": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "contrastBefore": null,
+      "contrastClean": null,
+      "contrastMasked": null,
+      "bodyLossContrast": null,
+      "erasedContrast": null,
+      "warning": "Five choices from one question are descriptive samples, not a validated statistical leakage classifier."
+    },
+    {
+      "number": 24,
+      "status": "measured",
+      "options": [
+        {
+          "letter": "A",
+          "markerDarkBefore": 0.10659340659340659,
+          "markerDarkClean": 0.1054945054945055,
+          "markerDarkMasked": 0,
+          "erasedArea": 0.0032967032967032967,
+          "bodyDarkLoss": 0.0005183495749533484,
+          "bodyRed": 0.0013477088948787063,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "B",
+          "markerDarkBefore": 0.11957671957671957,
+          "markerDarkClean": 0.11957671957671957,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.0002994908655286014,
+          "bodyRed": 0,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "C",
+          "markerDarkBefore": 0.09028571428571429,
+          "markerDarkClean": 0.09028571428571429,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0.0003225806451612901,
+          "bodyRed": 0.00043010752688172043,
+          "bodyPixelsRetained": true,
+          "disabled": false
+        },
+        {
+          "letter": "D",
+          "markerDarkBefore": 0.12228571428571429,
+          "markerDarkClean": 0.11314285714285714,
+          "markerDarkMasked": 0,
+          "erasedArea": 0.002285714285714286,
+          "bodyDarkLoss": 0.0003225806451612901,
+          "bodyRed": 0.010537634408602151,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        },
+        {
+          "letter": "E",
+          "markerDarkBefore": 0.009136212624584718,
+          "markerDarkClean": 0.009136212624584718,
+          "markerDarkMasked": 0,
+          "erasedArea": 0,
+          "bodyDarkLoss": 0,
+          "bodyRed": 0,
+          "bodyPixelsRetained": true,
+          "disabled": true
+        }
+      ],
+      "contrastBefore": {
+        "difference": 0.040887701015608,
+        "z": 0.9510580646578224,
+        "uniqueExtreme": true,
+        "flag": false
+      },
+      "contrastClean": {
+        "difference": 0.032019569147476126,
+        "z": 0.747541943776223,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "contrastMasked": {
+        "difference": 0,
+        "z": null,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "bodyLossContrast": {
+        "difference": 0.00003747537375048014,
+        "z": 0.20227483456018833,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "erasedContrast": {
+        "difference": 0.0014615384615384616,
+        "z": 1.0238344773629364,
+        "uniqueExtreme": false,
+        "flag": false
+      },
+      "warning": "Five choices from one question are descriptive samples, not a validated statistical leakage classifier."
+    }
+  ],
+  "safeImages": 174,
+  "maxRedRatio": 0,
+  "claim": "Zero red is not proof of no leakage; erased body pixels remain a risk."
+}

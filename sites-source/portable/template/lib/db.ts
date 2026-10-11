@@ -1,0 +1,12 @@
+import 'dotenv/config';
+import {PrismaClient} from '../generated/prisma/client';
+import {PrismaLibSql} from '@prisma/adapter-libsql';
+import {resolve,dirname} from 'node:path';
+import {mkdirSync} from 'node:fs';
+const raw=process.env.DATABASE_URL||'file:./data/quiz.db';
+if(!raw.startsWith('file:'))throw new Error('Yerel SQLite file: adresi gerekli.');
+export const databasePath=resolve(raw.slice(5));
+mkdirSync(dirname(databasePath),{recursive:true});
+const globalDb=globalThis as unknown as {quizDb?:PrismaClient};
+export const db=globalDb.quizDb??new PrismaClient({adapter:new PrismaLibSql({url:'file:'+databasePath})});
+if(process.env.NODE_ENV!=='production')globalDb.quizDb=db;

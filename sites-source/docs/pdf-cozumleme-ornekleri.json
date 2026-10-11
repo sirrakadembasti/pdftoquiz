@@ -1,0 +1,291 @@
+[
+  {
+    "pdf": "parse-formats.pdf",
+    "expectedCount": 3,
+    "detectedCount": 3,
+    "questions": [
+      {
+        "number": 1,
+        "text": "Noktasız başlık?",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correct": 3,
+        "sourcePages": [
+          1
+        ],
+        "detectedOptions": 4,
+        "warnings": []
+      },
+      {
+        "number": 2,
+        "text": "Parantezli şıklar?",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correct": 4,
+        "sourcePages": [
+          1
+        ],
+        "detectedOptions": 5,
+        "warnings": []
+      },
+      {
+        "number": 3,
+        "text": "Son soru?",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correct": 1,
+        "sourcePages": [
+          2
+        ],
+        "detectedOptions": 4,
+        "warnings": []
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "pdf": "parse-split.pdf",
+    "expectedCount": 3,
+    "detectedCount": 3,
+    "questions": [
+      {
+        "number": 1,
+        "text": "Sayfalar arasına bölünmüş soru metninin ilk parçası ikinci sayfada tamamlanır.",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correct": 3,
+        "sourcePages": [
+          1,
+          2
+        ],
+        "detectedOptions": 4,
+        "warnings": [
+          "Soru 1: 1–2. sayfalardaki parçalar birleştirildi; sınırı kontrol edin."
+        ]
+      },
+      {
+        "number": 2,
+        "text": "Son şıkkı sonraki sayfaya uzanan soru?",
+        "options": [
+          "Bir",
+          "İki",
+          "Üç",
+          "Dördüncü şıkkın ilk satırı ve ikinci satırı da burada devam eder."
+        ],
+        "correct": 0,
+        "sourcePages": [
+          2,
+          3
+        ],
+        "detectedOptions": 4,
+        "warnings": [
+          "Metin sayfa sonuna yakın; soru/şık devamını kontrol edin.",
+          "Soru 2: 2–3. sayfalardaki parçalar birleştirildi; sınırı kontrol edin."
+        ]
+      },
+      {
+        "number": 3,
+        "text": "Beş şıklı normal soru?",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correct": 4,
+        "sourcePages": [
+          3
+        ],
+        "detectedOptions": 5,
+        "warnings": []
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "pdf": "parse-split-options.pdf",
+    "expectedCount": 2,
+    "detectedCount": 2,
+    "questions": [
+      {
+        "number": 1,
+        "text": "Şıkları iki sayfaya ayrılan soru?",
+        "options": [
+          "1",
+          "2",
+          "Üç",
+          "Dört",
+          "Beş"
+        ],
+        "correct": 4,
+        "sourcePages": [
+          1,
+          2
+        ],
+        "detectedOptions": 5,
+        "warnings": [
+          "Metin sayfa sonuna yakın; soru/şık devamını kontrol edin.",
+          "Soru 1: 1–2. sayfalardaki parçalar birleştirildi; sınırı kontrol edin."
+        ]
+      },
+      {
+        "number": 2,
+        "text": "Yeni soru?",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correct": 2,
+        "sourcePages": [
+          2
+        ],
+        "detectedOptions": 4,
+        "warnings": []
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "pdf": "parse-incomplete.pdf",
+    "expectedCount": 3,
+    "detectedCount": 3,
+    "questions": [
+      {
+        "number": 1,
+        "text": "Eksik seçenekli soru?",
+        "options": [
+          "1",
+          "",
+          "",
+          ""
+        ],
+        "correct": null,
+        "sourcePages": [
+          1
+        ],
+        "detectedOptions": 1,
+        "warnings": [
+          "Şıklar eksik veya sonraki sayfa devamı bulunamadı.",
+          "En az bir şık metni/görseli algılanamadı.",
+          "Cevap anahtarında çelişki var; doğru cevabı elle seçin."
+        ]
+      },
+      {
+        "number": 2,
+        "text": "C şıkkı eksik soru?",
+        "options": [
+          "1",
+          "2",
+          "",
+          "3"
+        ],
+        "correct": null,
+        "sourcePages": [
+          1
+        ],
+        "detectedOptions": 3,
+        "warnings": [
+          "En az bir şık metni/görseli algılanamadı.",
+          "Cevap anahtarı algılanan şık sayısına uymuyor."
+        ]
+      },
+      {
+        "number": 3,
+        "text": "",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correct": null,
+        "sourcePages": [
+          1
+        ],
+        "detectedOptions": 4,
+        "warnings": [
+          "Soru metni okunamadı; görsel alanını kaynakla karşılaştırın."
+        ]
+      }
+    ],
+    "warnings": [
+      "Çelişkili cevap anahtarı numaraları: 1. Elle seçin."
+    ]
+  },
+  {
+    "pdf": "parse-empty.pdf",
+    "expectedCount": null,
+    "detectedCount": 0,
+    "questions": [],
+    "warnings": [
+      "Soru numarası ve şık sınırları algılanamadı. PDF kaynağını kontrol edin; elle soru ekleyin veya AI modunu deneyin."
+    ]
+  },
+  {
+    "pdf": "parse-split-scanned.pdf",
+    "expectedCount": 2,
+    "detectedCount": 2,
+    "questions": [
+      {
+        "number": 1,
+        "text": "Şıkları iki sayfaya ayrılan soru?",
+        "options": [
+          "1",
+          "2",
+          "Üç",
+          "Dört",
+          "Beş"
+        ],
+        "correct": 4,
+        "sourcePages": [
+          1,
+          2
+        ],
+        "detectedOptions": 5,
+        "warnings": [
+          "Metin sayfa sonuna yakın; soru/şık devamını kontrol edin.",
+          "Soru 1: 1–2. sayfalardaki parçalar birleştirildi; sınırı kontrol edin."
+        ]
+      },
+      {
+        "number": 2,
+        "text": "Yeni soru? A1",
+        "options": [
+          "",
+          "2",
+          "3",
+          "4"
+        ],
+        "correct": 2,
+        "sourcePages": [
+          2
+        ],
+        "detectedOptions": 3,
+        "warnings": [
+          "En az bir şık metni/görseli algılanamadı."
+        ]
+      }
+    ],
+    "warnings": []
+  }
+]

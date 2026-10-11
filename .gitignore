@@ -1,0 +1,13 @@
+node_modules/
+# Bundled pnpm runtime is part of the portable distribution.
+!tools/pnpm/dist/node_modules/
+!tools/pnpm/dist/node_modules/**
+.next/
+.sites-runtime/
+.audit/
+generated/
+data/
+backups/
+.env*
+!.env.example
+*.tsbuildinfo

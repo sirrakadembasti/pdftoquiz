@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.env
+.env.*
+!.env.example
+data
+backups
+.sites-runtime
+.audit
+sites-source
+*.zip

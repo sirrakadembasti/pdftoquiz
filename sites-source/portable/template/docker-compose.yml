@@ -1,0 +1,17 @@
+services:
+  quiz:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${QUIZ_BIND_ADDRESS:-127.0.0.1}:3000:3000"
+    environment:
+      DATABASE_URL: file:/app/data/quiz.db
+      APP_ORIGIN: ${APP_ORIGIN:-}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      INITIAL_ADMIN_EMAIL: ${INITIAL_ADMIN_EMAIL:-admin@local.test}
+      INITIAL_ADMIN_NAME: ${INITIAL_ADMIN_NAME:-Öğretmen}
+      INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD:-}
+    volumes:
+      - quiz-data:/app/data
+volumes:
+  quiz-data:

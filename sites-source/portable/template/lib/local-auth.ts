@@ -1,0 +1,12 @@
+import {randomBytes,scryptSync,timingSafeEqual,createHash} from 'node:crypto';
+import {db} from './db';
+export const cookieName='pdfquiz-session';
+const days=7;
+export const hashToken=(v:string)=>createHash('sha256').update(v).digest('hex');
+export function passwordHash(password:string){if(password.length<12||password.length>256)throw new Error('Şifre 12–256 karakter olmalı.');const salt=randomBytes(16).toString('hex');return 'scrypt:'+salt+':'+scryptSync(password,salt,64).toString('hex');}
+export function passwordMatches(password:string,stored:string){try{const [kind,salt,hex]=stored.split(':');if(kind!=='scrypt'||password.length>256)return false;const actual=scryptSync(password,salt,64),expected=Buffer.from(hex,'hex');return actual.length===expected.length&&timingSafeEqual(actual,expected);}catch{return false;}}
+export async function createTeacher(email:string,name:string,password:string){return db.user.create({data:{email:email.trim().toLowerCase(),name,passwordHash:passwordHash(password)}});}
+export async function authenticate(email:string,password:string){const key=hashToken(email.toLowerCase());const limit=await db.loginLimit.findUnique({where:{key}});if(limit&&limit.expiresAt>new Date()&&limit.count>=8)throw new Error('RATE_LIMIT');const user=await db.user.findUnique({where:{email:email.toLowerCase()}});const valid=passwordMatches(password,user?.passwordHash||'scrypt:invalid:'+ '0'.repeat(128));if(!user||!valid){const expiresAt=new Date(Date.now()+15*60*1000);if(!limit||limit.expiresAt<=new Date())await db.loginLimit.upsert({where:{key},create:{key,count:1,expiresAt},update:{count:1,expiresAt}});else await db.loginLimit.update({where:{key},data:{count:{increment:1}}});return null;}await db.loginLimit.deleteMany({where:{key}});const token=randomBytes(32).toString('hex'),expiresAt=new Date(Date.now()+days*86400000);await db.session.deleteMany({where:{expiresAt:{lt:new Date()}}});await db.session.create({data:{tokenHash:hashToken(token),userId:user.id,expiresAt}});return {user,token,expiresAt};}
+export async function sessionUser(token?:string){if(!token||!/^[a-f0-9]{64}$/.test(token))return null;const session=await db.session.findUnique({where:{tokenHash:hashToken(token)},include:{user:true}});return session&&session.expiresAt>new Date()?session.user:null;}
+export async function revokeSession(token?:string){if(token)await db.session.deleteMany({where:{tokenHash:hashToken(token)}});}
+export function secureCookie(){return process.env.COOKIE_SECURE==='true'||process.env.APP_ORIGIN?.startsWith('https://')||false;}

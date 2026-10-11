@@ -1,0 +1,1228 @@
+{
+  "before": {
+    "count": 50,
+    "expectedCount": 50,
+    "duration": 70,
+    "questions": [
+      {
+        "number": 1,
+        "text": "Aşağıdaki SQL cümlelerinden hangisi “calisan” tablosunda farklı birimlerde çalışan kişilerin sayılarını bulur?",
+        "options": [
+          "SELECT COUNT(ad) FROM calisan HAVING birim_id;",
+          "SELECT COUNT(ad) FROM calisan ORDER birim_id;",
+          "SELECT COUNT(ad) FROM calisan GROUP BY birim_id;",
+          "SELECT COUNT(ad) FROM calisan WHERE birim_id!= NULL;"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 2,
+        "text": "İlişkisel veritabanlarında tablo meta verisini bıra karak tablonun tutmuş olduğu verileri kalıcı olarak silen komut aşağıdakilerden hangisidir?",
+        "options": [
+          "Merge",
+          "Truncate",
+          "Alter",
+          "Delete"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 7,
+        "text": "Bir kurumdaki ortalama ücretten daha yüksek ücret alan çalışanların adlarını ve ücretlerini bulacak SQL komutu aşağıdakilerden hangisidir?",
+        "options": [
+          "Select ad, ucret from calisan where ucret < (select avg(ucret ) from calisan)",
+          "Select ad, ucret from calisan where ucret < avg(sele ct ucret from calisan)",
+          "Select ad, ucret from calisan where ucret > avg(select ucret from calisan)",
+          "Select ad, ucret from calisan where ucret > (select avg(ucret ) from calisan)"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 16,
+        "text": "Yukarıdaki flowchart’ın pseudocode olarak doğru hâli aşağıdakilerden hangisidir?",
+        "options": [
+          "If A Then Do E Else Do B If I Then Do While F is true Do J Loop Else Do D End If Do G End If",
+          "If A Then Do E Else Do B If I Then If F Then Do J End If Else Do G End If Do D End If",
+          "If A Then Do B Else Do E If F Then If I Then Do J End If Else Do G End If Do D End If",
+          "If A Then Do E Else Do B If F Then Do While I is true Do J Loop Else Do G End If\n\nDo D End If"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 17,
+        "text": "Java programlama dilinde bir sınıftan miras almak için aşağıdaki anahtar kelimelerden hangisi kullanılır?",
+        "options": [
+          "::",
+          "implements",
+          "interface",
+          "extends"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 23,
+        "text": "Yukarıda verilen geometri paketinde bulunan sınıflar düşünüldüğünde verilen kodun doğru çıktısı yukarıdan aşağıya ne olmalıdır?",
+        "options": [
+          "5.00, 4.00, 4.00",
+          "12.00, 6.00, 48.00",
+          "12.00, 6.00, 48.00",
+          "48.00, 6.00, 12.00"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 25,
+        "text": "Bir Web - posta uygulamasında, posta kutusu mesajları ile IMAP ve gönderilen posta kaynaklarına sadece ilgili posta kutusu sahibinin erişebilmesine izin verilmelidir. Burada Web sunucusu ile posta ku tusu sahibi arasında bir diyalog gerçekleşecek ve her iki taraf da birbirine kendisini tanıtacaktır. Bunlardan kullanıcı, kendisinin söylediği kişi olduğuna delil olacak bilgiyi karşı tarafa iletecek ve karşı taraf onaylarsa oturum açılacaktır.\n\nYukarıda ö rneklenen süreç aşağıdakilerden hangisidir?",
+        "options": [
+          "Gizlilik",
+          "Doğrulama",
+          "Şifreleme",
+          "Yetkilendirme"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 35,
+        "text": "T olower fonksiyonunu kullanmak için aşağıdaki hangi C kütüphanesini programa dâhil etmemiz gerekir?",
+        "options": [
+          "math.h",
+          "stdio.h",
+          "ctype.h",
+          "stdarg.h"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 38,
+        "text": "#include <stdio.h>\n\nint main() {\n\nenum {RED=5, YELLOW, GREEN=4, BLUE};\n\nprintf(\"RED = %d \\ n\", RED);\n\nprintf(\"YELLOW = %d \\ n\", YELLOW);\n\nprintf(\"GREEN = %d \\ n\", GREEN);\n\nprintf(\"BLUE = %d \\ n\", BLUE);\n\nreturn 0;\n\n}\n\nYukarıdaki C kodunun çıktısı aşağıdakilerden hangisidir?",
+        "options": [
+          "RED = 5 YELLOW = 5 GREEN = 4 BLUE = 4",
+          "RED = 5 YELLOW = 6 GREEN = 4 BLUE = 7",
+          "RED = 5 YELLOW = 6 GREEN = 4 BLUE = 5",
+          "RED = 5 YELLOW = 4 GREEN = 4 BLUE = 3"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 39,
+        "text": "C kodunuza tab karakterini eklemek için aşağıdakilerden hangisi kullanılmalıdır?",
+        "options": [
+          "\\ t",
+          "\\ n",
+          "\\ \\",
+          "\\ 0"
+        ],
+        "detectedOptions": 4,
+        "warnings": [
+          "Metin sayfa sonuna yakın; soru/şık devamını kontrol edin."
+        ],
+        "correct": null
+      }
+    ]
+  },
+  "after": {
+    "count": 50,
+    "expectedCount": 50,
+    "duration": 70,
+    "questions": [
+      {
+        "number": 1,
+        "text": "Aşağıdaki SQL cümlelerinden hangisi “calisan” tablosunda farklı birimlerde çalışan kişilerin sayılarını bulur?",
+        "options": [
+          "SELECT COUNT(ad) FROM calisan HAVING birim_id;",
+          "SELECT COUNT(ad) FROM calisan ORDER birim_id;",
+          "SELECT COUNT(ad) FROM calisan GROUP BY birim_id;",
+          "SELECT COUNT(ad) FROM calisan WHERE birim_id!= NULL;"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 2,
+        "text": "İlişkisel veritabanlarında tablo meta verisini bırakarak tablonun tutmuş olduğu verileri kalıcı olarak silen komut aşağıdakilerden hangisidir?",
+        "options": [
+          "Merge",
+          "Truncate",
+          "Alter",
+          "Delete"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 7,
+        "text": "Bir kurumdaki ortalama ücretten daha yüksek ücret alan çalışanların adlarını ve ücretlerini bulacak SQL komutu aşağıdakilerden hangisidir?",
+        "options": [
+          "Select ad, ucret from calisan where ucret < (select avg(ucret ) from calisan)",
+          "Select ad, ucret from calisan where ucret < avg(select ucret from calisan)",
+          "Select ad, ucret from calisan where ucret > avg(select ucret from calisan)",
+          "Select ad, ucret from calisan where ucret > (select avg(ucret ) from calisan)"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 16,
+        "text": "Yukarıdaki flowchart’ın pseudocode olarak doğru hâli aşağıdakilerden hangisidir?",
+        "options": [
+          "If A Then\n   Do E\nElse\n   Do B\nIf I Then\nDo While F is true\n    Do J\nLoop\nElse\n     Do D\nEnd If\n     Do G\nEnd If",
+          "If A Then\n   Do E\nElse\n   Do B\nIf I Then\nIf F Then\n   Do J\nEnd If\nElse\n   Do G\nEnd If\n   Do D\nEnd If",
+          "If A Then\n     Do B\nElse\n     Do E\nIf F Then\nIf I Then\n     Do J\nEnd If\nElse\n     Do G\nEnd If\n     Do D\nEnd If",
+          "If A Then\n    Do E\nElse\n    Do B\nIf F Then\nDo While I is true\n    Do J\nLoop\nElse\n    Do G\nEnd If\n    Do D\nEnd If"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 17,
+        "text": "Java programlama dilinde bir sınıftan miras almak için aşağıdaki anahtar kelimelerden hangisi kullanılır?",
+        "options": [
+          "::",
+          "implements",
+          "interface",
+          "extends"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 23,
+        "text": "Yukarıda verilen geometri paketinde bulunan sınıflar düşünüldüğünde verilen kodun doğru çıktısı yukarıdan aşağıya ne olmalıdır?",
+        "options": [
+          "5.00, 4.00, 4.00",
+          "12.00, 6.00, 48.00",
+          "12.00, 6.00, 48.00",
+          "48.00, 6.00, 12.00"
+        ],
+        "detectedOptions": 4,
+        "warnings": [
+          "Aynı metinli şıklar: B, C. Kaynakla karşılaştırın; doğru cevabı öğretmen belirlemeli."
+        ],
+        "correct": null
+      },
+      {
+        "number": 25,
+        "text": "Bir Web-posta uygulamasında, posta kutusu mesajları ile IMAP ve gönderilen posta kaynaklarına sadece ilgili posta kutusu sahibinin erişebilmesine izin verilmelidir. Burada Web sunucusu ile posta kutusu sahibi arasında bir diyalog gerçekleşecek ve her iki taraf da birbirine kendisini tanıtacaktır. Bunlardan kullanıcı, kendisinin söylediği kişi olduğuna delil olacak bilgiyi karşı tarafa iletecek ve karşı taraf onaylarsa oturum açılacaktır.\n\nYukarıda örneklenen süreç aşağıdakilerden hangisidir?",
+        "options": [
+          "Gizlilik",
+          "Doğrulama",
+          "Şifreleme",
+          "Yetkilendirme"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 35,
+        "text": "Tolower fonksiyonunu kullanmak için aşağıdaki hangi C kütüphanesini programa dâhil etmemiz gerekir?",
+        "options": [
+          "math.h",
+          "stdio.h",
+          "ctype.h",
+          "stdarg.h"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 38,
+        "text": "#include <stdio.h>\nint main() {\n  enum {RED=5, YELLOW, GREEN=4, BLUE};\n  printf(\"RED = %d\\n\", RED);\n  printf(\"YELLOW = %d\\n\", YELLOW);\n  printf(\"GREEN = %d\\n\", GREEN);\n  printf(\"BLUE = %d\\n\", BLUE);\n  return 0;\n}\n\nYukarıdaki C kodunun çıktısı aşağıdakilerden hangisidir?",
+        "options": [
+          "RED = 5\nYELLOW = 5\nGREEN = 4\nBLUE = 4",
+          "RED = 5\nYELLOW = 6\nGREEN = 4\nBLUE = 7",
+          "RED = 5\nYELLOW = 6\nGREEN = 4\nBLUE = 5",
+          "RED = 5\nYELLOW = 4\nGREEN = 4\nBLUE = 3"
+        ],
+        "detectedOptions": 4,
+        "warnings": [],
+        "correct": null
+      },
+      {
+        "number": 39,
+        "text": "C kodunuza tab karakterini eklemek için aşağıdakilerden hangisi kullanılmalıdır?",
+        "options": [
+          "\\t",
+          "\\n",
+          "\\\\",
+          "\\0"
+        ],
+        "detectedOptions": 4,
+        "warnings": [
+          "Metin sayfa sonuna yakın; soru/şık devamını kontrol edin."
+        ],
+        "correct": null
+      }
+    ]
+  },
+  "pdfItemsBefore": [
+    {
+      "page": 1,
+      "text": "1. Adınızı, Soyadınızı, T.C. Kimlik N o , Sınav Salon No 5. Yanlış cevaplarınızın doğru cevaplarınıza bir etkisi",
+      "items": [
+        {
+          "str": "1.",
+          "x": 84.94404528950976,
+          "width": 6.809232900600008,
+          "font": "g_d0_f2",
+          "size": 8.985380273999999,
+          "gap": null
+        },
+        {
+          "str": "Adınızı, Soyadınızı,",
+          "x": 102.89058238370976,
+          "width": 66.82083340725012,
+          "font": "g_d0_f6",
+          "size": 8.985380273999999,
+          "gap": 11.137304193599988
+        },
+        {
+          "str": "T.C.",
+          "x": 171.58126225970975,
+          "width": 13.723177203450009,
+          "font": "g_d0_f2",
+          "size": 8.985380273999999,
+          "gap": 1.86984646874987
+        },
+        {
+          "str": "Kimlik N",
+          "x": 187.13838487970975,
+          "width": 29.609392801950023,
+          "font": "g_d0_f2",
+          "size": 8.985380273999999,
+          "gap": 1.8339454165499927
+        },
+        {
+          "str": "o",
+          "x": 216.69691785770976,
+          "width": 4.72996362735,
+          "font": "g_d0_f2",
+          "size": 8.985380273999999,
+          "gap": -0.05085982395000599
+        },
+        {
+          "str": ", Sınav",
+          "x": 221.48372481770977,
+          "width": 23.30875814085001,
+          "font": "g_d0_f6",
+          "size": 8.985380273999999,
+          "gap": 0.05684333265000685
+        },
+        {
+          "str": "Salon No",
+          "x": 246.64437890120976,
+          "width": 32.239144875600005,
+          "font": "g_d0_f2",
+          "size": 8.985380273999999,
+          "gap": 1.851895942649982
+        },
+        {
+          "str": "5.",
+          "x": 307.67616764120976,
+          "width": 6.809232900600022,
+          "font": "g_d0_f2",
+          "size": 8.985380273999999,
+          "gap": 28.79264386439999
+        },
+        {
+          "str": "Yanlış cevaplarınızın doğru cevaplarınıza bir etkisi",
+          "x": 325.62669374120975,
+          "width": 195.22992186360028,
+          "font": "g_d0_f6",
+          "size": 8.985380273999999,
+          "gap": 11.141293199399968
+        }
+      ]
+    },
+    {
+      "page": 1,
+      "text": "ve Sıra N o bilgilerinizi yukarıdaki ilgili alanlara",
+      "items": [
+        {
+          "str": "ve Sıra N",
+          "x": 102.8905823848141,
+          "width": 35.46126431055001,
+          "font": "g_d0_f6",
+          "size": 8.985380273999999,
+          "gap": null
+        },
+        {
+          "str": "o",
+          "x": 138.3129538888141,
+          "width": 4.72996362735,
+          "font": "g_d0_f2",
+          "size": 8.985380273999999,
+          "gap": -0.038892806550009595
+        },
+        {
+          "str": "bilgilerinizi yukarıdaki",
+          "x": 146.92920641681408,
+          "width": 80.65171376730008,
+          "font": "g_d0_f6",
+          "size": 8.985380273999999,
+          "gap": 3.8862889006499897
+        },
+        {
+          "str": "ilgili alanlara",
+          "x": 231.41634926081406,
+          "width": 47.3983641670499,
+          "font": "g_d0_f2",
+          "size": 8.985380273999999,
+          "gap": 3.8354290766998957
+        }
+      ]
+    },
+    {
+      "page": 1,
+      "text": "2. Bu soru kitapçığında yer alan 5 0 adet soru için",
+      "items": [
+        {
+          "str": "2.",
+          "x": 84.94404529506787,
+          "width": 6.809232900600008,
+          "font": "g_d0_f2",
+          "size": 8.985380273999999,
+          "gap": null
+        },
+        {
+          "str": "Bu soru kitapçığında yer alan",
+          "x": 102.89058238926786,
+          "width": 108.73531185074998,
+          "font": "g_d0_f6",
+          "size": 8.985380273999999,
+          "gap": 11.137304193599988
+        },
+        {
+          "str": "5",
+          "x": 214.66252490526784,
+          "width": 4.55045836635,
+          "font": "g_d0_f5",
+          "size": 8.985380273999999,
+          "gap": 3.0366306652500015
+        },
+        {
+          "str": "0",
+          "x": 219.20999151726787,
+          "width": 4.55045836635,
+          "font": "g_d0_f5",
+          "size": 8.985380273999999,
+          "gap": -0.002991754349977782
+        },
+        {
+          "str": "adet soru",
+          "x": 226.86888265326783,
+          "width": 36.26903798505002,
+          "font": "g_d0_f5",
+          "size": 8.985380273999999,
+          "gap": 3.1084327696499656
+        },
+        {
+          "str": "için",
+          "x": 266.15061726876786,
+          "width": 12.717947741850084,
+          "font": "g_d0_f6",
+          "size": 8.985380273999999,
+          "gap": 3.0126966304500087
+        }
+      ]
+    },
+    {
+      "page": 1,
+      "text": "toplam cevaplama süresi 7 0 dakikadır.",
+      "items": [
+        {
+          "str": "toplam cevaplama süresi",
+          "x": 102.8905823903722,
+          "width": 90.46167628095006,
+          "font": "g_d0_f6",
+          "size": 8.985380273999999,
+          "gap": null
+        },
+        {
+          "str": "7",
+          "x": 195.39562689237215,
+          "width": 4.55045836635,
+          "font": "g_d0_f5",
+          "size": 8.985380273999999,
+          "gap": 2.0433682210498887
+        },
+        {
+          "str": "0",
+          "x": 199.94309350437217,
+          "width": 4.55045836635,
+          "font": "g_d0_f5",
+          "size": 8.985380273999999,
+          "gap": -0.002991754349977782
+        },
+        {
+          "str": "dakikadır.",
+          "x": 206.52495307437218,
+          "width": 37.193490079199954,
+          "font": "g_d0_f4",
+          "size": 8.985380273999999,
+          "gap": 2.031401203650006
+        }
+      ]
+    },
+    {
+      "page": 2,
+      "text": "A ) SELECT COUNT(ad) FROM calisan HAVING birim_id;",
+      "items": [
+        {
+          "str": "A",
+          "x": 42.48,
+          "width": 6.003000000000001,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": null
+        },
+        {
+          "str": ") SELECT",
+          "x": 48.48,
+          "width": 40.55400000000001,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": -0.003000000000001002
+        },
+        {
+          "str": "COUNT(ad) FROM calisan HAVING birim_id;",
+          "x": 91.464,
+          "width": 181.062,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 2.4299999999999926
+        }
+      ]
+    },
+    {
+      "page": 2,
+      "text": "2. İlişkisel veritabanlarında tablo meta verisini bıra karak",
+      "items": [
+        {
+          "str": "2.",
+          "x": 32.52,
+          "width": 7.542000000000002,
+          "font": "g_d0_f1",
+          "size": 9,
+          "gap": null
+        },
+        {
+          "str": "İlişkisel veritabanlarında tablo meta verisini bıra",
+          "x": 42.48,
+          "width": 204.98399999999992,
+          "font": "g_d0_f12",
+          "size": 9,
+          "gap": 2.417999999999992
+        },
+        {
+          "str": "karak",
+          "x": 247.73,
+          "width": 23.570999999999977,
+          "font": "g_d0_f1",
+          "size": 9,
+          "gap": 0.2660000000000764
+        }
+      ]
+    },
+    {
+      "page": 5,
+      "text": "25. Bir Web - posta uygulamasında, posta kutusu mesajları ile",
+      "items": [
+        {
+          "str": "25.",
+          "x": 27.48,
+          "width": 12.582000000000004,
+          "font": "g_d0_f1",
+          "size": 9,
+          "gap": null
+        },
+        {
+          "str": "Bir Web",
+          "x": 42.48,
+          "width": 32.112,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 2.417999999999992
+        },
+        {
+          "str": "-",
+          "x": 74.664,
+          "width": 2.9970000000000003,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 0.07200000000000273
+        },
+        {
+          "str": "posta uygulamasında, posta kutusu mesajları ile",
+          "x": 77.544,
+          "width": 191.98799999999986,
+          "font": "g_d0_f9",
+          "size": 9,
+          "gap": -0.11700000000000488
+        }
+      ]
+    },
+    {
+      "page": 6,
+      "text": "5: printf(“Hello, World! \\ n”);",
+      "items": [
+        {
+          "str": "5: printf(“Hello, World!",
+          "x": 321.05,
+          "width": 87.38999999999994,
+          "font": "g_d0_f9",
+          "size": 9,
+          "gap": null
+        },
+        {
+          "str": "\\",
+          "x": 408.67,
+          "width": 2.5020000000000002,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 0.23000000000006082
+        },
+        {
+          "str": "n”);",
+          "x": 411.19,
+          "width": 13.526999999999989,
+          "font": "g_d0_f9",
+          "size": 9,
+          "gap": 0.017999999999981586
+        }
+      ]
+    },
+    {
+      "page": 6,
+      "text": "printf(“ASCII code %d is character %c \\ n”, mychar,",
+      "items": [
+        {
+          "str": "printf(“ASCII code %d is character %c",
+          "x": 328.61,
+          "width": 151.0199999999999,
+          "font": "g_d0_f9",
+          "size": 9,
+          "gap": null
+        },
+        {
+          "str": "\\",
+          "x": 479.86,
+          "width": 2.5020000000000002,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 0.23000000000010346
+        },
+        {
+          "str": "n”, mychar,",
+          "x": 482.26,
+          "width": 45.05400000000003,
+          "font": "g_d0_f9",
+          "size": 9,
+          "gap": -0.10200000000002296
+        }
+      ]
+    },
+    {
+      "page": 6,
+      "text": "35. T olower fonksiyonunu kullanmak için aşağıdaki hangi",
+      "items": [
+        {
+          "str": "35.",
+          "x": 306.05,
+          "width": 12.582000000000004,
+          "font": "g_d0_f1",
+          "size": 9,
+          "gap": null
+        },
+        {
+          "str": "T",
+          "x": 321.05,
+          "width": 5.4990000000000006,
+          "font": "g_d0_f1",
+          "size": 9,
+          "gap": 2.4179999999999957
+        },
+        {
+          "str": "olower",
+          "x": 326.57,
+          "width": 29.033999999999992,
+          "font": "g_d0_f1",
+          "size": 9,
+          "gap": 0.020999999999981256
+        },
+        {
+          "str": "fonksiyonunu kullanmak için aşağıdaki hangi",
+          "x": 358.15,
+          "width": 193.49999999999972,
+          "font": "g_d0_f12",
+          "size": 9,
+          "gap": 2.5459999999999923
+        }
+      ]
+    },
+    {
+      "page": 7,
+      "text": "printf(\"RED = %d \\ n\", RED);",
+      "items": [
+        {
+          "str": "printf(\"RED = %d",
+          "x": 47.52,
+          "width": 68.44500000000001,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": null
+        },
+        {
+          "str": "\\",
+          "x": 116.06,
+          "width": 2.5020000000000002,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 0.09499999999998465
+        },
+        {
+          "str": "n\", RED);",
+          "x": 118.58,
+          "width": 37.647,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 0.017999999999995797
+        }
+      ]
+    },
+    {
+      "page": 7,
+      "text": "printf(\"YELLOW = %d \\ n\", YELLOW);",
+      "items": [
+        {
+          "str": "printf(\"YELLOW = %d",
+          "x": 47.52,
+          "width": 87.012,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": null
+        },
+        {
+          "str": "\\",
+          "x": 134.54,
+          "width": 2.5020000000000002,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 0.007999999999981355
+        },
+        {
+          "str": "n\", YELLOW);",
+          "x": 137.06,
+          "width": 56.10599999999999,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 0.018000000000010008
+        }
+      ]
+    },
+    {
+      "page": 7,
+      "text": "printf(\"GREEN = %d \\ n\", GREEN);",
+      "items": [
+        {
+          "str": "printf(\"GREEN = %d",
+          "x": 47.52,
+          "width": 81.504,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": null
+        },
+        {
+          "str": "\\",
+          "x": 129.02,
+          "width": 2.5020000000000002,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": -0.0040000000000048885
+        },
+        {
+          "str": "n\", GREEN);",
+          "x": 131.54,
+          "width": 50.607000000000006,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 0.017999999999981586
+        }
+      ]
+    },
+    {
+      "page": 7,
+      "text": "printf(\"BLUE = %d \\ n\", BLUE);",
+      "items": [
+        {
+          "str": "printf(\"BLUE = %d",
+          "x": 47.52,
+          "width": 72.99000000000001,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": null
+        },
+        {
+          "str": "\\",
+          "x": 120.62,
+          "width": 2.5020000000000002,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 0.10999999999998522
+        },
+        {
+          "str": "n\", BLUE);",
+          "x": 123.02,
+          "width": 42.20099999999998,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": -0.10200000000000875
+        }
+      ]
+    },
+    {
+      "page": 7,
+      "text": "A) \\ t",
+      "items": [
+        {
+          "str": "A)",
+          "x": 42.48,
+          "width": 8.997000000000002,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": null
+        },
+        {
+          "str": "\\",
+          "x": 54,
+          "width": 2.5020000000000002,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 2.5230000000000015
+        },
+        {
+          "str": "t",
+          "x": 56.52,
+          "width": 2.5020000000000002,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 0.018000000000002903
+        }
+      ]
+    },
+    {
+      "page": 7,
+      "text": "B) \\ n",
+      "items": [
+        {
+          "str": "B)",
+          "x": 93.504,
+          "width": 8.997000000000002,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": null
+        },
+        {
+          "str": "\\",
+          "x": 105.02,
+          "width": 2.5020000000000002,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 2.5189999999999895
+        },
+        {
+          "str": "n",
+          "x": 107.54,
+          "width": 5.0040000000000004,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 0.018000000000010008
+        }
+      ]
+    },
+    {
+      "page": 7,
+      "text": "D) \\ 0",
+      "items": [
+        {
+          "str": "D)",
+          "x": 207.05,
+          "width": 9.495000000000001,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": null
+        },
+        {
+          "str": "\\",
+          "x": 219.05,
+          "width": 2.5020000000000002,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 2.504999999999999
+        },
+        {
+          "str": "0",
+          "x": 221.57,
+          "width": 5.0040000000000004,
+          "font": "g_d0_f3",
+          "size": 9,
+          "gap": 0.017999999999981586
+        }
+      ]
+    },
+    {
+      "page": 9,
+      "text": "1. Sınavda 5 0 adet 4 seçenekli çoktan seçmeli soru",
+      "items": [
+        {
+          "str": "1.",
+          "x": 36.90999676181524,
+          "width": 7.5021699784199996,
+          "font": "g_d0_f17",
+          "size": 9.94234092,
+          "gap": null
+        },
+        {
+          "str": "Sınavda",
+          "x": 51.01766301605524,
+          "width": 32.00228444579403,
+          "font": "g_d0_f18",
+          "size": 9.94234092,
+          "gap": 6.605496275819995
+        },
+        {
+          "str": "5",
+          "x": 87.02807891247124,
+          "width": 4.961594487720002,
+          "font": "g_d0_f19",
+          "size": 9.94234092,
+          "gap": 4.008131450621974
+        },
+        {
+          "str": "0",
+          "x": 92.04945164703125,
+          "width": 4.961594487720002,
+          "font": "g_d0_f19",
+          "size": 9.94234092,
+          "gap": 0.05977824684000144
+        },
+        {
+          "str": "adet",
+          "x": 101.01618867303124,
+          "width": 16.60149515591113,
+          "font": "g_d0_f19",
+          "size": 9.94234092,
+          "gap": 4.005142538279988
+        },
+        {
+          "str": "4",
+          "x": 121.57990558599124,
+          "width": 4.961594487720002,
+          "font": "g_d0_f19",
+          "size": 9.94234092,
+          "gap": 3.962221757048873
+        },
+        {
+          "str": "seçenekli çoktan seçmeli soru",
+          "x": 130.54664261199122,
+          "width": 123.02769691750525,
+          "font": "g_d0_f18",
+          "size": 9.94234092,
+          "gap": 4.005142538279974
+        }
+      ]
+    },
+    {
+      "page": 9,
+      "text": "2. Sınavda verilen toplam cevaplama süresi 7 0",
+      "items": [
+        {
+          "str": "2.",
+          "x": 36.90999696490273,
+          "width": 7.5021699784199996,
+          "font": "g_d0_f17",
+          "size": 9.94234092,
+          "gap": null
+        },
+        {
+          "str": "Sınavda",
+          "x": 51.01766321914273,
+          "width": 32.00228444579402,
+          "font": "g_d0_f18",
+          "size": 9.94234092,
+          "gap": 6.605496275820002
+        },
+        {
+          "str": "verilen",
+          "x": 90.91880608938699,
+          "width": 27.65592767455126,
+          "font": "g_d0_f18",
+          "size": 9.94234092,
+          "gap": 7.898858424450239
+        },
+        {
+          "str": "toplam",
+          "x": 126.39420667658501,
+          "width": 27.77500594225656,
+          "font": "g_d0_f18",
+          "size": 9.94234092,
+          "gap": 7.819472912646763
+        },
+        {
+          "str": "cevaplama",
+          "x": 161.8596840748076,
+          "width": 42.52086475976041,
+          "font": "g_d0_f18",
+          "size": 9.94234092,
+          "gap": 7.69047145596603
+        },
+        {
+          "str": "süresi",
+          "x": 212.39848552672345,
+          "width": 23.180569446627786,
+          "font": "g_d0_f18",
+          "size": 9.94234092,
+          "gap": 8.017936692155438
+        },
+        {
+          "str": "7",
+          "x": 243.67298974332277,
+          "width": 4.961594487720002,
+          "font": "g_d0_f17",
+          "size": 9.94234092,
+          "gap": 8.09393476997154
+        },
+        {
+          "str": "0",
+          "x": 248.69436247788275,
+          "width": 4.961594487720002,
+          "font": "g_d0_f17",
+          "size": 9.94234092,
+          "gap": 0.059778246839973015
+        }
+      ]
+    }
+  ],
+  "spacingRule": {
+    "emMin": 0.08,
+    "emMax": 0.18,
+    "spaceRatio": 0.45,
+    "fallbackProportional": 0.28,
+    "fallbackMonospace": 0.6
+  },
+  "fontsByPage": [
+    {
+      "page": 1,
+      "spaces": {
+        "g_d0_f1": 0.278,
+        "g_d0_f2": 0.226,
+        "g_d0_f3": 0.278,
+        "g_d0_f4": 0.226,
+        "g_d0_f5": 0.226,
+        "g_d0_f6": 0.226,
+        "g_d0_f7": 0.226,
+        "g_d0_f8": 0.226
+      },
+      "monospace": {
+        "g_d0_f4": false,
+        "g_d0_f5": false,
+        "g_d0_f6": false,
+        "g_d0_f2": false,
+        "g_d0_f7": false,
+        "g_d0_f8": false
+      }
+    },
+    {
+      "page": 2,
+      "spaces": {
+        "g_d0_f9": 0.278,
+        "g_d0_f3": 0.278,
+        "g_d0_f10": 0.25,
+        "g_d0_f5": 0.226,
+        "g_d0_f1": 0.278,
+        "g_d0_f11": 0.278,
+        "g_d0_f12": 0.278,
+        "g_d0_f2": 0.226
+      },
+      "monospace": {
+        "g_d0_f9": false,
+        "g_d0_f3": false,
+        "g_d0_f10": false,
+        "g_d0_f1": false,
+        "g_d0_f11": false,
+        "g_d0_f12": false
+      }
+    },
+    {
+      "page": 3,
+      "spaces": {
+        "g_d0_f9": 0.278,
+        "g_d0_f3": 0.278,
+        "g_d0_f10": 0.25,
+        "g_d0_f5": 0.226,
+        "g_d0_f1": 0.278,
+        "g_d0_f11": 0.278,
+        "g_d0_f12": 0.278,
+        "g_d0_f2": 0.226
+      },
+      "monospace": {
+        "g_d0_f9": false,
+        "g_d0_f3": false,
+        "g_d0_f10": false,
+        "g_d0_f1": false,
+        "g_d0_f11": false,
+        "g_d0_f12": false
+      }
+    },
+    {
+      "page": 4,
+      "spaces": {
+        "g_d0_f9": 0.278,
+        "g_d0_f3": 0.278,
+        "g_d0_f10": 0.25,
+        "g_d0_f5": 0.226,
+        "g_d0_f1": 0.278,
+        "g_d0_f11": 0.278,
+        "g_d0_f12": 0.278,
+        "g_d0_f2": 0.226,
+        "g_d0_f13": 0.6
+      },
+      "monospace": {
+        "g_d0_f9": false,
+        "g_d0_f3": false,
+        "g_d0_f10": false,
+        "g_d0_f1": false,
+        "g_d0_f11": false,
+        "g_d0_f12": false,
+        "g_d0_f13": true,
+        "g_d0_f14": true
+      }
+    },
+    {
+      "page": 5,
+      "spaces": {
+        "g_d0_f9": 0.278,
+        "g_d0_f3": 0.278,
+        "g_d0_f10": 0.25,
+        "g_d0_f5": 0.226,
+        "g_d0_f1": 0.278,
+        "g_d0_f11": 0.278,
+        "g_d0_f12": 0.278,
+        "g_d0_f2": 0.226
+      },
+      "monospace": {
+        "g_d0_f9": false,
+        "g_d0_f3": false,
+        "g_d0_f10": false,
+        "g_d0_f1": false,
+        "g_d0_f11": false,
+        "g_d0_f15": false,
+        "g_d0_f12": false
+      }
+    },
+    {
+      "page": 6,
+      "spaces": {
+        "g_d0_f9": 0.278,
+        "g_d0_f3": 0.278,
+        "g_d0_f10": 0.25,
+        "g_d0_f5": 0.226,
+        "g_d0_f1": 0.278,
+        "g_d0_f11": 0.278,
+        "g_d0_f12": 0.278,
+        "g_d0_f2": 0.226
+      },
+      "monospace": {
+        "g_d0_f9": false,
+        "g_d0_f3": false,
+        "g_d0_f10": false,
+        "g_d0_f1": false,
+        "g_d0_f11": false,
+        "g_d0_f12": false
+      }
+    },
+    {
+      "page": 7,
+      "spaces": {
+        "g_d0_f9": 0.278,
+        "g_d0_f3": 0.278,
+        "g_d0_f10": 0.25,
+        "g_d0_f5": 0.226,
+        "g_d0_f1": 0.278,
+        "g_d0_f11": 0.278,
+        "g_d0_f12": 0.278,
+        "g_d0_f2": 0.226
+      },
+      "monospace": {
+        "g_d0_f9": false,
+        "g_d0_f3": false,
+        "g_d0_f10": false,
+        "g_d0_f1": false,
+        "g_d0_f11": false,
+        "g_d0_f12": false
+      }
+    },
+    {
+      "page": 8,
+      "spaces": {
+        "g_d0_f9": 0.278,
+        "g_d0_f3": 0.278,
+        "g_d0_f10": 0.25,
+        "g_d0_f5": 0.226,
+        "g_d0_f1": 0.278,
+        "g_d0_f16": 0.278,
+        "g_d0_f12": 0.278,
+        "g_d0_f2": 0.226
+      },
+      "monospace": {
+        "g_d0_f9": false,
+        "g_d0_f3": false,
+        "g_d0_f10": false,
+        "g_d0_f1": false,
+        "g_d0_f16": false,
+        "g_d0_f12": false
+      }
+    },
+    {
+      "page": 9,
+      "spaces": {
+        "g_d0_f2": 0.226,
+        "g_d0_f17": 0.25,
+        "g_d0_f1": 0.278,
+        "g_d0_f18": 0.25,
+        "g_d0_f19": 0.25,
+        "g_d0_f20": 0.25
+      },
+      "monospace": {
+        "g_d0_f17": false,
+        "g_d0_f18": false,
+        "g_d0_f19": false,
+        "g_d0_f20": false
+      }
+    }
+  ]
+}

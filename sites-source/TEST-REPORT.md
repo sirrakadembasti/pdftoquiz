@@ -1,3 +1,30 @@
+# Güncel doğrulama — 12 Ekim 2026 / FAZ 3G
+
+Bu kayıt son FAZ 3G kaynakları içindir; önceki tarihli sonuçlar aşağıda korunur.
+
+| Kontrol | Sonuç |
+|---|---|
+| Standart README test paketi | 195 TAP testi: 186 geçti, 9 dış kaynak testi atlandı, 0 hata; ayrıca 4 PDF fixture kontrolü geçti |
+| Elle düzeltme regresyonları | 14/14 geçti; ham/güvenli görsel onayı, eski tam görsel, yeniden dönüştürme, asset URL kaydı, eksik/yer tutucu içerik, şık sayısı ve bekleyen aday iptali |
+| Metric regresyonu | Geometri, E boşluğu, kaymış başlangıç, harf tabanı, leave-one-question-out ve yetersiz geometri/örnek kontrolleri geçti; standart paket içinde |
+| TypeScript | Son kaynaklarla çıkış 0, tsc --noEmit --incremental false |
+| Üretim derlemesi | Çıkış 0; son doğrudan onay düzeltmesi dahil Prisma, Next/Webpack, TypeScript, statik sayfalar ve standalone paketleme tamamlandı |
+| HTTP/SQLite ve taşınabilirlik | 9/9 geçti; gerçek yerel Next HTTP, SQLite, oturum ve paket taşıma kontrolleri |
+| Verilen öğretmen hesabı / gerçek HTTP | POST giriş 200; aynı çerez oturumuyla hesap kontrolü 200 ve hesap eşleşti; şifre/çerez rapora alınmadı. Tarayıcı/PDF yükleme simülasyonu değildir |
+| Geliştirme sunucusu | Turbopack ile 3000 portu hazır; health 200 / ok:true / storage:sqlite |
+| Git diff --check | Çıkış 0 |
+| Dosya/sır denetimi | Özel veri yolları ve yapılandırılmış sırlarla eşleşme yok; yeni bağımlılık yok |
+
+Önbellek kullanılan üç derleme, Webpack dosya/symlink snapshot hash'i sırasında undefined length iç hatasıyla durdu. Üretim Webpack önbelleği silinmeden .audit altında yedeklendi ve temiz önbellekli derleme yapıldı. Yerel Next yapılandırmasında yalnız üretim Webpack önbelleği kapatıldı; geliştirme önbelleği ve standalone çıktısı korunuyor. Bağımlılıklar değiştirilmedi. Webpack hook eklendiğinde varsayılan Turbopack geliştirmesi uyumluluk kontrolünde durdu; boş turbopack:{} ayarı eklendi ve 3000 portu yeniden başlatıldı. Son health HTTP 200, ok:true/storage:sqlite. Next dev tarafından oluşturulan AGENTS.md korundu ve ilgili kurulu sürüm rehberleri okundu.
+
+Gerçek tarayıcıda giriş ve PDF yükleme simülasyonu **tamamlanmadı**: ana ajan görünür webview denemesi 411,282 saniyede zaman aşımı/kernel reset verdi. Otomatik React/API ve HTTP testleri gerçek tarayıcı görüntüsü sayılmaz. Bağımsız 49 soruluk kaynak ve dijital Tapu kaynağı bulunamadı; ilgili dış kaynak kontrolleri başarı olarak yazılmadı.
+
+[FAZ 3G: beş maddede bulgu → kanıt → değişiklik → sonuç](docs/phase3g.md), [tüm soru ölçümleri](docs/phase3g-assets/leakage-summary.md), [envanter ve doğrulanamayanlar](docs/phase3g-assets/validation-evidence.json).
+
+HTTP testinin iki tekrar denemesi sırasıyla 90 saniyelik toplam bütçe ve 60 saniyelik health hazırlık sınırında durdu. Test hazırlığı/başlangıç süreleri ve son HTTP durum/hata gövdesi tanılamaya eklendi; bütün işlevsel assertler korunuyor. Toplam test bütçesi 240 saniye, başlangıç 60 saniye, tek health isteği 3 saniye ile sınırlı. Son koşum 9/9 geçti: hazırlık 41.353 saniye, ilk health 13.107 saniye. Önceki geç hazır olmanın kesin kök nedeni **doğrulanmadı**; yalnız bütçe artırılmasıyla uygulama sorununun kalıcı çözüldüğü iddia edilmez.
+
+---
+
 # Güncel doğrulama — 11 Ekim 2026
 
 Bu bölüm en son yerel kaynakların doğrulamasıdır; aşağıdaki eski sayılar tarihli kayıtlar olarak korunur.

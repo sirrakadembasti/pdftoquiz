@@ -23,3 +23,11 @@ Sonraki değişiklikler için `git status`, `git add <dosyalar>`, `git commit` v
 `.env`, yerel SQLite/kullanıcı verileri, yedekler, `.audit`, bağımlılık kurulumu ve derleme çıktısı Git kapsamı dışındadır. `.env.example` kaynak örneği olarak tutulur. Gerçek hesap şifreleri belgelere veya Git'e eklenmez. `tools/pnpm/dist/node_modules` kurulum çıktısı değil, dağıtımla gelen pnpm runtime'ıdır; yalnız bu yol için ignore istisnası vardır. İçindeki vendor ignore kurallarına takılan iki paket kaynak dosyası da manifestteki içerikleriyle teslim edilir.
 
 `.gitattributes` dosyası otomatik satır sonu dönüşümünü kapatır; böylece paket dosyalarının `SHA256SUMS` değerleri klonlama sırasında değişmez. Manifest Git metadata'sını ve çalışma zamanı verilerini kapsamaz.
+
+## FAZ 3G teslim güncellemesi — 12 Ekim 2026
+
+Kullanıcının açık isteğiyle FAZ 3G kaynakları, ilgili Markdown belgeleri ve Sites kopyaları aynı teslim kapsamına alındı. [FAZ 3G raporu](phase3g.md), [test raporu](../TEST-REPORT.md), README ve uygulama planı güncellendi. İlk Git kurulumuna ilişkin yukarıdaki kayıt tarihsel olarak korunur.
+
+Son uygulama doğrulaması: standart pakette 195 test, 186 geçiş, 9 dış kaynak atlaması, 0 hata; TypeScript ve üretim derlemesi çıkış 0; HTTP/SQLite kontrolleri 9/9. Öğretmen hesabıyla gerçek HTTP girişi doğrulandı. Gerçek tarayıcı giriş/PDF yükleme simülasyonu, bağımsız 49 soruluk OCR ve dijital Tapu doğrulanmadı; nedenler ve gereken girdiler FAZ 3G raporunda yer alır.
+
+Çalışma başlangıcındaki otomatik next-env.d.ts geliştirme değişikliği korunur ve bu teslim commit’ine eklenmez. Manifestte bu dosyanın depoda teslim edilen sürümü esas alınır. Şifre, oturum çerezi, yerel veritabanı ve .audit kayıtları Git kapsamı dışında kalır. Push sonucu yerel HEAD ile uzak main kimliği karşılaştırılarak doğrulanır.

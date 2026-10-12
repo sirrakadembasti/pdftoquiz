@@ -27,3 +27,8 @@ Uygulama adresi: http://127.0.0.1:3000. Kaynak kopyaları ve SHA256SUMS güncell
 ## Son bakım doğrulaması — 11 Ekim 2026
 
 Body hydration düzeltmesi sonrası standart paket 180 testtir: 171 başarılı, 9 atlanan, 0 hata; bu toplam yukarıdaki 178 testlik önceki koşuya iki hydration testi ekler. TypeScript ve son üretim derlemesi geçti. [Güncel test raporu](../TEST-REPORT.md) ve [hydration incelemesi](hydration-and-git.md). Eski gerçek PDF ölçümleri ve tarayıcı doğrulama sınırları korunur.
+
+
+## FAZ 3G güncellemesi — 12 Ekim 2026
+
+Elle şık tamamlama, 250 DPI aday önizlemesi, açık görsel onayı, uyarı yenileme ve konuma göre ölçüm eklendi. Önceki tarihli sayılar korunur; güncel envanter ve doğrulanamayan kontroller [FAZ 3G raporunda](phase3g.md). Gerçek tarayıcı giriş/PDF yükleme simülasyonu tamamlanmadı.

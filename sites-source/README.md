@@ -87,6 +87,12 @@ Gösterim, sızıntı ölçümü, sıra/kırpma ve doğrulama sınırları: [FAZ
 Checkbox gösterim tercihleri, birleşik basit metin editörü, PDF kırpma hedefleri ve soru bazında cevap anahtarı tablosu: [düzenleyici değişiklikleri ve doğrulama](docs/editor-simplification.md). Yeni testler standart `test` komutuna dahildir.
 
 
+## FAZ 3G — 12 Ekim 2026
+
+Şık başına elle kırp/yükle, 250 DPI aday önizlemesi, açık güvenli kopya onayı ve şık metnine erişim eklendi. Boş şık/yer tutucu uyarıları yalnız öğretmenin ilgili tamamlamasıyla güncellenir. Eski tam görselin elle yenilenen şıkları veya yeniden dönüştürmede güvenli gövdeyi atlaması engellendi. OCR/3C/kırmızı eşik ve bağımlılıklar değişmedi.
+
+[FAZ 3G raporu](docs/phase3g.md) her madde için bulgu, kanıt, değişiklik ve sonucu; 50 soru envanterini ve normalize sızıntı ölçümünü içerir. 43 soruda geometri yeterli, 7 soru ölçülemedi. Normalize sonuçlar sızıntısızlık kanıtı değildir. Bağımsız 49/Tapu kaynakları bulunamadı; gerçek tarayıcı giriş ve PDF yükleme simülasyonu bağlantı zaman aşımı nedeniyle tamamlanmadı. Gereken girdiler raporda yazılıdır.
+
 ## Güncel geliştirmeler
 
 - Soru ve şık görüntüsü için iki bağımsız checkbox; varsayılan işaretsiz/metin. Şık tercihi soru metninin altında, cevapların hemen üstündedir. Eksik veya güvenli olmayan görsel sessizce başka moda geçmez; kontrol uyarısı verir.

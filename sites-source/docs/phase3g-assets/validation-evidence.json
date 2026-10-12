@@ -1,0 +1,2128 @@
+{
+  "measuredAt": "2026-10-12T04:44:57.272Z",
+  "reference": {
+    "path": ".audit/phase3f-current-open/exam.json",
+    "sha256": "9daff3f26e5fa98d6054ac7352b2108acfa701641ab52f3983d4b8da1ceb6270",
+    "kind": "Prior actual Programci PDF OCR replay snapshot; not verified against latest live database",
+    "questionSlots": 50,
+    "readQuestions": 48,
+    "placeholderNumbers": [
+      5,
+      21
+    ],
+    "m1Defaults": 50,
+    "availability": {
+      "question": 3,
+      "options": 3,
+      "full": 3
+    },
+    "publish": {
+      "locked": true,
+      "issueCount": 250,
+      "affectedNumbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50
+      ],
+      "globalIssues": [
+        "Sınav adını girin."
+      ],
+      "lockedQuestions": 50
+    },
+    "preview": {
+      "locked": true,
+      "issueCount": 56
+    },
+    "warningCounts": {
+      "SEQUENCE_INFERENCE": 28,
+      "CODE_CONTENT": 18,
+      "LOW_READING": 3,
+      "RED_CONTENT_REVIEW": 48,
+      "LOCAL_WARNING": 48,
+      "NO_ANSWER_KEY": 50,
+      "UNREADABLE": 2,
+      "MISSING_OPTION": 7,
+      "NUMBER_INFERENCE": 1,
+      "TARGETED_OCR": 1
+    },
+    "boundaryCounts": {},
+    "rows": [
+      {
+        "number": 1,
+        "position": 1,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [
+            "CODE_CONTENT",
+            "LOW_READING"
+          ],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "CODE_CONTENT",
+          "LOW_READING",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 2,
+        "position": 2,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 3,
+        "position": 3,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 4,
+        "position": 4,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 5,
+        "position": 5,
+        "placeholder": true,
+        "resolved": false,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Bu soruda soru metni yok; metni tamamlayın veya gösterim seçimini değiştirin.",
+          "Bu soruda şık metni yok; metni tamamlayın veya gösterim seçimini değiştirin.",
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "UNREADABLE"
+          ],
+          "text": [
+            "LOW_OCR",
+            "MISSING_OPTION",
+            "OPTION_COUNT"
+          ],
+          "info": [
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "UNREADABLE",
+          "MISSING_OPTION",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 6,
+        "position": 6,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Bu soruda şık metni yok; metni tamamlayın veya gösterim seçimini değiştirin.",
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [
+            "MISSING_OPTION",
+            "OPTION_COUNT"
+          ],
+          "info": [
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "MISSING_OPTION",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 7,
+        "position": 7,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "NUMBER_INFERENCE"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "NUMBER_INFERENCE",
+          "SEQUENCE_INFERENCE",
+          "LOCAL_WARNING",
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 8,
+        "position": 8,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 9,
+        "position": 9,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 10,
+        "position": 10,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 11,
+        "position": 11,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 12,
+        "position": 12,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 13,
+        "position": 13,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 14,
+        "position": 14,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 15,
+        "position": 15,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 16,
+        "position": 16,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": true,
+          "options": true,
+          "full": true
+        },
+        "displayIssues": [
+          "Bu soruda şık metni yok; metni tamamlayın veya gösterim seçimini değiştirin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [],
+          "text": [
+            "LOW_READING",
+            "MISSING_OPTION",
+            "OPTION_COUNT"
+          ],
+          "info": [
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "LOW_READING",
+          "MISSING_OPTION",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 17,
+        "position": 17,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 18,
+        "position": 18,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 19,
+        "position": 19,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 20,
+        "position": 20,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 21,
+        "position": 21,
+        "placeholder": true,
+        "resolved": false,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Bu soruda soru metni yok; metni tamamlayın veya gösterim seçimini değiştirin.",
+          "Bu soruda şık metni yok; metni tamamlayın veya gösterim seçimini değiştirin.",
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "UNREADABLE"
+          ],
+          "text": [
+            "LOW_OCR",
+            "MISSING_OPTION",
+            "OPTION_COUNT"
+          ],
+          "info": [
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "UNREADABLE",
+          "MISSING_OPTION",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 22,
+        "position": 22,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 23,
+        "position": 23,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Bu soruda şık metni yok; metni tamamlayın veya gösterim seçimini değiştirin.",
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [
+            "TARGETED_OCR",
+            "CODE_CONTENT",
+            "LOW_READING",
+            "MISSING_OPTION",
+            "OPTION_COUNT"
+          ],
+          "info": [
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "TARGETED_OCR",
+          "CODE_CONTENT",
+          "LOW_READING",
+          "MISSING_OPTION",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 24,
+        "position": 24,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 25,
+        "position": 25,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Bu soruda şık metni yok; metni tamamlayın veya gösterim seçimini değiştirin.",
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [
+            "MISSING_OPTION",
+            "OPTION_COUNT"
+          ],
+          "info": [
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "MISSING_OPTION",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 26,
+        "position": 26,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 27,
+        "position": 27,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 28,
+        "position": 28,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 29,
+        "position": 29,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": true,
+          "options": true,
+          "full": true
+        },
+        "displayIssues": [],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [],
+          "text": [],
+          "info": [
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 30,
+        "position": 30,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 31,
+        "position": 31,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 32,
+        "position": 32,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 33,
+        "position": 33,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 34,
+        "position": 34,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 35,
+        "position": 35,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 36,
+        "position": 36,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 37,
+        "position": 37,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 38,
+        "position": 38,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 39,
+        "position": 39,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Bu soruda şık metni yok; metni tamamlayın veya gösterim seçimini değiştirin.",
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [
+            "CODE_CONTENT",
+            "MISSING_OPTION",
+            "OPTION_COUNT"
+          ],
+          "info": [
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "CODE_CONTENT",
+          "MISSING_OPTION",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 40,
+        "position": 40,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": true,
+          "options": true,
+          "full": true
+        },
+        "displayIssues": [],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [],
+          "text": [],
+          "info": [
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 41,
+        "position": 41,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 42,
+        "position": 42,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 43,
+        "position": 43,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 44,
+        "position": 44,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 45,
+        "position": 45,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 46,
+        "position": 46,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 47,
+        "position": 47,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 48,
+        "position": 48,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 49,
+        "position": 49,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "CODE_CONTENT",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "CODE_CONTENT",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      },
+      {
+        "number": 50,
+        "position": 50,
+        "placeholder": false,
+        "resolved": null,
+        "display": {
+          "question": "text",
+          "options": "text"
+        },
+        "mode": "text",
+        "availability": {
+          "question": false,
+          "options": false,
+          "full": false
+        },
+        "displayIssues": [
+          "Yer tutucu / numara veya kırpma sınırı uyarısı: kaynağı düzeltip öğretmen kontrol onayı verin."
+        ],
+        "boundaryCodes": [],
+        "warningClasses": {
+          "structural": [
+            "BOUNDARY"
+          ],
+          "text": [],
+          "info": [
+            "SEQUENCE_INFERENCE",
+            "RED_CONTENT_REVIEW",
+            "NO_ANSWER_KEY"
+          ]
+        },
+        "warningCodes": [
+          "SEQUENCE_INFERENCE",
+          "RED_CONTENT_REVIEW",
+          "LOCAL_WARNING",
+          "NO_ANSWER_KEY"
+        ]
+      }
+    ],
+    "warnedQuestions": 50,
+    "warningClassCounts": {
+      "structural": 47,
+      "text": 8,
+      "info": 50
+    },
+    "publishReasonCounts": {
+      "NO_ANSWER_KEY": 50,
+      "REVIEW_REQUIRED": 50,
+      "UNREADABLE": 2,
+      "INCOMPLETE_OPTION_IMAGE": 44,
+      "EMPTY_OPTION_TEXT": 7
+    }
+  },
+  "independent49": {
+    "status": "not_run_missing_source",
+    "required": "Original independent 49-question PDF, or exact previous 49-source PDF and fixed reproducible OCR settings",
+    "excludedEvidence": "Prior 49 draft removed question 23 from actual 50-slot Programci result. This is a simulated draft regression, not independent OCR."
+  },
+  "digitalTapu": {
+    "status": "not_run_missing_source",
+    "required": "Original digital text-layer Tapu 50-question PDF used for expected 50/50 baseline"
+  },
+  "inputSearch": {
+    "workspace": "F:/projeler/pdf-to-onlinequiz",
+    "desktop": "C:/Users/ahmet/Desktop",
+    "foundRealPDFs": [
+      "C:/Users/ahmet/Desktop/grup-36---programci(1).pdf"
+    ],
+    "workspacePDFs": "Only test fixture PDFs and their sites-source/audit checkout duplicates; no independent 49 or digital Tapu source found",
+    "scope": "rg --files PDF filters in workspace excluding node_modules/.git/.audit; .audit PDFs checked separately and contained only fixture checkout duplicates; Desktop PDF/name filters checked"
+  },
+  "browser": {
+    "status": "not_verified_root_webview_timeout",
+    "attempts": [
+      {
+        "api": "cua.getState()",
+        "result": "js execution timed out; kernel reset",
+        "seconds": 31.8082
+      },
+      {
+        "api": "cua.getState() retry",
+        "result": "Inventory returned empty iab and mcpapps tabs; native apps empty",
+        "seconds": 26.6538
+      },
+      {
+        "api": "createBrowserTab iab localhost3000 visible:false",
+        "result": "Timed out waiting for the Browser webview to attach for this browser-use page",
+        "seconds": 16.2859
+      },
+      {
+        "api": "createBrowserTab iab localhost3000 visible:true",
+        "result": "IAB visibility is not supported in a subagent thread",
+        "seconds": 0.546
+      },
+      {
+        "api": "Root createBrowserTab iab localhost3000 visible:true",
+        "result": "js execution timed out after 411.282 seconds; kernel reset",
+        "seconds": 411.282
+      }
+    ],
+    "requestedWidths": [
+      1280,
+      768,
+      390,
+      360
+    ],
+    "requestedQuestions": [
+      1,
+      5,
+      6,
+      7,
+      9,
+      16
+    ],
+    "actualViewportMeasurements": [],
+    "actualScreenshots": [],
+    "limitation": "Root visible webview also timed out. No login/PDF upload browser simulation, viewport measurement or browser screenshots were completed. Need a working browser tool connection with access to the local app; alternatively real screenshots/console traces from the requested widths/questions."
+  },
+  "automatedVerification": {
+    "date": "2026-10-12",
+    "standard": {
+      "tests": 195,
+      "passed": 186,
+      "skipped": 9,
+      "failed": 0,
+      "exitCode": 0
+    },
+    "manual": {
+      "tests": 14,
+      "passed": 14
+    },
+    "typecheck": {
+      "command": "node tools/pnpm/dist/pnpm.mjs typecheck",
+      "exitCode": 0
+    },
+    "build": {
+      "command": "node scripts/build.mjs",
+      "exitCode": 0,
+      "initialFailures": "Three cached Webpack filesystem/symlink snapshot WasmHash undefined length errors; production webpack cache backed up under ignored .audit; clean-cache intermediate build completed; local Next config disables only production webpack caching and final-source build completed"
+    },
+    "httpServer": {
+      "tests": 9,
+      "passed": 9,
+      "failed": 0,
+      "exitCode": 0
+    },
+    "browserSimulationCompleted": false
+  },
+  "teacherHTTPLogin": {
+    "method": "Real local HTTP with user-provided credentials, memory-only session",
+    "loginStatus": 200,
+    "sessionAccountStatus": 200,
+    "accountMatched": true,
+    "browserSimulation": false,
+    "pdfUploaded": false,
+    "credentialsOrCookieInReport": false
+  },
+  "developmentServer": {
+    "origin": "http://127.0.0.1:3000",
+    "healthStatus": 200,
+    "health": {
+      "ok": true,
+      "storage": "sqlite"
+    },
+    "restartReason": "Adding a webpack hook without explicit turbopack config triggered installed Next auto-Turbopack guard. Added empty turbopack config preserving defaults and restarted local development server.",
+    "firstHealthRequest": "Timed out during initial route compilation; warm request returned 200",
+    "generatedAgentInstructions": "Next dev automatically generated root AGENTS.md; relevant bundled webpack/turbopack guides were read"
+  },
+  "httpTimingEvidence": {
+    "finalPreparationMs": 41353,
+    "finalReadyMs": [
+      13107,
+      3280,
+      3928
+    ],
+    "totalTestBudgetMs": 240000,
+    "readyDeadlineMs": 60000,
+    "healthRequestTimeoutMs": 3000,
+    "priorAttempts": [
+      {
+        "status": "cancelled",
+        "reason": "Original overall 90000 ms test budget exceeded",
+        "log": ".audit/phase3g-http-timeout.log"
+      },
+      {
+        "status": "failed",
+        "reason": "Server emitted Ready but health did not pass within 60000 ms; no captured response diagnostic",
+        "log": ".audit/phase3g-http-health-failure.log"
+      }
+    ],
+    "finalStatus": "9 passed, 0 failed",
+    "limitation": "Exact cause of earlier transient readiness failure not established; last run passed with same application source. Test readiness now records status/body or fetch error and elapsed preparation/boot times."
+  }
+}

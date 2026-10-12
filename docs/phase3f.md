@@ -155,3 +155,8 @@ Diğerleri: [B önce](phase3f-assets/q9-before-1.png)/[sonra](phase3f-assets/q9-
 Eksik soru/şık metinleri ve kapalı riskli görüntüler öğretmen kararı bekler. Bunlar sessizce tamamlanmış veya yayınlanabilir sayılmaz.
 
 DUR
+
+
+## FAZ 3G güncellemesi — 12 Ekim 2026
+
+Elle şık tamamlama, 250 DPI aday önizlemesi, açık görsel onayı, uyarı yenileme ve konuma göre ölçüm eklendi. Önceki tarihli sayılar korunur; güncel envanter ve doğrulanamayan kontroller [FAZ 3G raporunda](phase3g.md). Gerçek tarayıcı giriş/PDF yükleme simülasyonu tamamlanmadı.

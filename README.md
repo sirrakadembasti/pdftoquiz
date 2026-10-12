@@ -1,8 +1,14 @@
 # PDF → Online Quiz — taşınabilir sürüm 2.0.10
 
-11 Ekim 2026 · Faz 3D/3E/3F, birleşik PDF metin editörü, checkbox gösterim tercihleri, cevap anahtarı tablosu ve body hydration uyumluluk düzeltmesi dahil.
+12 Ekim 2026 · Faz 3D/3E/3F/3G, elle şık tamamlama ve güvenli görsel onayı, birleşik PDF metin editörü, checkbox gösterim tercihleri, cevap anahtarı tablosu ve body hydration uyumluluk düzeltmesi dahil.
 
 Next.js App Router + Node.js + React + Tailwind; Prisma ORM 7 / yerel SQLite. Sites hizmeti veya Cloudflare hesabı gerektirmez. Kaynaklar, görseller, PDF.js/OCR worker/WASM dosyaları, Türkçe/İngilizce OCR dil modelleri, SQLite migration, testler, Docker ve pnpm paketin içindedir. `sites-source/` güncel barındırılan uygulamanın kaynaklarını da içerir; bu klasör Next.js tarafından derlenmez.
+
+## FAZ 3G — 12 Ekim 2026
+
+Şık başına elle kırp/yükle, 250 DPI aday önizlemesi, açık güvenli kopya onayı ve şık metnine erişim eklendi. Boş şık/yer tutucu uyarıları yalnız öğretmenin ilgili tamamlamasıyla güncellenir. Eski tam görselin elle yenilenen şıkları veya yeniden dönüştürmede güvenli gövdeyi atlaması engellendi. OCR/3C/kırmızı eşik ve bağımlılıklar değişmedi.
+
+[FAZ 3G raporu](docs/phase3g.md) her madde için bulgu, kanıt, değişiklik ve sonucu; 50 soru envanterini ve normalize sızıntı ölçümünü içerir. 43 soruda geometri yeterli, 7 soru ölçülemedi. Normalize sonuçlar sızıntısızlık kanıtı değildir. Bağımsız 49/Tapu kaynakları bulunamadı; gerçek tarayıcı giriş ve PDF yükleme simülasyonu bağlantı zaman aşımı nedeniyle tamamlanmadı. Gereken girdiler raporda yazılıdır.
 
 ## Güncel geliştirmeler
 

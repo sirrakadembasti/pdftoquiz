@@ -5,6 +5,9 @@ node_modules/
 .next/
 .sites-runtime/
 .audit/
+.pnpm-store/
+output/
+tmp/
 generated/
 data/
 backups/

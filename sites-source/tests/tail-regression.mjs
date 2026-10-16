@@ -29,7 +29,8 @@ for(const name of ['tail-single','tail-columns','tail-repeated','tail-scanned'])
  if(name==='tail-single'){assert.equal(converted.questions[0].options[3],'Gerçek şık metni ikinci satırda devam eder.');const page=await doc.getPage(1);const viewport=page.getViewport({scale:1});const content=await page.getTextContent();const lines=layout.textLines(content.items,viewport,pdf.Util);const a=layout.analyzePage(lines,1);const end=a.regions[0].options[3];const footer=lines.find(l=>l.text==='Sayfa 7');assert.ok(end.y+end.h<footer.y,'Şık görüntüsü de footer öncesinde bitmeli');}
  if(name==='tail-columns'){assert.deepEqual(converted.questions.map(q=>q.number),[1,2,3]);assert.deepEqual(converted.questions[0].options,['Sol A','Sol B','Sol C','Sol D']);assert.deepEqual(converted.questions[1].options,['Sağ A','Sağ B','Sağ C','Sağ D']);}
  if(name==='tail-repeated')assert.ok(converted.questions.every(q=>q.options[3]==='4'));
- assert.ok(converted.questions.every(q=>q.optionImages?.filter(Boolean).length===q.options.length),name+' şık görselleri');
+ const imageCounts=converted.questions.map(q=>({number:q.number,options:q.options.length,images:q.optionImages?.map(Boolean),markers:q.optionMarkerRights,cells:q.options.map((_,i)=>q.provenance?.['optionImages.'+i]?.box)}));
+ assert.ok(converted.questions.every(q=>q.optionImages?.filter(Boolean).length===q.options.length),name+' şık görselleri: '+JSON.stringify(imageCounts));
  }
  await doc.destroy();console.log((before?'ÖNCE':'SONRA')+': '+name+' — '+JSON.stringify(summary.questions));
 }

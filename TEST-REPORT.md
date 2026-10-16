@@ -1,4 +1,25 @@
-# Güncel doğrulama — 12 Ekim 2026 / FAZ 3G
+# Güncel doğrulama — 13 Ekim 2026 / Bun ve çevrimdışı SQLite düzeltmesi
+
+`bun install` sonrasında Turbopack'in `../generated/prisma/client` modülünü bulamaması giderildi. Sunucu veri katmanı doğrudan `@libsql/client` kullanıyor; `db:generate` artık ağ veya üretilmiş istemci gerektirmeyen uyumluluk adımıdır. Mevcut `User`, `Session`, `LoginLimit` ve `StoredObject` tabloları ile veriler korunur.
+
+| Kontrol | Sonuç |
+|---|---|
+| Bun geliştirme sunucusu / health | HTTP 200; `ok:true`, `storage:sqlite` |
+| `.env` öğretmen hesabı | İlk hesap oluşturuldu; gerçek HTTP login 200, oturum kontrolü 200, HttpOnly + SameSite=Lax |
+| Gerçek tarayıcı | `/account` giriş formu başarılı; `/` yönlendirmesi ve öğretmen ekranı doğrulandı; konsol hatası/uyarısı yok |
+| TypeScript | Çıkış 0 |
+| Üretim derlemesi | Next.js 16.4 Webpack, TypeScript, 7 statik sayfa ve standalone paketleme başarılı |
+| Standalone HTTP/SQLite | 9/9 geçti; yetki, CSRF, kalıcılık, yedek, rate limit ve paket taşıma dahil |
+| Seçili UI/PDF regresyonları | 36/36 geçti |
+| Yeni dosyalar ESLint | `lib/db.ts`, `lib/draft-storage.ts`, `scripts/prisma-command.mjs`: 0 hata |
+
+Ana `app/page.tsx` için mevcut ESLint borcu ayrıca sürüyor: 47 hata ve 20 uyarı. İlk modülerleştirme olarak IndexedDB taslak katmanı `lib/draft-storage.ts` dosyasına ayrıldı; kalan büyük bileşenler davranış korunarak aşamalı ayrılmalıdır.
+
+Git metadatası kaynak arşivinde bulunmadığından commit/diff doğrulaması yapılamadı; `VERSION.json` içindeki eski commit iddiası kaldırıldı.
+
+---
+
+# Önceki doğrulama — 12 Ekim 2026 / FAZ 3G
 
 Bu kayıt son FAZ 3G kaynakları içindir; önceki tarihli sonuçlar aşağıda korunur.
 

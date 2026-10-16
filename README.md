@@ -2,7 +2,7 @@
 
 12 Ekim 2026 · Faz 3D/3E/3F/3G, elle şık tamamlama ve güvenli görsel onayı, birleşik PDF metin editörü, checkbox gösterim tercihleri, cevap anahtarı tablosu ve body hydration uyumluluk düzeltmesi dahil.
 
-Next.js App Router + Node.js + React + Tailwind; Prisma ORM 7 / yerel SQLite. Sites hizmeti veya Cloudflare hesabı gerektirmez. Kaynaklar, görseller, PDF.js/OCR worker/WASM dosyaları, Türkçe/İngilizce OCR dil modelleri, SQLite migration, testler, Docker ve pnpm paketin içindedir. `sites-source/` güncel barındırılan uygulamanın kaynaklarını da içerir; bu klasör Next.js tarafından derlenmez.
+Next.js App Router + Node.js/Bun + React + Tailwind; doğrudan libSQL istemcisiyle yerel SQLite. Çalışma zamanında üretilmiş Prisma istemcisi veya Prisma motoru indirmesi gerekmez. Sites hizmeti veya Cloudflare hesabı gerektirmez. Kaynaklar, görseller, PDF.js/OCR worker/WASM dosyaları, Türkçe/İngilizce OCR dil modelleri, SQLite şeması, testler, Docker ve pnpm paketin içindedir. `sites-source/` güncel barındırılan uygulamanın kaynaklarını da içerir; bu klasör Next.js tarafından derlenmez.
 
 ## FAZ 3G — 12 Ekim 2026
 
@@ -18,8 +18,9 @@ Next.js App Router + Node.js + React + Tailwind; Prisma ORM 7 / yerel SQLite. Si
 - Toplu cevap anahtarı giriş alanı ve gösterim alanı, tespit edilen soru sayısına göre satırları gösterir. PDF'den tespit edilen ve uygulanan/manuel cevap ayrıdır; görsel ve manuel giriş korunur. Programcı referans dönüşümünde 50 satır/50 tespit, 0 otomatik uygulama doğrulandı.
 - Numara sıralaması, komşu kırpma/üst-alt bant kontrolleri, eşit marker maskesi ve açık kalem izi onayı korunur. Öğrenci yanıtı doğru cevap/anahtar/orijinal PDF içermez.
 - Tarayıcı tarafından body'ye eklenen nitelikler için dar hydration istisnası eklendi; alt bileşen uyuşmazlıkları bastırılmaz. Ayrıntılar: [hydration incelemesi](docs/hydration-and-git.md).
+- Kalite kontrolü ve hibrit AI incelemesi artık teknik hata kodları yerine soru numarası, eksik alan ve kullanıcıdan beklenen işlemi açıklayan Türkçe durum metinleri gösterir. AI önerisinin uygulanıp uygulanmadığı ayrıca belirtilir; düzenleme veya öneri uygulama sonrasında Çözümleme özeti, şüpheli sorular ve paylaşım kontrolleri sayfa yenilemeden yeniden hesaplanır.
 
-Gerçek tarayıcı/native metin araçları ve mobil yerleşim doğrulanamadı; otomatik test sonuçları bu kontrollerin yerine geçmez. Güncel kanıtlar [TEST-REPORT.md](TEST-REPORT.md), [düzenleyici raporu](docs/editor-simplification.md) ve [Faz 3F raporu](docs/phase3f.md) içindedir.
+Kalite/AI inceleme akışı uygulama içi gerçek tarayıcıda doğrulandı; native metin araçları ve mobil yerleşim ayrıca doğrulanmalıdır. Güncel kanıtlar [TEST-REPORT.md](TEST-REPORT.md), [AI inceleme doğrulaması](output/playwright/ai-review-live/ai-review-verification.md), [düzenleyici raporu](docs/editor-simplification.md) ve [Faz 3F raporu](docs/phase3f.md) içindedir.
 
 ## Windows'ta hızlı başlatma
 
@@ -40,6 +41,15 @@ node tools/pnpm/dist/pnpm.mjs dev
 3. http://localhost:3000 açın. İlk kurulum terminalde öğretmen e-postası ve şifresini gösterir; bilgileri kaydedin. http://localhost:3000/account üzerinden giriş yapın. Sunucu ilk kez SQLite dosyasını oluşturur; yeniden kurulum mevcut hesabın şifresini değiştirmez.
 
 `INITIAL_ADMIN_PASSWORD` yalnız ilk hesap oluşturulurken kullanılır; `.env` değerini sonradan değiştirmek mevcut hesabın şifresini güncellemez. Şifre 12–256 karakter olmalı; boş bırakılırsa rastgele üretilir. `user:add` ile eklenen öğretmenin şifresi ayrıca terminalde gösterilir. Unutulan mevcut şifre için `node tools/pnpm/dist/pnpm.mjs user:reset` kullanın. `localhost` veya `127.0.0.1` ile giriş desteklenir; üretim alan adında `APP_ORIGIN` tam adresle sabitlenir.
+
+Bun kullanan mevcut kurulumlarda eşdeğer akış:
+
+```powershell
+bun run setup:bun
+bun dev
+```
+
+`bun install` tek başına ilk yönetici hesabını hazırlamaz. `setup:bun` bağımlılık kilidini doğrular, SQLite şemasını hazırlar ve `.env` değerleriyle ilk hesabı oluşturur.
 
 Çift tıklama seçenekleri: `KURULUM-WINDOWS.cmd`, `CALISTIR-GELISTIRME.cmd`, `CALISTIR-URETIM.cmd`. Windows terminal komutlarının güncel doğrulaması `TEST-REPORT.md` içindedir; çift tıklama ve gerçek tarayıcı görünümü ayrıca sınanmalıdır.
 
@@ -73,7 +83,7 @@ Docker imajının derlenmesi internet gerektirir. SQLite volume'ünü silmeyin (
 
 - Öğretmen hesabı gerektiren işlemler: kayıt, düzenleme, kaynak PDF, sonuç listesi, AI isteği. Öğrenci yalnız paylaşım bağlantısıyla sınava katılır.
 - Şifre scrypt hash'i; oturum rastgele tokenın SHA-256 hash'i olarak SQLite'da tutulur. Cookie HttpOnly/SameSite; HTTPS ayarında Secure. Hatalı girişte sınırlama vardır. ChatGPT kimlik başlıkları yerelde öğretmen yetkisi vermez.
-- `User`, `Session`, `LoginLimit`, `StoredObject` Prisma modelleri. Sınav JSON'u, PDF, soru/şık görselleri, sonuçlar SQLite dosyasında saklanır; mevcut JSON/bölüm/provenance biçimi korunur.
+- `User`, `Session`, `LoginLimit`, `StoredObject` SQLite tabloları. Sınav JSON'u, PDF, soru/şık görselleri ve sonuçlar SQLite dosyasında saklanır; mevcut JSON/bölüm/provenance biçimi korunur.
 - Yerel dosya: `data/quiz.db`. `.env` DATABASE_URL ile başka kalıcı dosya seçebilirsiniz. Kaynak pakette gerçek kullanıcı verisi, oturum veya API anahtarı yoktur.
 - Yeni öğretmen: `node tools/pnpm/dist/pnpm.mjs user:add`; şifre sıfırlama: `node tools/pnpm/dist/pnpm.mjs user:reset`. Komut rastgele yeni şifreyi terminalde gösterir. Sıfırlama eski oturumları da iptal eder.
 - Yedek: `node tools/pnpm/dist/pnpm.mjs backup`. SQLite snapshot'ı `backups/` altına alınır; PDF ve görseller dahil kayıtlı tüm veriler bundadır. Başka sunucuya taşımak için yeni uygulamayı kurun, durdurun, veritabanı dosyasını yedekle değiştirin; DATABASE_URL doğru dosyayı göstermeli. Eski dosyayı önce koruyun.
@@ -89,7 +99,7 @@ Hibrit önce yerel geçiş yapar; kalite kapısında sorunlu alanları seçer ve
 
 ## Bağımlılıklar ve testler
 
-`package.json`, `pnpm-lock.yaml`, `DEPENDENCIES.md` ve lisanslar pakette. Next 16.4.0, React 19.3.0, Tailwind 4.3.3, Lucide 1.52.0 güncellendi. Prisma 7.10.0 SQLite ile seçildi; Prisma 8'e SQLite desteği varsayılarak geçilmedi. PDF.js 5.4.296 / Tesseract 5.1.1 worker/dil varlıklarıyla eşleşen test edilmiş sürümlerde korundu. pnpm 11.25.0 JavaScript dağıtımı Windows/Linux uyumluluğu için ZIP'e eklendi; pnpm 12 native geçişi uygulanmadı.
+`package.json`, `bun.lock`, `pnpm-lock.yaml`, `DEPENDENCIES.md` ve lisanslar pakette. Next 16.4.0, React 19.3.0, Tailwind 4.3.3, Lucide 1.52.0 güncellendi. SQLite çalışma zamanı doğrudan `@libsql/client` kullanır; çevrimdışı başlatma için Prisma istemcisi üretimi gerekmez. Prisma 7 paketleri geçiş uyumluluğu ve şema referansı için dağıtımda tutulmaktadır. PDF.js 5.4.296 / Tesseract 5.1.1 worker/dil varlıklarıyla eşleşen test edilmiş sürümlerde korundu. pnpm 11.25.0 JavaScript dağıtımı Windows/Linux uyumluluğu için ZIP'e eklendi; Bun kilidi ayrıca desteklenir.
 
 ```sh
 node tools/pnpm/dist/pnpm.mjs typecheck

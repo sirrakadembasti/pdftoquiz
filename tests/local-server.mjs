@@ -15,7 +15,7 @@ async function start(){log='';child=spawn(process.execPath,['.next/standalone/se
 async function stop(){if(child&&child.exitCode===null&&child.signalCode===null){const done=new Promise(resolve=>child.once('close',resolve));child.kill('SIGTERM');await Promise.race([done,delay(5000)]);if(child.exitCode===null&&child.signalCode===null){child.kill('SIGKILL');await Promise.race([done,delay(5000)]);}if(child.exitCode===null&&child.signalCode===null)throw new Error('Test sunucusu durdurulamadı.');}}
 const request=(path,opts={},cookie)=>fetch(base+path,{...opts,headers:{...(opts.body?{Origin:base}:{}),...opts.headers,...(cookie?{Cookie:cookie}:{})}});
 const login=async(email='teacher@example.test')=>{const r=await request('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});assert.equal(r.status,200);assert.match(r.headers.get('set-cookie'),/HttpOnly/i);return r.headers.get('set-cookie').split(';')[0];};
-test('Taşınabilir gerçek Next.js HTTP + Prisma/SQLite',{timeout:240000},async t=>{const preparationStarted=performance.now();try{
+test('Taşınabilir gerçek Next.js HTTP + libSQL/SQLite',{timeout:240000},async t=>{const preparationStarted=performance.now();try{
 cli(['scripts/prisma-command.mjs','migrate','deploy']);cli(['scripts/prisma-command.mjs','migrate','deploy']);cli(['--import','tsx','scripts/admin.ts','--init']);process.env.DATABASE_URL=env.DATABASE_URL;
 ({db}=await import('../lib/db.ts'));localAuth=await import('../lib/local-auth.ts');await localAuth.createTeacher('other@example.test','Diğer öğretmen',password);
 console.log('# HTTP preparation ms: '+Math.round(performance.now()-preparationStarted));await start();let cookie,id,imageUrl;

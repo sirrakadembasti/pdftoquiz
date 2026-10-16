@@ -2,4 +2,5 @@ export const runtime='nodejs';
 export const dynamic='force-dynamic';
 import {owner,error,sameOrigin} from '../../../lib/server';
 import {requestAI} from '../../../lib/ai';
-export async function POST(request:Request){try{sameOrigin(request);await owner();const raw=await request.text();if(raw.length>6*1024*1024)throw new Error('AI isteği çok büyük.');return Response.json(await requestAI(JSON.parse(raw),fetch,request.signal),{headers:{'Cache-Control':'no-store'}});}catch(e:any){if(e.providerStatus||e.usage||e.diagnostic)return Response.json({error:e.message,providerStatus:e.providerStatus,retryAfter:e.retryAfter,usage:e.usage,diagnostic:e.diagnostic},{status:400,headers:{'Cache-Control':'no-store'}});return error(e);}}
+import {providerFetch} from '../../../lib/provider-fetch';
+export async function POST(request:Request){try{sameOrigin(request);await owner();const raw=await request.text();if(raw.length>6*1024*1024)throw new Error('AI isteği çok büyük.');return Response.json(await requestAI(JSON.parse(raw),providerFetch,request.signal),{headers:{'Cache-Control':'no-store'}});}catch(e:any){if(e.providerStatus||e.usage||e.diagnostic)return Response.json({error:e.message,providerStatus:e.providerStatus,retryAfter:e.retryAfter,usage:e.usage,diagnostic:e.diagnostic},{status:400,headers:{'Cache-Control':'no-store'}});return error(e);}}

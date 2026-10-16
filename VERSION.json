@@ -1,7 +1,7 @@
 {
   "version": "2.0.10",
-  "date": "2026-10-10",
-  "features": "Faz 3D: yer tutucu, şık yuvaları, okuma güveni, güvenli görsel gösterimi ve sayfa OCR hata yedeği",
-  "sourceCommit": "cb6ad7e5cae2774c2775c83f7d37809f6da19070",
-  "profile": "Next.js / Node.js / Prisma / SQLite"
+  "date": "2026-10-13",
+  "features": "Faz 3G: güvenli soru/şık görselleri, elle tamamlama, birleşik editör ve çevrimdışı libSQL çalışma zamanı",
+  "sourceCommit": null,
+  "profile": "Next.js / Node.js veya Bun / libSQL SQLite"
 }

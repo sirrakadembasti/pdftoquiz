@@ -30,6 +30,6 @@ test('Gemini array-shaped API errors preserve the provider message',async()=>{
 
 test('Gemini provider defaults to gemini-3.8-flash',()=>{
   const page=fs.readFileSync(path.join(root,'app/page.tsx'),'utf8');
-  assert.match(page,/googleapis'\)\)setModel\('gemini-3\.8-flash'\)/);
-  assert.doesNotMatch(page,/googleapis'\)\)setModel\('gemini-2\.5-flash'\)/);
+  assert.match(page,/googleapis'\)\)\s*setModel\('gemini-3\.8-flash'\)/);
+  assert.doesNotMatch(page,/googleapis'\)\)\s*setModel\('gemini-2\.5-flash'\)/);
 });

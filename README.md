@@ -12,6 +12,9 @@ Next.js App Router + Node.js/Bun + React + Tailwind; doğrudan libSQL istemcisiy
 
 ## Güncel geliştirmeler
 
+- Sonuç puanı yalnız cevap anahtarı bulunan, değerlendirilebilir sorular üzerinden hesaplanır; toplam soru ve anahtarı eksik yanıt sayısı sonuç ekranında ayrıca gösterilir.
+- Elle seçilen soru kırpımı eski OCR sınır uyarısını geçersiz kılar. Şık kırpımında harf seçimin dışında kaldığında içerik korunur ve hedef doğrulama uyarısı verilir; güvenli önizleme yinelenmez.
+- Gece modu; soru gezinmesi, kalite/uyarı durumları ve sonuç ekranını kapsar. Uzun şüpheli soru ve hibrit AI sonuçları varsayılan kapalı, kaydırılabilir bölümlerdir.
 - Soru ve şık görüntüsü için iki bağımsız checkbox; varsayılan işaretsiz/metin. Şık tercihi soru metninin altında, cevapların hemen üstündedir. Eksik veya güvenli olmayan görsel sessizce başka moda geçmez; kontrol uyarısı verir.
 - Soru metni ve dönüştürülmüş görünüm tek basit editörde: kalın, altı çizili, liste, geri al/yinele ve biçim temizleme. Metin/biçimler önizleme ve yayında aynı veriden gösterilir.
 - PDF alan seçimi soru veya A–E şık görseli yuvasına aktarılır. Boş yuvalardan da hedef seçilebilir; görsel eklemek gösterim checkbox'ını açmaz.

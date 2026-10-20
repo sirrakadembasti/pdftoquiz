@@ -11,6 +11,8 @@ const tools=fs.readFileSync(path.join(root,'lib/manual-option-tools.tsx'),'utf8'
 
 test('PDF kırpma yönergesi seçili hedefi ve gerçek onay adımını açıklar',()=>{
  assert.match(page,/Seçili hedef: \{targetLabel/);
+ assert.match(page,/1\. Hedefi seçin · 2\. PDF alan seçim aracını açın · 3\. Alanı sürükleyip önizleyin · 4\. Hedef alanına ekleyin/);
+ assert.match(page,/`Soru \$\{q\?\.number \?\? current \+ 1\} — \$\{cropTarget === 'question'/);
  assert.match(page,/alanına ekle/);
  assert.doesNotMatch(page,/İlgili soru veya şık alanını sürükleyerek seçin/);
 });
@@ -31,4 +33,9 @@ test('Uzun kalite listeleri varsayılan kapalıdır ve gece durumları okunur re
 test('Şık güvenli önizlemesi bir kez görünür; kaynak karşılaştırması kapalı bölümdedir',()=>{
  assert.doesNotMatch(tools,/\{imagePreview\}\{clean&&<img/);
  assert.match(tools,/Kaynak kırpımıyla karşılaştır/);
+});
+
+test('Placeholder actions wrap inside the narrow editor viewport',()=>{
+ assert.match(css,/@media\(max-width:640px\)\{\.edit-fields>\.alert\{flex-wrap:wrap\}/);
+ assert.match(css,/\.edit-fields>\.alert \.btn\{max-width:100%;white-space:normal\}/);
 });

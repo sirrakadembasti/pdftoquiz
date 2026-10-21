@@ -74,6 +74,7 @@
 
 /* FAZ 3G manual correction controls */
 .manual-option-tools{padding:16px;border:1px solid var(--border);border-radius:12px;margin:12px 0;min-width:0}.manual-option-tools h4{margin:0 0 12px}.manual-option-tools .inline{flex-wrap:wrap}.manual-image-candidate,.manual-image-confirmation{margin-top:12px}.manual-option-tools img{display:block;width:auto;max-width:100%;height:auto;object-fit:contain;margin:8px 0}.manual-option-tools .review-check{align-items:flex-start}
+.manual-option-warning{margin-top:12px;padding:10px 12px;border:1px solid #cfae74;border-radius:8px;background:#fff8df;color:#6b5525;font-size:11px;line-height:1.6}[data-theme=dark] .manual-option-warning{background:#493f27;color:#f5ecd0;border-color:#8f7848}
 
 /* Follow-up UI: readable crop guidance, compact reviews, and complete dark-state contrast. */
 .crop-note b{display:block;margin-bottom:3px}.hybrid-review>details,.analysis-summary>details,.manual-image-confirmation>details{border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-top:10px}.hybrid-review>details>summary,.analysis-summary summary,.manual-image-confirmation>details>summary{cursor:pointer;font-weight:600}.hybrid-review>details[open]>summary,.manual-image-confirmation>details[open]>summary{margin-bottom:10px}.hybrid-results{max-height:520px;overflow:auto;padding-right:4px}

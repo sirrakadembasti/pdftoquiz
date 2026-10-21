@@ -12,6 +12,7 @@ Next.js App Router + Node.js/Bun + React + Tailwind; doğrudan libSQL istemcisiy
 
 ## Güncel geliştirmeler
 
+- FAZ 3I görsel ayrımı: öğrenciye giden soru görseli yalnız gövdeyi, her şık görseli yalnız kendi harfsiz içeriğini taşır. Kalem izi kontrolü gövde ve A–E şıkları için ayrı uygulanır; elle kırpımda şık işareti algılanamazsa kayıt engellenmeden kaynak doğrulama uyarısı gösterilir. Kapı paneli güncel durumu “Son kontrol” zamanı ve soru/şık adresiyle açıklar.
 - Sonuç puanı yalnız cevap anahtarı bulunan, değerlendirilebilir sorular üzerinden hesaplanır; toplam soru ve anahtarı eksik yanıt sayısı sonuç ekranında ayrıca gösterilir.
 - Elle seçilen soru kırpımı eski OCR sınır uyarısını geçersiz kılar. Şık kırpımında harf seçimin dışında kaldığında içerik korunur ve hedef doğrulama uyarısı verilir; güvenli önizleme yinelenmez.
 - Gece modu; soru gezinmesi, kalite/uyarı durumları ve sonuç ekranını kapsar. Uzun şüpheli soru ve hibrit AI sonuçları varsayılan kapalı, kaydırılabilir bölümlerdir.

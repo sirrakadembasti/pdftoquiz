@@ -3,7 +3,8 @@ from pathlib import Path
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-pdfmetrics.registerFont(TTFont('Fixture','/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'))
+from fixture_support import register_fixture_font
+register_fixture_font('Fixture')
 root=Path(__file__).resolve().parent
 c=canvas.Canvas(str(root/'fixtures/phase1-sections.pdf'),pagesize=(560,780))
 def text(x,y,t,size=11):

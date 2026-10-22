@@ -4,8 +4,9 @@ from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 root=Path(__file__).resolve().parent
-for name,font in [('Regular','DejaVuSans.ttf'),('Bold','DejaVuSans-Bold.ttf')]:
-    pdfmetrics.registerFont(TTFont(name,'/usr/share/fonts/truetype/dejavu/'+font))
+from fixture_support import register_fixture_font
+register_fixture_font('Regular')
+register_fixture_font('Bold', bold=True)
 c=canvas.Canvas(str(root/'fixtures/layout-quality.pdf'),pagesize=(560,780))
 def text(x,y,value,bold=False):
     c.setFont('Bold' if bold else 'Regular',11);c.drawString(x,y,value)

@@ -1,4 +1,5 @@
-import fs from 'node:fs';import path from 'node:path';import {createRequire} from 'node:module';import {fileURLToPath} from 'node:url';import {test} from 'node:test';import assert from 'node:assert/strict';
+import fs from 'node:fs';import path from 'node:path';import {createRequire} from 'node:module';import {fileURLToPath} from 'node:url';import {test} from 'node:test';
+import {acceptanceTest} from './test-tier.mjs';import assert from 'node:assert/strict';
 const root=path.dirname(path.dirname(fileURLToPath(import.meta.url))),require=createRequire(path.join(root,'package.json')),ts=require('typescript');
 const out=path.join(root,'.sites-runtime/qa/layout-modules');fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'package.json'),'{}');
 for(const name of ['conversion-diagnostics','question-quality','ai','hybrid','answer-key','quiz','pdf-layout','pdf-import'])fs.writeFileSync(path.join(out,name+'.js'),ts.transpileModule(fs.readFileSync(path.join(root,'lib/'+name+'.ts'),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText);
@@ -29,7 +30,7 @@ test('Özgün sentetik PDF: maddeler, kalın/alt çizgi, çok satırlı ve şeki
  const mixed=await canvasLib.loadImage(Buffer.from(r.questions[1].optionImages[0].split(',')[1],'base64'));assert.ok(mixed.height>180,'Metinle birlikte şeklin tam yüksekliği korunmalı');
  for(const [i,q] of r.questions.entries())for(const [j,img] of q.optionImages.entries())fs.writeFileSync(path.join(root,'.sites-runtime/qa/layout-synthetic-'+i+'-'+j+'.png'),Buffer.from(img.split(',')[1],'base64'));
 });
-test('Referans PDF: sözcük ve 2×2 şık kırpmaları',{skip:!process.env.REFERENCE_PDF},async()=>{
+acceptanceTest('Referans PDF: sözcük ve 2×2 şık kırpmaları',['REFERENCE_PDF'],{},async()=>{
  const r=await inspect(process.env.REFERENCE_PDF);assert.equal(r.questions.length,80);assert.ok(r.questions.every(q=>q.options.length===4));const q=r.questions[0];assert.deepEqual(q.options,['Aylin','Cenk','Kadir','Meltem']);assert.match(q.text,/cümle kurmalarını/);assert.match(q.text,/uygun değildir\?/);const paragraphs=r.questions.find(q=>q.text.includes('Yoğurt'));assert.match(paragraphs.text,/tüketilmektedir/);assert.match(paragraphs.text,/sütün mayalandırılması/);assert.ok(paragraphs.text.includes('\n\nBu metinde'));
  for(const [j,img] of q.optionImages.entries())fs.writeFileSync(path.join(root,'.sites-runtime/qa/layout-reference-option-'+j+'.png'),Buffer.from(img.split(',')[1],'base64'));
  fs.writeFileSync(path.join(root,'.sites-runtime/qa/layout-reference-text.json'),JSON.stringify(r.questions.map(q=>({number:q.number,section:q.sectionId,text:q.text,marks:q.textMarks,options:q.options})),null,2));

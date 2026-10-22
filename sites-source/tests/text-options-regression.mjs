@@ -1,4 +1,5 @@
-import fs from 'node:fs';import path from 'node:path';import {createRequire} from 'node:module';import {fileURLToPath} from 'node:url';import {test} from 'node:test';import assert from 'node:assert/strict';
+import fs from 'node:fs';import path from 'node:path';import {createRequire} from 'node:module';import {fileURLToPath} from 'node:url';import {test} from 'node:test';
+import {acceptanceTest} from './test-tier.mjs';import assert from 'node:assert/strict';
 const root=path.dirname(path.dirname(fileURLToPath(import.meta.url))),require=createRequire(path.join(root,'package.json')),ts=require('typescript');
 const out=path.join(root,'.sites-runtime/qa/text-modules');fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'package.json'),'{}');
 for(const name of ['conversion-diagnostics','question-quality','ai','hybrid','answer-key','quiz','pdf-layout','pdf-import'])fs.writeFileSync(path.join(out,name+'.js'),ts.transpileModule(fs.readFileSync(path.join(root,'lib/'+name+'.ts'),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText);
@@ -39,7 +40,7 @@ test('Duplicate answer warning is exact, nonempty, dynamic and never assigns a k
 });
 async function convert(file){global.Image=canvasLib.Image;const doc=await pdf.getDocument({data:new Uint8Array(fs.readFileSync(file)),standardFontDataUrl:path.join(root,'node_modules/pdfjs-dist/standard_fonts').replaceAll('\\','/')+'/'}).promise;try{return await importer.convertPDF(doc,{mode:'local',engine:pdf,cancelled:()=>false,progress:()=>{},ai:()=>{throw Error('AI must not run');},ocr:()=>{throw Error('Digital reference must not use OCR');}});}finally{await doc.destroy();}}
 
-test('Real Tapu PDF: clean spaces, four options, code structure and B/C duplicate warning',{skip:!process.env.TAPU_REFERENCE_PDF},async()=>{
+acceptanceTest('Gerçek kod/metin kabul PDF belgesi: clean spaces, four options, code structure and B/C duplicate warning',['TAPU_REFERENCE_PDF'],{},async()=>{
  const r=await convert(process.env.TAPU_REFERENCE_PDF),q=n=>r.questions.find(q=>q.number===n);
  assert.equal(r.questions.length,50);assert.equal(r.duration,70);assert.equal(r.expectedCount,50);assert.ok(r.questions.every(q=>q.detectedOptions===4));assert.match(r.instructions,/50 adet soru/);assert.match(r.instructions,/70 dakikadır/);assert.ok(!/N o|5 0|7 0/.test(r.instructions));
  assert.match(q(2).text,/bırakarak/);assert.match(q(25).text,/Web-posta/);assert.match(q(35).text,/Tolower/);assert.deepEqual(q(39).options,['\\t','\\n','\\\\','\\0']);

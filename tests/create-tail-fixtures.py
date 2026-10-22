@@ -3,8 +3,8 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from pathlib import Path
 import fitz
-root=Path('tests/fixtures');root.mkdir(parents=True,exist_ok=True)
-pdfmetrics.registerFont(TTFont('TailFont','/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'))
+from fixture_support import FIXTURES as root, register_fixture_font
+register_fixture_font('TailFont')
 def write(c,x,y,s,size=12):
  c.setFont('TailFont',size);c.drawString(x,800-y,s)
 # A multi-line genuine answer followed immediately by footer and unrelated text.

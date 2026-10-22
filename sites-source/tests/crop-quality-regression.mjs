@@ -1,4 +1,5 @@
-import fs from 'node:fs';import path from 'node:path';import {createRequire} from 'node:module';import {fileURLToPath} from 'node:url';import {test} from 'node:test';import assert from 'node:assert/strict';
+import fs from 'node:fs';import path from 'node:path';import {createRequire} from 'node:module';import {fileURLToPath} from 'node:url';import {test} from 'node:test';
+import {acceptanceTest} from './test-tier.mjs';import assert from 'node:assert/strict';
 const root=path.dirname(path.dirname(fileURLToPath(import.meta.url))),require=createRequire(path.join(root,'package.json')),ts=require('typescript');
 const out=path.join(root,'.sites-runtime/qa/crop-quality-modules');fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'package.json'),'{}');
 for(const name of ['conversion-diagnostics','question-quality','ai','hybrid','answer-key','quiz','pdf-layout','pdf-import'])fs.writeFileSync(path.join(out,name+'.js'),ts.transpileModule(fs.readFileSync(path.join(root,'lib/'+name+'.ts'),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText);
@@ -30,7 +31,7 @@ test('Only a genuine page continuation gets a continuation warning',async()=>{
 async function convert(file){global.Image=canvasLib.Image;const doc=await pdf.getDocument({data:new Uint8Array(fs.readFileSync(file)),standardFontDataUrl:path.join(root,'node_modules/pdfjs-dist/standard_fonts').replaceAll('\\','/')+'/'}).promise;try{return await importer.convertPDF(doc,{mode:'local',engine:pdf,cancelled:()=>false,progress:()=>{},ai:()=>{throw Error('AI must not run');},ocr:()=>{throw Error('Digital reference must not use OCR');}});}finally{await doc.destroy();}}
 
 
-test('Real Tapu conversion: header/footer out, figures/code intact, all five false warnings gone',{skip:!process.env.TAPU_REFERENCE_PDF},async()=>{
+acceptanceTest('Gerçek şekil/kırpma kabul PDF belgesi: header/footer out, figures/code intact, all five false warnings gone',['TAPU_REFERENCE_PDF'],{},async()=>{
  const regions=[];const original=layout.analyzePage;layout.analyzePage=(...args)=>{const a=original(...args);regions.push(...a.regions.map(r=>({...r,page:args[1]})));return a;};let r;try{r=await convert(process.env.TAPU_REFERENCE_PDF);}finally{layout.analyzePage=original;}
  assert.equal(r.questions.length,50);assert.equal(r.expectedCount,50);assert.equal(r.duration,70);assert.ok(r.questions.every(q=>q.detectedOptions===4&&q.correct===null&&q.sourcePages.length===1));assert.ok(r.questions.every(q=>!q.warnings.some(w=>/Metin sayfa sonuna yakın|sayfalardaki parçalar birleştirildi/.test(w))));
  for(const n of [6,11,21,39,50])assert.ok(!r.questions.find(q=>q.number===n).warnings.some(w=>/devam/.test(w)));

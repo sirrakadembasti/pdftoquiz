@@ -77,7 +77,9 @@ node tools/pnpm/dist/pnpm.mjs test
 node tools/pnpm/dist/pnpm.mjs test:server
 ```
 
-`test` ortak uygulama mantığını ve sentetik gerçek PDF/OCR belgelerini, mock AI ve React olaylarını doğrular. `test:server` geçici SQLite'da gerçek Next.js üretim sunucusunu başlatıp giriş/yetki, paylaşım, varlık/PDF, puanlama, kalıcılık ve yedeklemeyi sınar; gerçek kullanıcı dosyanızı değiştirmez. Referans telifli PDF/görsel ZIP'te yoktur. Kendi kopyanızla REFERENCE_PDF / REFERENCE_KEY_IMAGE ortam değişkenlerini kullanabilirsiniz.
+`test` ortak uygulama mantığını; paketteki özgün sentetik PDF/OCR fixture'ları, mock AI ve React olaylarıyla doğrular. Standart paket kullanıcı belgesi istemez ve atlanan teste izin vermez. `test:server` geçici SQLite'da gerçek Next.js üretim sunucusunu başlatıp giriş/yetki, paylaşım, varlık/PDF, puanlama, kalıcılık ve yedeklemeyi sınar; gerçek kullanıcı dosyanızı değiştirmez.
+
+Belgeye özgü dokuz ek kontrol `test:acceptance` komutundadır. Komut `MULTISECTION_REFERENCE_PDF`, `ANSWER_KEY_REFERENCE_IMAGE`, `STRUCTURED_REFERENCE_PDF` ve `SCANNED_REFERENCE_PDF` yollarını ister; dosyalar verilmezse açık yapılandırma hatasıyla durur ve standart test sonucuna “atlandı” olarak eklenmez. Ayrıntılar `docs/test-strategy.md` içindedir.
 
 Gerçek tarayıcı, Windows çalışma ortamı, Docker motoru, harici VPS ve canlı AI doğrulama durumu `TEST-REPORT.md` içindedir. README'deki komutlar bu sınırlarla değerlendirilmelidir.
 

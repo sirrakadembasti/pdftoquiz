@@ -56,6 +56,8 @@ bun dev
 
 `bun install` tek başına ilk yönetici hesabını hazırlamaz. `setup:bun` bağımlılık kilidini doğrular, SQLite şemasını hazırlar ve `.env` değerleriyle ilk hesabı oluşturur.
 
+Aynı çalışma ağacında bağımlılık kurma ve güncelleme işlemleri için Bun veya paketle gelen pnpm akışlarından birini seçin; iki paket yöneticisini aynı `node_modules` üzerinde dönüşümlü kurulum için kullanmayın. Bun ile hazırlanmış mevcut bir kurulumda `bun dev`, `bun run typecheck`, `bun run test` ve `bun run build` komutlarını kullanın. Kök pnpm yapılandırması, pnpm ile yalnızca bir betik çalıştırıldığında Bun tarafından hazırlanmış `node_modules` klasörünü kendiliğinden yeniden kurmaz; pnpm kurulumuna geçmek istiyorsanız `node tools/pnpm/dist/pnpm.mjs install --frozen-lockfile` komutunu açıkça çalıştırın.
+
 Çift tıklama seçenekleri: `KURULUM-WINDOWS.cmd`, `CALISTIR-GELISTIRME.cmd`, `CALISTIR-URETIM.cmd`. Windows terminal komutlarının güncel doğrulaması `TEST-REPORT.md` içindedir; çift tıklama ve gerçek tarayıcı görünümü ayrıca sınanmalıdır.
 
 ## Yerel üretim / Linux sunucu
@@ -113,7 +115,9 @@ node tools/pnpm/dist/pnpm.mjs test
 node tools/pnpm/dist/pnpm.mjs test:server
 ```
 
-`test` ortak uygulama mantığını ve sentetik gerçek PDF/OCR belgelerini, mock AI ve React olaylarını doğrular. `test:server` geçici SQLite'da gerçek Next.js üretim sunucusunu başlatıp giriş/yetki, paylaşım, varlık/PDF, puanlama, kalıcılık ve yedeklemeyi sınar; gerçek kullanıcı dosyanızı değiştirmez. Referans telifli PDF/görsel ZIP'te yoktur. Kendi kopyanızla REFERENCE_PDF / REFERENCE_KEY_IMAGE ortam değişkenlerini kullanabilirsiniz.
+`test` ortak uygulama mantığını; depodaki özgün sentetik PDF/OCR fixture'ları, mock AI ve React olaylarıyla doğrular. `test:server` geçici SQLite'da gerçek Next.js üretim sunucusunu başlatıp giriş/yetki, paylaşım, varlık/PDF, puanlama, kalıcılık ve yedeklemeyi sınar; gerçek kullanıcı dosyanızı değiştirmez.
+
+Standart `bun run test` kullanıcı belgesi istemez ve atlanan teste izin vermez. Belgeye özgü dokuz ek kontrol ayrı `bun run test:acceptance` katmanındadır. Bu komut `MULTISECTION_REFERENCE_PDF`, `ANSWER_KEY_REFERENCE_IMAGE`, `STRUCTURED_REFERENCE_PDF` ve `SCANNED_REFERENCE_PDF` yollarını ister; dosyalar verilmezse açık yapılandırma hatasıyla durur ve standart test sonucuna “atlandı” olarak eklenmez. Ayrıntılı kapsam, eski değişken adlarının uyumluluk eşlemesi ve fixture politikası: [test stratejisi](docs/test-strategy.md).
 
 Faz 3D düzeltme 2 bulguları ve doğrulama sınırları: [rapor](docs/phase3d2.md). İptal, tanılama ve bellek ölçümleri: [ayrı Faz 3E raporu](docs/phase3e.md).
 

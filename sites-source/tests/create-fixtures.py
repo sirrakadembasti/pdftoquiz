@@ -3,8 +3,8 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from pathlib import Path
 import fitz
-root=Path('tests/fixtures');root.mkdir(parents=True,exist_ok=True)
-pdfmetrics.registerFont(TTFont('DejaVu','/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'))
+from fixture_support import FIXTURES as root, register_fixture_font
+register_fixture_font('DejaVu')
 c=canvas.Canvas(str(root/'exam.pdf'),pagesize=(600,800))
 def text(x,y,s,size=12):
  c.setFont('DejaVu',size);c.drawString(x,800-y,s)

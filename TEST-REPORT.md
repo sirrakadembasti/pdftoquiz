@@ -1,3 +1,23 @@
+# Güncel doğrulama — 22 Ekim 2026 / PDF ayrıştırma ve sürdürülebilir test katmanları
+
+Bu kayıt, Gül Üniversitesi programcı sınavında soru ve şıkların düzenleyiciye aktarılmaması düzeltmesini ve önceki koşullu testlerin sürdürülebilir katmanlara ayrılmasını kapsar. Aşağıdaki eski raporlar tarihli kayıt olarak korunur.
+
+| Kontrol | Sonuç |
+|---|---|
+| Standart test paketi | 230/230 geçti; 0 başarısız, 0 atlanan |
+| Test politikası | Standart regresyonlarda `.skip` ve `skip:` kullanımı otomatik olarak reddediliyor |
+| PDF ayrıştırma | Küçük harfli `a)`–`d)` şıkları, iki sütunlu sayfalar, görsel ağırlıklı şıklar ve altbilgi/sayfa numarası dışlama regresyonları geçti |
+| React önizleme/paylaşım | Önceden zorla atlanan öğretmen önizlemesi ve paylaşılan öğrenci bağlantısı testi çalışıyor ve geçiyor |
+| Belge kabul katmanı | Belgeye özgü 9 kontrol `test:acceptance` komutuna ayrıldı; dört kaynak yolu eksikse komut açık yapılandırma hatası veriyor, standart sonuçta atlama oluşturmuyor |
+| Fixture taşınabilirliği | Üretici yolları betik konumuna göre çözülüyor; Windows, Linux ve macOS yazı tipi adayları ile açık font değişkenleri destekleniyor |
+| TypeScript | `bun run typecheck`: çıkış 0 |
+| Üretim derlemesi | Next.js 16.4.0 derlemesi ve 7/7 statik sayfa üretimi başarılı |
+| Git diff denetimi | `git diff --check`: çıkış 0 |
+
+Ayrıntılı katman ve ortam değişkeni sözleşmesi: [test stratejisi](docs/test-strategy.md).
+
+---
+
 # Güncel doğrulama — 13 Ekim 2026 / Bun ve çevrimdışı SQLite düzeltmesi
 
 `bun install` sonrasında Turbopack'in `../generated/prisma/client` modülünü bulamaması giderildi. Sunucu veri katmanı doğrudan `@libsql/client` kullanıyor; `db:generate` artık ağ veya üretilmiş istemci gerektirmeyen uyumluluk adımıdır. Mevcut `User`, `Session`, `LoginLimit` ve `StoredObject` tabloları ile veriler korunur.

@@ -1,3 +1,20 @@
+# Güncel doğrulama — 22 Ekim 2026 / PDF ayrıştırma ve sürdürülebilir test katmanları
+
+Bu kayıt, güncel kök kaynakla eşlenen PDF ayrıştırma düzeltmelerini ve koşullu testlerin standart/kabul katmanlarına ayrılmasını kapsar. Aşağıdaki eski raporlar tarihli kayıt olarak korunur.
+
+| Kontrol | Sonuç |
+|---|---|
+| Standart test paketi | 230/230 geçti; 0 başarısız, 0 atlanan |
+| Test politikası | Standart regresyonlarda `.skip` ve `skip:` kullanımı otomatik olarak reddediliyor |
+| PDF ayrıştırma | Küçük harfli `a)`–`d)` şıkları, iki sütunlu sayfalar, görsel ağırlıklı şıklar ve altbilgi/sayfa numarası dışlama regresyonları geçti |
+| React önizleme/paylaşım | Önceden zorla atlanan test artık çalışıyor ve geçiyor |
+| Belge kabul katmanı | Belgeye özgü 9 kontrol ayrı komutta; eksik kaynak dosyaları standart sonuçta atlama oluşturmuyor |
+| TypeScript / üretim | TypeScript çıkış 0; Next.js 16.4.0 derlemesi ve 7/7 statik sayfa başarılı |
+
+Ayrıntılar: [test stratejisi](docs/test-strategy.md).
+
+---
+
 # Güncel doğrulama — 12 Ekim 2026 / FAZ 3G
 
 Bu kayıt son FAZ 3G kaynakları içindir; önceki tarihli sonuçlar aşağıda korunur.

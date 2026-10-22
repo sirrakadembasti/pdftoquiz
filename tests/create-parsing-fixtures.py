@@ -2,7 +2,8 @@ from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from pathlib import Path
-root=Path('tests/fixtures');pdfmetrics.registerFont(TTFont('ParseFont','/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'))
+from fixture_support import FIXTURES as root, register_fixture_font
+register_fixture_font('ParseFont')
 def text(c,y,s,x=30,size=12):c.setFont('ParseFont',size);c.drawString(x,800-y,s)
 def footer(c):
  text(c,30,'MATEMATİK TESTİ',size=9)

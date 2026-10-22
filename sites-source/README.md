@@ -57,7 +57,9 @@ node node_modules/typescript/bin/tsc --noEmit --incremental false
 pnpm build
 ```
 
-Gerçek kabul dosyaları isteğe bağlı: `REFERENCE_PDF=/path/5_sinifA_26_compressed.pdf` ve `REFERENCE_KEY_IMAGE=/path/key.png`. Gerçek belge/görseller repoda yoktur. Normal testler özgün sentetik PDF/OCR, mock AI/kimlik/depolama ve React olaylarını kullanır. Gerçek tarayıcı ve canlı sağlayıcı sonucu bu testlerden çıkarılamaz.
+Normal testler özgün sentetik PDF/OCR fixture'ları, mock AI/kimlik/depolama ve React olaylarını kullanır. Standart paket kullanıcı belgesi istemez ve `skip` kullanımını politika kontrolüyle reddeder. Gerçek tarayıcı ve canlı sağlayıcı sonucu bu testlerden çıkarılamaz.
+
+Belgeye özgü dokuz ek kontrol, kök paketteki `bun run test:acceptance` komutuna ayrılmıştır. Komut `MULTISECTION_REFERENCE_PDF`, `ANSWER_KEY_REFERENCE_IMAGE`, `STRUCTURED_REFERENCE_PDF` ve `SCANNED_REFERENCE_PDF` yollarını ister; eksik kabul dosyaları standart test sonucuna “atlandı” olarak karışmaz. Ayrıntılar: [test stratejisi](docs/test-strategy.md).
 
 ## Bağımlılık politikası
 
@@ -103,4 +105,3 @@ Checkbox gösterim tercihleri, birleşik basit metin editörü, PDF kırpma hede
 - Tarayıcı tarafından body'ye eklenen nitelikler için dar hydration istisnası eklendi; alt bileşen uyuşmazlıkları bastırılmaz. Ayrıntılar: [hydration incelemesi](docs/hydration-and-git.md).
 
 Gerçek tarayıcı/native metin araçları ve mobil yerleşim doğrulanamadı; otomatik test sonuçları bu kontrollerin yerine geçmez. Güncel kanıtlar [TEST-REPORT.md](TEST-REPORT.md), [düzenleyici raporu](docs/editor-simplification.md) ve [Faz 3F raporu](docs/phase3f.md) içindedir.
-

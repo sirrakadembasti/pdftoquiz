@@ -1,7 +1,7 @@
 FROM node:24-bookworm-slim AS build
 WORKDIR /app
 COPY . .
-RUN node tools/pnpm/dist/pnpm.mjs install --frozen-lockfile && node tools/pnpm/dist/pnpm.mjs prisma generate && node tools/pnpm/dist/pnpm.mjs build
+RUN node tools/pnpm/dist/pnpm.mjs install --frozen-lockfile && node tools/pnpm/dist/pnpm.mjs build
 
 FROM node:24-bookworm-slim
 WORKDIR /app
@@ -10,7 +10,6 @@ COPY --from=build /app/.next/standalone ./
 COPY --from=build /app/.next/static ./.next/static
 COPY --from=build /app/public ./public
 COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/generated ./generated
 COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/prisma.config.ts ./prisma.config.ts
 COPY --from=build /app/lib/db.ts /app/lib/local-auth.ts ./lib/

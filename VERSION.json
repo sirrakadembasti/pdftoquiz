@@ -1,7 +1,0 @@
-{
-  "version": "2.0.10",
-  "date": "2026-10-13",
-  "features": "Faz 3G: güvenli soru/şık görselleri, elle tamamlama, birleşik editör ve çevrimdışı libSQL çalışma zamanı",
-  "sourceCommit": null,
-  "profile": "Next.js / Node.js veya Bun / libSQL SQLite"
-}

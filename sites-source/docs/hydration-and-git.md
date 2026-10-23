@@ -22,7 +22,7 @@ Sonraki değişiklikler için `git status`, `git add <dosyalar>`, `git commit` v
 
 `.env`, yerel SQLite/kullanıcı verileri, yedekler, `.audit`, bağımlılık kurulumu ve derleme çıktısı Git kapsamı dışındadır. `.env.example` kaynak örneği olarak tutulur. Gerçek hesap şifreleri belgelere veya Git'e eklenmez. `tools/pnpm/dist/node_modules` kurulum çıktısı değil, dağıtımla gelen pnpm runtime'ıdır; yalnız bu yol için ignore istisnası vardır. İçindeki vendor ignore kurallarına takılan iki paket kaynak dosyası da manifestteki içerikleriyle teslim edilir.
 
-`.gitattributes` dosyası otomatik satır sonu dönüşümünü kapatır; böylece paket dosyalarının `SHA256SUMS` değerleri klonlama sırasında değişmez. Manifest Git metadata'sını ve çalışma zamanı verilerini kapsamaz.
+`.gitattributes` dosyası otomatik satır sonu dönüşümünü kapatır. Kaynak depoda kolayca eskiyen bir `SHA256SUMS` tutulmaz; `export:portable` adımı paketi oluşturduktan sonra `VERSION.json` ve `SHA256SUMS` dosyalarını güncel içerikten otomatik üretir. Manifest Git metadata'sını ve çalışma zamanı verilerini kapsamaz.
 
 ## FAZ 3G teslim güncellemesi — 12 Ekim 2026
 

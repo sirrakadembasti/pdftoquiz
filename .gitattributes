@@ -1,4 +1,4 @@
-# Preserve packaged bytes so SHA256SUMS also works after cloning.
+# Preserve source bytes for deterministic portable release manifests.
 * -text
 *.pdf binary
 *.png binary

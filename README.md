@@ -1,6 +1,6 @@
 # PDF → Online Quiz — taşınabilir sürüm 2.0.10
 
-12 Ekim 2026 · Faz 3D/3E/3F/3G, elle şık tamamlama ve güvenli görsel onayı, birleşik PDF metin editörü, checkbox gösterim tercihleri, cevap anahtarı tablosu ve body hydration uyumluluk düzeltmesi dahil.
+23 Ekim 2026 · Faz 3D/3E/3F/3G, elle şık tamamlama ve güvenli görsel onayı, birleşik PDF metin editörü, checkbox gösterim tercihleri, toplu cevap aktarımı ve body hydration uyumluluk düzeltmesi dahil.
 
 Next.js App Router + Node.js/Bun + React + Tailwind; doğrudan libSQL istemcisiyle yerel SQLite. Çalışma zamanında üretilmiş Prisma istemcisi veya Prisma motoru indirmesi gerekmez. Sites hizmeti veya Cloudflare hesabı gerektirmez. Kaynaklar, görseller, PDF.js/OCR worker/WASM dosyaları, Türkçe/İngilizce OCR dil modelleri, SQLite şeması, testler, Docker ve pnpm paketin içindedir. `sites-source/` güncel barındırılan uygulamanın kaynaklarını da içerir; bu klasör Next.js tarafından derlenmez.
 
@@ -21,11 +21,12 @@ Next.js App Router + Node.js/Bun + React + Tailwind; doğrudan libSQL istemcisiy
 - Soru metni ve dönüştürülmüş görünüm tek basit editörde: kalın, altı çizili, liste, geri al/yinele ve biçim temizleme. Metin/biçimler önizleme ve yayında aynı veriden gösterilir.
 - PDF alan seçimi soru veya A–E şık görseli yuvasına aktarılır. Boş yuvalardan da hedef seçilebilir; görsel eklemek gösterim checkbox'ını açmaz.
 - Toplu cevap anahtarı giriş alanı ve gösterim alanı, tespit edilen soru sayısına göre satırları gösterir. PDF'den tespit edilen ve uygulanan/manuel cevap ayrıdır; görsel ve manuel giriş korunur. Programcı referans dönüşümünde 50 satır/50 tespit, 0 otomatik uygulama doğrulandı.
+- “Cevapları aktar” düğmesi, güvenle eşleşen PDF cevaplarını açık kullanıcı onayıyla manuel cevap alanlarına topluca taşır. Mevcut farklı cevapların kaçının değişeceği onayda belirtilir; çakışmalı, kitapçığı uyuşmayan veya şık sınırı dışında kalan cevaplar aktarılmaz.
 - Numara sıralaması, komşu kırpma/üst-alt bant kontrolleri, eşit marker maskesi ve açık kalem izi onayı korunur. Öğrenci yanıtı doğru cevap/anahtar/orijinal PDF içermez.
 - Tarayıcı tarafından body'ye eklenen nitelikler için dar hydration istisnası eklendi; alt bileşen uyuşmazlıkları bastırılmaz. Ayrıntılar: [hydration incelemesi](docs/hydration-and-git.md).
 - Kalite kontrolü ve hibrit AI incelemesi artık teknik hata kodları yerine soru numarası, eksik alan ve kullanıcıdan beklenen işlemi açıklayan Türkçe durum metinleri gösterir. AI önerisinin uygulanıp uygulanmadığı ayrıca belirtilir; düzenleme veya öneri uygulama sonrasında Çözümleme özeti, şüpheli sorular ve paylaşım kontrolleri sayfa yenilemeden yeniden hesaplanır.
 
-Kalite/AI inceleme akışı uygulama içi gerçek tarayıcıda doğrulandı; native metin araçları ve mobil yerleşim ayrıca doğrulanmalıdır. Güncel kanıtlar [TEST-REPORT.md](TEST-REPORT.md), [AI inceleme doğrulaması](output/playwright/ai-review-live/ai-review-verification.md), [düzenleyici raporu](docs/editor-simplification.md) ve [Faz 3F raporu](docs/phase3f.md) içindedir.
+Kalite/AI inceleme akışı uygulama içi gerçek tarayıcıda doğrulandı; native metin araçları ve mobil yerleşim ayrıca doğrulanmalıdır. Güncel kanıtlar [TEST-REPORT.md](TEST-REPORT.md), [AI inceleme doğrulaması](docs/ai-review-verification.md), [düzenleyici raporu](docs/editor-simplification.md) ve [Faz 3F raporu](docs/phase3f.md) içindedir.
 
 ## Windows'ta hızlı başlatma
 
@@ -84,7 +85,7 @@ docker compose logs quiz
 
 İlk hesap yoksa başlangıçta oluşturulur; boş şifrede rastgele şifre logda bir kez gösterilir. SQLite `quiz-data` kalıcı volume'ündedir. Konteyner root olarak çalışmaz. Varsayılan port yalnız sunucunun 127.0.0.1 adresine açılır; Nginx örneği buna bağlanır. Lokal Docker denemesi için aynı sunucuda http://localhost:3000 açın. `.env` için `APP_ORIGIN` ve `COOKIE_SECURE` ayarını gerçek alan adınıza göre yapın.
 
-Docker imajının derlenmesi internet gerektirir. SQLite volume'ünü silmeyin (`down -v` verileri siler). Tek yazıcı sunucu/tek replica içindir; bu dosyayı farklı VPS'lerden aynı anda kullanmayın. Ölçekleme/veritabanı değişikliği ayrı iştir.
+Docker imajının derlenmesi bağımlılıkların kurulması için internet gerektirir; çalışma zamanında Prisma istemcisi üretilmez veya Prisma motoru indirilmez. SQLite volume'ünü silmeyin (`down -v` verileri siler). Tek yazıcı sunucu/tek replica içindir; bu dosyayı farklı VPS'lerden aynı anda kullanmayın. Ölçekleme/veritabanı değişikliği ayrı iştir.
 
 ## Hesaplar, depolama ve yedek
 
@@ -152,4 +153,4 @@ Gösterim, sızıntı ölçümü, sıra/kırpma ve doğrulama sınırları: [FAZ
 
 ## Güncel PDF düzenleyicisi
 
-Checkbox gösterim tercihleri, birleşik basit metin editörü, PDF kırpma hedefleri ve soru bazında cevap anahtarı tablosu: [düzenleyici değişiklikleri ve doğrulama](docs/editor-simplification.md). Yeni testler standart `test` komutuna dahildir.
+Checkbox gösterim tercihleri, birleşik basit metin editörü, PDF kırpma hedefleri, soru bazında cevap anahtarı tablosu ve güvenli toplu cevap aktarımı: [düzenleyici değişiklikleri ve doğrulama](docs/editor-simplification.md). Yeni testler standart `test` komutuna dahildir.

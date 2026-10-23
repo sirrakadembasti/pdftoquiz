@@ -1,6 +1,6 @@
 # PDF → Online Quiz
 
-Güncel sürüm: **2.0.9 — 9 Ekim 2026, Faz 3C ara kontrol devamı**.
+Güncel sürüm: **2.0.10 — 23 Ekim 2026**.
 
 Öğretmen PDF sınavını yerel, AI veya hibrit yöntemle dönüştürür; metin/şık/görselleri düzeltir, cevap anahtarını önizleyip uygular ve sınavı öğrenci bağlantısıyla paylaşır. Sonuç doğru/yanlış/boş ve 100 üzerinden puandır. Ana tasarım, yerel akış ve kayıt biçimi korunur.
 
@@ -9,7 +9,7 @@ Güncel sürüm: **2.0.9 — 9 Ekim 2026, Faz 3C ara kontrol devamı**.
 | Profil | Çalışma ortamı | Kimlik | Kalıcı veri |
 |---|---|---|---|
 | Sites (bu repo kökü) | Vinext/Vite → Cloudflare Worker | ChatGPT oturumu | R2 JSON, PDF ve görseller |
-| Taşınabilir ZIP | Next.js / Node.js | Yerel öğretmen oturumu | Prisma ORM 7 / SQLite |
+| Taşınabilir ZIP | Next.js / Node.js veya Bun | Yerel öğretmen oturumu | Doğrudan libSQL / SQLite |
 
 ZIP profilinde kaynakları yeniden yazmak yerine aynı app/lib/public dosyaları aktarılır; yalnız platform bağımlı oturum/depolama, derleme ve dağıtım katmanı uyarlanır. `portable/template` yerel adaptör ve kurulum kaynaklarıdır; `portable/pnpm-lock.yaml` doğrulanmış bağımlılık kilididir. Aktarım betiği `scripts/export-portable.mjs` bu kaynaklarla paketi üretir. `.env`, gerçek veriler, oturumlar, Git kimlik bilgileri ve node_modules aktarılmaz. Telifli referans PDF repoda bulunmaz.
 
@@ -19,6 +19,7 @@ ZIP profilinde kaynakları yeniden yazmak yerine aynı app/lib/public dosyaları
 - Kapak/bilgilendirme/talimat/soru/anahtar/boş sayfa ayrımı; 4/5 şık, dersler, beklenen sayı/süre/kitapçık ve geri alınabilir ayrılan bloklar.
 - Soru/şık görselleri, büyütme, kontrollü manuel kırpma; madde/paragraf, hece birleştirme ve güvenilir vurgu bilgisi.
 - Markdown/Excel/CSV/dersli toplu anahtar ve görsel anahtar OCR'ı; kitapçık/şık/sayı kontrolü ve onay önizlemesi.
+- PDF'den güvenle eşleşen cevapları, farklı mevcut cevapların sayısını gösteren açık onayla manuel cevap alanlarına topluca aktaran “Cevapları aktar” işlemi.
 - Hibrit kalite kapısı: şık eksikliği, OCR <0.65, sınır uyarısı, formül/şekil, boş metin, beklenen sayı. Temiz alanlar AI'ya gönderilmez.
 - Gönderim onayı ve çağrı tahmini; Otomatik / Yerel-önce / AI-önce; yerel/AI/manuel kaynak, güven ve koordinat metadata.
 - Manuel alan kilitleri, dijital yerel–AI farkı, kabul/ret/geri al; parçalı yedekleme, 2 eşzamanlı çağrı, en fazla 3 deneme, geri çekilme ve iptal.
@@ -69,11 +70,11 @@ Seyrek tarama lekeleri boş sayfa olarak ayrılır. Başlıksız `Soru - 1 E ...
 
 OCR kıyaslaması: `TAPU_REFERENCE_PDF=/path/tapu.pdf REAL_REFERENCE_PDF=/path/scan.pdf pnpm test:ocr`. `OCR_GAP_REPAIR=0` ikinci geçişi ölçüm için kapatır. `OCR_VARIATIONS=shift-minus3,shift-plus3,skew-minus1,skew-plus1,margin-inset,margin-outset,combined` saf JS varyasyonlarını üretir; PDF/binary repoya eklenmez. Referanslarla tam test: `TAPU_REFERENCE_PDF=... REAL_REFERENCE_PDF=... REAL_GAP_REPAIR=1 pnpm test`.
 
-Taşınabilir profil Next 16.4.0, React 19.3.0, Tailwind 4.3.3 ve Lucide 1.52.0'a güncellendi; yeni Prisma 7.10.0 SQLite adaptörüyle çalışır. PDF.js 5.4.296 ve Tesseract 5.1.1, eşleşen worker/WASM/dil varlıkları ve regresyonları nedeniyle korunur. pnpm 11.25.0 JavaScript paketi taşınabilirlik için kullanılır. Major sürümler yalnız sürüm numarası yükseltmek amacıyla değiştirilmez. Tüm taşınabilir bağımlılıklar frozen lock ile tekrar kurulabilir.
+Taşınabilir profil Next 16.4.0, React 19.3.0, Tailwind 4.3.3 ve Lucide 1.52.0'a güncellendi; SQLite çalışma zamanı doğrudan `@libsql/client` kullanır. Prisma paketleri geçiş uyumluluğu ve şema referansı için korunur; çalışma zamanında istemci üretimi gerekmez. PDF.js 5.4.296 ve Tesseract 5.1.1, eşleşen worker/WASM/dil varlıkları ve regresyonları nedeniyle korunur. pnpm 11.25.0 JavaScript paketi taşınabilirlik için kullanılır. Major sürümler yalnız sürüm numarası yükseltmek amacıyla değiştirilmez. Tüm taşınabilir bağımlılıklar frozen lock ile tekrar kurulabilir.
 
 ## Belgeler
 
-- Taşınabilir paket README, DEPENDENCIES, TEST-REPORT, VERSION ve SHA256 manifesti.
+- `export:portable` ile üretilen taşınabilir paket README, DEPENDENCIES, TEST-REPORT ve otomatik oluşturulan VERSION ile SHA256 manifestini içerir.
 - Önceki incelemeler: `docs/arayuz-test-raporu.md`, `docs/son-sik-hata-raporu.md`, `docs/pdf-cozumleme-raporu.md`.
 - Tarihsel değişiklik notları: `docs/README-history.md`; güncel kurulum için bu README ve ZIP README'sini kullanın.
 - Resmi teknik kaynaklar: https://nextjs.org/docs/app/api-reference/config/next-config-js/output ve https://www.prisma.io/docs/orm/v7/core-concepts/supported-databases/sqlite .
@@ -101,6 +102,7 @@ Checkbox gösterim tercihleri, birleşik basit metin editörü, PDF kırpma hede
 - Soru metni ve dönüştürülmüş görünüm tek basit editörde: kalın, altı çizili, liste, geri al/yinele ve biçim temizleme. Metin/biçimler önizleme ve yayında aynı veriden gösterilir.
 - PDF alan seçimi soru veya A–E şık görseli yuvasına aktarılır. Boş yuvalardan da hedef seçilebilir; görsel eklemek gösterim checkbox'ını açmaz.
 - Toplu cevap anahtarı giriş alanı ve gösterim alanı, tespit edilen soru sayısına göre satırları gösterir. PDF'den tespit edilen ve uygulanan/manuel cevap ayrıdır; görsel ve manuel giriş korunur. Programcı referans dönüşümünde 50 satır/50 tespit, 0 otomatik uygulama doğrulandı.
+- “Cevapları aktar” düğmesi yalnız güvenli PDF eşleşmelerini açık onayla manuel cevap alanlarına taşır; belirsiz, çakışmalı veya şık sınırı dışında kalan cevaplar korunur.
 - Numara sıralaması, komşu kırpma/üst-alt bant kontrolleri, eşit marker maskesi ve açık kalem izi onayı korunur. Öğrenci yanıtı doğru cevap/anahtar/orijinal PDF içermez.
 - Tarayıcı tarafından body'ye eklenen nitelikler için dar hydration istisnası eklendi; alt bileşen uyuşmazlıkları bastırılmaz. Ayrıntılar: [hydration incelemesi](docs/hydration-and-git.md).
 

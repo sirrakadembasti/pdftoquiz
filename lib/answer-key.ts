@@ -10,6 +10,11 @@ export function answerKeyDisplayRows(e:Exam):AnswerDisplayRow[]{
  }return rows;
 }
 
+export function applyDetectedPdfAnswers(e:Exam):Exam{
+ const answers=new Map(answerKeyDisplayRows(e).flatMap(row=>row.id&&row.detected!=null?[[row.id,row.detected] as const]:[]));
+ return {...e,questions:e.questions.map(q=>answers.has(q.id)&&q.correct!==answers.get(q.id)?manualPatch(q,{correct:answers.get(q.id)!,reviewed:false}):q)};
+}
+
 export type KeyEntry={number:number;letter:string;sectionName?:string;sequential?:boolean};
 export type ParsedKey={entries:KeyEntry[];warnings:string[];booklet?:string;format:'table'|'sections'|'simple';columns:string[]};
 export type KeyRow={id?:string;section:string;sourceSection?:string;number:number;letter:string;previous?:number|null;index?:number;entryIndex:number;error?:string};

@@ -1,3 +1,24 @@
+# Güncel doğrulama — 23 Ekim 2026 / toplu cevap aktarımı ve depo bakımı
+
+Bu kayıt, PDF'den tespit edilen güvenli cevapların kullanıcı onayıyla manuel cevap alanlarına topluca aktarılmasını ve aynı gün tamamlanan depo/Docker bakımını kapsar.
+
+| Kontrol | Sonuç |
+|---|---|
+| “Cevapları aktar” hedefli regresyonları | Kök ve `sites-source` kaynaklarında veri + React akışı dahil 21/21 geçti |
+| Standart test paketi | 232/232 geçti; 0 başarısız, 0 atlanan |
+| Test politikası | Standart pakette `.skip` ve `skip:` yok; belgeye özgü kontroller ayrı kabul katmanında |
+| TypeScript | Kök `bun run typecheck`: çıkış 0 |
+| Next.js üretim derlemesi | Next.js 16.4.0, TypeScript ve 7/7 statik sayfa başarılı |
+| Sites kaynak aynası | Uygulama, cevap anahtarı mantığı ve iki yeni regresyon kökle eşitlendi; hedefli 21/21 geçti |
+| Sites bağımsız kurulum/build sınırı | Kilit dosyası politika ve çözümleme kontrolünden geçti; npm paket indirme iki kez ağ/süre sınırında kaldığı için bağımsız Sites typecheck/build tamamlanmış sayılmadı |
+| Dockerfile | Gereksiz Prisma Client üretimi ve `generated/` kopyası kaldırıldı; Prisma'sız Next üretim derlemesi geçti. Docker motoru bu bilgisayarda bulunmadığından gerçek imaj çalıştırılmadı |
+| Depo bakımı | Kullanılmayan UI/D1 örnekleri, doğrudan bağımlılıklar ve lisans kopyaları kaldırıldı; release `VERSION.json` ve `SHA256SUMS` üretimi `export:portable` adımına taşındı |
+| Git diff denetimi | `git diff --check`: çıkış 0 |
+
+Toplu aktarım yalnız `answerKeyDisplayRows` tarafından güvenli eşleşme olarak kabul edilen soru/cevap çiftlerini uygular. Onay reddedilirse veri değişmez; mevcut farklı manuel cevapların sayısı onay metninde gösterilir. Çakışma, kitapçık uyuşmazlığı, tekrarlanan numara, eksik soru veya şık sınırı hatası olan satırlar aktarılmaz.
+
+---
+
 # Güncel doğrulama — 22 Ekim 2026 / PDF ayrıştırma ve sürdürülebilir test katmanları
 
 Bu kayıt, Gül Üniversitesi programcı sınavında soru ve şıkların düzenleyiciye aktarılmaması düzeltmesini ve önceki koşullu testlerin sürdürülebilir katmanlara ayrılmasını kapsar. Aşağıdaki eski raporlar tarihli kayıt olarak korunur.

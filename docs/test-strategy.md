@@ -43,4 +43,4 @@ Bu dosyalar yoksa standart geliştirme ve `pnpm test` etkilenmez. Kabul testleri
 
 ## Fixture üretimi
 
-PDF üreticileri yolları betik konumuna göre çözer. Yazı tipi Linux, Windows ve macOS adaylarından bulunur. Gerekirse `PDFTOQUIZ_FIXTURE_FONT` ve `PDFTOQUIZ_FIXTURE_FONT_BOLD` ile TTF yolları verilebilir. Üretilmiş fixture'lar depoda tutulur; normal test çalışması Python veya ReportLab gerektirmez.
+Fixture PDF'leri `tests/fixtures/` altında depoda tutulur; normal test çalışması Python veya ReportLab gerektirmez. Bunları üreten Python betikleri (ReportLab/PyMuPDF) 6 Kasım 2026'da kaldırıldı; gerekirse Git geçmişinden (`git log -- tests/create-fixtures.py`) alınabilir.

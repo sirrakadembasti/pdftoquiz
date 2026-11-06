@@ -1,6 +1,6 @@
 # OCR benchmark (Phase 3C-1)
 
-No PDF/image binaries or new dependencies are bundled. Uses the existing PDF.js/Tesseract/canvas pipeline. Set TAPU_REFERENCE_PDF and REAL_REFERENCE_PDF to local files, then run pnpm test:ocr. Node >=22 and installed project dependencies are required. Output: .test-tmp/qa/ocr by default; override OCR_OUTPUT_DIR.
+No new dependencies. Reference PDFs ship in tests/reference/ and are the defaults. Uses the existing PDF.js/Tesseract/canvas pipeline. Override with TAPU_REFERENCE_PDF and REAL_REFERENCE_PDF, then run pnpm test:ocr. Node >=22 and installed project dependencies are required. Output: .test-tmp/qa/ocr by default; override OCR_OUTPUT_DIR.
 
 Default: base raster, production 144 DPI, PSM 11, tur+eng, OEM 1, user_defined_dpi=150, no preprocessing. OCR_VARIATIONS=base,shift-minus3,shift-plus3,skew-minus1,skew-plus1,margin-inset,margin-outset,combined enables independent raster tests. Margin scales: .94/1.03; combined: +3% horizontal shift, +1 degree, .94 zoom. Selectable digital pages remain untouched.
 

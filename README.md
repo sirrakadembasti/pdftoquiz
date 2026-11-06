@@ -8,12 +8,12 @@ Next.js App Router + Node.js + React + Tailwind; doğrudan libSQL istemcisiyle y
 
 Şık başına elle kırp/yükle, 250 DPI aday önizlemesi, açık güvenli kopya onayı ve şık metnine erişim eklendi. Boş şık/yer tutucu uyarıları yalnız öğretmenin ilgili tamamlamasıyla güncellenir. Eski tam görselin elle yenilenen şıkları veya yeniden dönüştürmede güvenli gövdeyi atlaması engellendi. OCR/3C/kırmızı eşik ve bağımlılıklar değişmedi.
 
-[FAZ 3G raporu](docs/arsiv/phase3g.md) her madde için bulgu, kanıt, değişiklik ve sonucu; 50 soru envanterini ve normalize sızıntı ölçümünü içerir. 43 soruda geometri yeterli, 7 soru ölçülemedi. Normalize sonuçlar sızıntısızlık kanıtı değildir. Bağımsız 49/Tapu kaynakları bulunamadı; gerçek tarayıcı giriş ve PDF yükleme simülasyonu bağlantı zaman aşımı nedeniyle tamamlanmadı. Gereken girdiler raporda yazılıdır.
+43 soruda geometri yeterli, 7 soru ölçülemedi. Normalize sonuçlar sızıntısızlık kanıtı değildir. Bağımsız 49/Tapu kaynakları bulunamadı; gerçek tarayıcı giriş ve PDF yükleme simülasyonu bağlantı zaman aşımı nedeniyle tamamlanmadı. Gereken girdiler raporda yazılıdır.
 
 ## Güncel geliştirmeler
 
 - FAZ 3I görsel ayrımı: öğrenciye giden soru görseli yalnız gövdeyi, her şık görseli yalnız kendi harfsiz içeriğini taşır. Kalem izi kontrolü gövde ve A–E şıkları için ayrı uygulanır; elle kırpımda şık işareti algılanamazsa kayıt engellenmeden kaynak doğrulama uyarısı gösterilir. Kapı paneli güncel durumu “Son kontrol” zamanı ve soru/şık adresiyle açıklar.
-- Eksik şık kurtarma artık örnek PDF cümlelerine bağlı değildir. Komşu işaretlerin düşey sırası, içerik sütunu, satır başlangıcı, OCR sembol kutuları ve fiziksel satır birleştirmesi kullanılır; sonuç yalnız öğretmen önerisidir ve otomatik uygulanmaz. Kapsam, doğrulama ve yeni düzen ekleme kuralları: [OCR sürdürülebilirlik notu](docs/ocr-sustainability.md).
+- Eksik şık kurtarma artık örnek PDF cümlelerine bağlı değildir. Komşu işaretlerin düşey sırası, içerik sütunu, satır başlangıcı, OCR sembol kutuları ve fiziksel satır birleştirmesi kullanılır; sonuç yalnız öğretmen önerisidir ve otomatik uygulanmaz. Kapsam, doğrulama ve yeni düzen ekleme kuralları: [OCR sürdürülebilirlik notu](docs/TEKNIK-REHBER.md).
 - Sonuç puanı yalnız cevap anahtarı bulunan, değerlendirilebilir sorular üzerinden hesaplanır; toplam soru ve anahtarı eksik yanıt sayısı sonuç ekranında ayrıca gösterilir.
 - Elle seçilen soru kırpımı eski OCR sınır uyarısını geçersiz kılar. Şık kırpımında harf seçimin dışında kaldığında içerik korunur ve hedef doğrulama uyarısı verilir; güvenli önizleme yinelenmez.
 - Gece modu; soru gezinmesi, kalite/uyarı durumları ve sonuç ekranını kapsar. Uzun şüpheli soru ve hibrit AI sonuçları varsayılan kapalı, kaydırılabilir bölümlerdir.
@@ -23,10 +23,10 @@ Next.js App Router + Node.js + React + Tailwind; doğrudan libSQL istemcisiyle y
 - Toplu cevap anahtarı giriş alanı ve gösterim alanı, tespit edilen soru sayısına göre satırları gösterir. PDF'den tespit edilen ve uygulanan/manuel cevap ayrıdır; görsel ve manuel giriş korunur. Programcı referans dönüşümünde 50 satır/50 tespit, 0 otomatik uygulama doğrulandı.
 - “Cevapları aktar” düğmesi, güvenle eşleşen PDF cevaplarını açık kullanıcı onayıyla manuel cevap alanlarına topluca taşır. Mevcut farklı cevapların kaçının değişeceği onayda belirtilir; çakışmalı, kitapçığı uyuşmayan veya şık sınırı dışında kalan cevaplar aktarılmaz.
 - Numara sıralaması, komşu kırpma/üst-alt bant kontrolleri, eşit marker maskesi ve açık kalem izi onayı korunur. Öğrenci yanıtı doğru cevap/anahtar/orijinal PDF içermez.
-- Tarayıcı tarafından body'ye eklenen nitelikler için dar hydration istisnası eklendi; alt bileşen uyuşmazlıkları bastırılmaz. Ayrıntılar: [hydration incelemesi](docs/hydration-and-git.md).
+- Tarayıcı tarafından body'ye eklenen nitelikler için dar hydration istisnası eklendi; alt bileşen uyuşmazlıkları bastırılmaz. Ayrıntılar: [teknik rehber](docs/TEKNIK-REHBER.md).
 - Kalite kontrolü ve hibrit AI incelemesi artık teknik hata kodları yerine soru numarası, eksik alan ve kullanıcıdan beklenen işlemi açıklayan Türkçe durum metinleri gösterir. AI önerisinin uygulanıp uygulanmadığı ayrıca belirtilir; düzenleme veya öneri uygulama sonrasında Çözümleme özeti, şüpheli sorular ve paylaşım kontrolleri sayfa yenilemeden yeniden hesaplanır.
 
-Kalite/AI inceleme akışı uygulama içi gerçek tarayıcıda doğrulandı; native metin araçları ve mobil yerleşim ayrıca doğrulanmalıdır. Güncel kanıtlar [TEST-REPORT.md](docs/TEST-REPORT.md), [AI inceleme doğrulaması](docs/ai-review-verification.md), [düzenleyici raporu](docs/editor-simplification.md) ve [Faz 3F raporu](docs/arsiv/phase3f.md) içindedir.
+Kalite/AI inceleme akışı uygulama içi gerçek tarayıcıda doğrulandı; native metin araçları ve mobil yerleşim ayrıca doğrulanmalıdır. Güncel kanıtlar [teknik rehber](docs/TEKNIK-REHBER.md) içindedir.
 
 ## Windows'ta hızlı başlatma
 
@@ -48,7 +48,7 @@ node tools/pnpm/dist/pnpm.mjs dev
 
 `INITIAL_ADMIN_PASSWORD` yalnız ilk hesap oluşturulurken kullanılır; `.env` değerini sonradan değiştirmek mevcut hesabın şifresini güncellemez. Şifre 12–256 karakter olmalı; boş bırakılırsa rastgele üretilir. `user:add` ile eklenen öğretmenin şifresi ayrıca terminalde gösterilir. Unutulan mevcut şifre için `node tools/pnpm/dist/pnpm.mjs user:reset` kullanın. `localhost` veya `127.0.0.1` ile giriş desteklenir; üretim alan adında `APP_ORIGIN` tam adresle sabitlenir.
 
-Çift tıklama seçenekleri: `scripts/windows/KURULUM-WINDOWS.cmd`, `scripts/windows/CALISTIR-GELISTIRME.cmd`, `scripts/windows/CALISTIR-URETIM.cmd`. Windows terminal komutlarının güncel doğrulaması `docs/TEST-REPORT.md` içindedir; çift tıklama ve gerçek tarayıcı görünümü ayrıca sınanmalıdır.
+Çift tıklama seçenekleri: `scripts/windows/KURULUM-WINDOWS.cmd`, `scripts/windows/CALISTIR-GELISTIRME.cmd`, `scripts/windows/CALISTIR-URETIM.cmd`. Windows terminal komutlarının güncel doğrulaması [teknik rehber](docs/TEKNIK-REHBER.md) içindedir; çift tıklama ve gerçek tarayıcı görünümü ayrıca sınanmalıdır.
 
 ## Yerel üretim / Linux sunucu
 
@@ -93,9 +93,8 @@ node tools/pnpm/dist/pnpm.mjs test:server
 
 `test` ortak uygulama mantığını; depodaki özgün sentetik PDF/OCR fixture'ları, mock AI ve React olaylarıyla doğrular. `test:server` geçici SQLite'da gerçek Next.js üretim sunucusunu başlatıp giriş/yetki, paylaşım, varlık/PDF, puanlama, kalıcılık ve yedeklemeyi sınar; gerçek kullanıcı dosyanızı değiştirmez.
 
-Standart `node tools/pnpm/dist/pnpm.mjs test` harici belge istemez ve atlanan teste izin vermez. Belgeye özgü dokuz ek kontrol ayrı `node tools/pnpm/dist/pnpm.mjs test:acceptance` katmanındadır. Bu komut `MULTISECTION_REFERENCE_PDF`, `ANSWER_KEY_REFERENCE_IMAGE`, `STRUCTURED_REFERENCE_PDF` ve `SCANNED_REFERENCE_PDF` yollarını ister; dosyalar verilmezse açık yapılandırma hatasıyla durur ve standart test sonucuna “atlandı” olarak eklenmez. Ayrıntılı kapsam, eski değişken adlarının uyumluluk eşlemesi ve fixture politikası: [test stratejisi](docs/test-strategy.md).
+Standart `node tools/pnpm/dist/pnpm.mjs test` harici belge istemez ve atlanan teste izin vermez. Belgeye özgü dokuz ek kontrol ayrı `node tools/pnpm/dist/pnpm.mjs test:acceptance` katmanındadır. Bu komut `MULTISECTION_REFERENCE_PDF`, `ANSWER_KEY_REFERENCE_IMAGE`, `STRUCTURED_REFERENCE_PDF` ve `SCANNED_REFERENCE_PDF` yollarını ister; dosyalar verilmezse açık yapılandırma hatasıyla durur ve standart test sonucuna “atlandı” olarak eklenmez. Ayrıntılı kapsam, eski değişken adlarının uyumluluk eşlemesi ve fixture politikası: [test stratejisi](docs/TEKNIK-REHBER.md).
 
-Faz 3D düzeltme 2 bulguları ve doğrulama sınırları: [rapor](docs/arsiv/phase3d2.md). İptal, tanılama ve bellek ölçümleri: [ayrı Faz 3E raporu](docs/arsiv/phase3e.md).
 
 Tanılama paketini öğretmen düzenleyicisinden yerel olarak indirin; sınav metni içerir. OCR çalıştırmadan parser tekrar yürütmesi:
 
@@ -111,7 +110,7 @@ node scripts/measure-resilience.mjs 30 .audit/resilience-30.json
 
 Windows'ta üretim derlemesi, pnpm bağımlılık bağlantılarını ve dinamik yüklenen SQLite native paketini `scripts/standalone-links.mjs` ile standalone çıktısına tamamlar. Derlemeyi çalıştırmadan yalnız `next build` çağırmak bu son paketleme adımını atlar; README'deki `build` komutunu kullanın.
 
-Gerçek tarayıcı, Windows çalışma ortamı, harici VPS ve canlı AI doğrulama durumu `docs/TEST-REPORT.md` içindedir. README'deki komutlar bu sınırlarla değerlendirilmelidir.
+Gerçek tarayıcı, Windows çalışma ortamı, harici VPS ve canlı AI doğrulama durumu [teknik rehber](docs/TEKNIK-REHBER.md) içindedir. README'deki komutlar bu sınırlarla değerlendirilmelidir.
 
 ## Referans PDF'ler ve gerçek dönüşüm simülasyonu
 
@@ -123,7 +122,7 @@ node scripts/convert-reference.mjs baska-sinav.pdf      # istenen PDF
 node tools/pnpm/dist/pnpm.mjs test:ocr                   # OCR ölçümü (varsayılan: saglik2017 + grup-36)
 ```
 
-Başka PDF'ler için `TAPU_REFERENCE_PDF` / `REAL_REFERENCE_PDF` / `MULTISECTION_REFERENCE_PDF` / `SCANNED_REFERENCE_PDF` ile yol verilebilir. Güncel sonuçlar [TEST-REPORT.md](docs/TEST-REPORT.md) içindedir.
+Başka PDF'ler için `TAPU_REFERENCE_PDF` / `REAL_REFERENCE_PDF` / `MULTISECTION_REFERENCE_PDF` / `SCANNED_REFERENCE_PDF` ile yol verilebilir. Güncel sonuçlar [teknik rehber](docs/TEKNIK-REHBER.md) içindedir.
 
 ## Kaynaklar
 
@@ -134,9 +133,9 @@ Başka PDF'ler için `TAPU_REFERENCE_PDF` / `REAL_REFERENCE_PDF` / `MULTISECTION
 
 ## FAZ 3F doğrulaması
 
-Gösterim, sızıntı ölçümü, sıra/kırpma ve doğrulama sınırları: [FAZ 3F raporu](docs/arsiv/phase3f.md). Yeni regresyonlar standart `test` komutuna dahildir. Yerel ölçüm: `node scripts/measure-leakage.mjs kaynak.pdf ogretmen-taslagi.json sonuc.json`; anahtar yalnız yerel ölçümde kullanılır. Gerçek tarayıcı/mobil, bağımsız gerçek 49 sorulu OCR, Tapu A ve OOM doğrulanamadı.
+Yeni regresyonlar standart `test` komutuna dahildir. Yerel ölçüm: `node scripts/measure-leakage.mjs kaynak.pdf ogretmen-taslagi.json sonuc.json`; anahtar yalnız yerel ölçümde kullanılır. Gerçek tarayıcı/mobil, bağımsız gerçek 49 sorulu OCR, Tapu A ve OOM doğrulanamadı.
 
 
 ## Güncel PDF düzenleyicisi
 
-Checkbox gösterim tercihleri, birleşik basit metin editörü, PDF kırpma hedefleri, soru bazında cevap anahtarı tablosu ve güvenli toplu cevap aktarımı: [düzenleyici değişiklikleri ve doğrulama](docs/editor-simplification.md). Yeni testler standart `test` komutuna dahildir.
+Checkbox gösterim tercihleri, birleşik basit metin editörü, PDF kırpma hedefleri, soru bazında cevap anahtarı tablosu ve güvenli toplu cevap aktarımı: [teknik rehber](docs/TEKNIK-REHBER.md). Yeni testler standart `test` komutuna dahildir.

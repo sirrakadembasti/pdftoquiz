@@ -4,8 +4,6 @@ minimumReleaseAge: 0
 # Bun-managed node_modules is supported; do not replace it implicitly before a pnpm script.
 verifyDepsBeforeRun: false
 allowBuilds:
-  "@prisma/engines": true
-  prisma: true
   esbuild: true
   tesseract.js: false
   unrs-resolver: false

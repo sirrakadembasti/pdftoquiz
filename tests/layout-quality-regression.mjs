@@ -1,7 +1,7 @@
 import fs from 'node:fs';import path from 'node:path';import {createRequire} from 'node:module';import {fileURLToPath} from 'node:url';import {test} from 'node:test';
 import {acceptanceTest} from './test-tier.mjs';import assert from 'node:assert/strict';
 const root=path.dirname(path.dirname(fileURLToPath(import.meta.url))),require=createRequire(path.join(root,'package.json')),ts=require('typescript');
-const out=path.join(root,'.sites-runtime/qa/layout-modules');fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'package.json'),'{}');
+const out=path.join(root,'.test-tmp/qa/layout-modules');fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'package.json'),'{}');
 for(const name of ['conversion-diagnostics','question-quality','ai','hybrid','answer-key','quiz','pdf-layout','pdf-import'])fs.writeFileSync(path.join(out,name+'.js'),ts.transpileModule(fs.readFileSync(path.join(root,'lib/'+name+'.ts'),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText);
 const layout=require(path.join(out,'pdf-layout.js')),quiz=require(path.join(out,'quiz.js')),importer=require(path.join(out,'pdf-import.js'));
 const pdfReq=createRequire(require.resolve('pdfjs-dist/package.json')),canvasLib=pdfReq('@napi-rs/canvas');global.DOMMatrix=canvasLib.DOMMatrix;global.Path2D=canvasLib.Path2D;global.ImageData=canvasLib.ImageData;
@@ -28,10 +28,10 @@ async function inspect(file){const doc=await pdf.getDocument({data:new Uint8Arra
 test('Özgün sentetik PDF: maddeler, kalın/alt çizgi, çok satırlı ve şekilli şıklar',async()=>{
  const r=await inspect(path.join(root,'tests/fixtures/layout-quality.pdf'));assert.equal(r.questions.length,2);const q=r.questions[0];assert.match(q.text,/• Birinci açıklama satırı aynı maddeye devam eder\.\n• İkinci açıklama\n\nAşağıdaki anlamlardan hangisi kullanılmamıştır\?/);assert.ok(q.textMarks.some(m=>m.bold));assert.ok(q.textMarks.some(m=>m.underline));assert.match(q.options[0],/Birinci uzun cevap ikinci satırı da içerir/);assert.match(q.options[1],/Sağdaki cevap sağdaki devam satırı/);assert.ok(!q.options[0].includes('Sağdaki'));assert.ok(r.questions.every(q=>q.optionImages.every(Boolean)));
  const mixed=await canvasLib.loadImage(Buffer.from(r.questions[1].optionImages[0].split(',')[1],'base64'));assert.ok(mixed.height>180,'Metinle birlikte şeklin tam yüksekliği korunmalı');
- for(const [i,q] of r.questions.entries())for(const [j,img] of q.optionImages.entries())fs.writeFileSync(path.join(root,'.sites-runtime/qa/layout-synthetic-'+i+'-'+j+'.png'),Buffer.from(img.split(',')[1],'base64'));
+ for(const [i,q] of r.questions.entries())for(const [j,img] of q.optionImages.entries())fs.writeFileSync(path.join(root,'.test-tmp/qa/layout-synthetic-'+i+'-'+j+'.png'),Buffer.from(img.split(',')[1],'base64'));
 });
 acceptanceTest('Referans PDF: sözcük ve 2×2 şık kırpmaları',['REFERENCE_PDF'],{},async()=>{
  const r=await inspect(process.env.REFERENCE_PDF);assert.equal(r.questions.length,80);assert.ok(r.questions.every(q=>q.options.length===4));const q=r.questions[0];assert.deepEqual(q.options,['Aylin','Cenk','Kadir','Meltem']);assert.match(q.text,/cümle kurmalarını/);assert.match(q.text,/uygun değildir\?/);const paragraphs=r.questions.find(q=>q.text.includes('Yoğurt'));assert.match(paragraphs.text,/tüketilmektedir/);assert.match(paragraphs.text,/sütün mayalandırılması/);assert.ok(paragraphs.text.includes('\n\nBu metinde'));
- for(const [j,img] of q.optionImages.entries())fs.writeFileSync(path.join(root,'.sites-runtime/qa/layout-reference-option-'+j+'.png'),Buffer.from(img.split(',')[1],'base64'));
- fs.writeFileSync(path.join(root,'.sites-runtime/qa/layout-reference-text.json'),JSON.stringify(r.questions.map(q=>({number:q.number,section:q.sectionId,text:q.text,marks:q.textMarks,options:q.options})),null,2));
+ for(const [j,img] of q.optionImages.entries())fs.writeFileSync(path.join(root,'.test-tmp/qa/layout-reference-option-'+j+'.png'),Buffer.from(img.split(',')[1],'base64'));
+ fs.writeFileSync(path.join(root,'.test-tmp/qa/layout-reference-text.json'),JSON.stringify(r.questions.map(q=>({number:q.number,section:q.sectionId,text:q.text,marks:q.textMarks,options:q.options})),null,2));
 });

@@ -1,5 +1,5 @@
 import fs from 'node:fs';import path from 'node:path';import {fileURLToPath} from 'node:url';import {createRequire} from 'node:module';import {test} from 'node:test';import assert from 'node:assert/strict';
-const root=path.dirname(path.dirname(fileURLToPath(import.meta.url))),req=createRequire(root+'/package.json'),ts=req('typescript'),out=root+'/.sites-runtime/qa/phase3d2-modules';fs.mkdirSync(out,{recursive:true});fs.writeFileSync(out+'/package.json','{"type":"commonjs"}');
+const root=path.dirname(path.dirname(fileURLToPath(import.meta.url))),req=createRequire(root+'/package.json'),ts=req('typescript'),out=root+'/.test-tmp/qa/phase3d2-modules';fs.mkdirSync(out,{recursive:true});fs.writeFileSync(out+'/package.json','{"type":"commonjs"}');
 for(const n of ['conversion-diagnostics','question-quality','ai','hybrid','answer-key','quiz','pdf-layout','pdf-import'])fs.writeFileSync(out+'/'+n+'.js',ts.transpileModule(fs.readFileSync(root+'/lib/'+n+'.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText);
 const layout=req(out+'/pdf-layout.js'),quiz=req(out+'/quiz.js'),hybrid=req(out+'/hybrid.js');
 const importer=req(out+'/pdf-import.js');

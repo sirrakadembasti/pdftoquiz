@@ -1,5 +1,5 @@
 import fs from 'node:fs';import path from 'node:path';import {fileURLToPath} from 'node:url';import {createRequire} from 'node:module';import {test} from 'node:test';import assert from 'node:assert/strict';
-const root=path.dirname(path.dirname(fileURLToPath(import.meta.url))),req=createRequire(root+'/package.json'),ts=req('typescript'),out=root+'/.sites-runtime/qa/phase3i';fs.mkdirSync(out,{recursive:true});fs.writeFileSync(out+'/package.json','{"type":"commonjs"}');
+const root=path.dirname(path.dirname(fileURLToPath(import.meta.url))),req=createRequire(root+'/package.json'),ts=req('typescript'),out=root+'/.test-tmp/qa/phase3i';fs.mkdirSync(out,{recursive:true});fs.writeFileSync(out+'/package.json','{"type":"commonjs"}');
 for(const name of ['quiz','hybrid','ai','answer-key','question-quality','manual-options','pdf-import','pdf-layout','conversion-diagnostics']){
  const source=root+'/lib/'+name+'.ts';if(!fs.existsSync(source))continue;
  const compiled=ts.transpileModule(fs.readFileSync(source,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;

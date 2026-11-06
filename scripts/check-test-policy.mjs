@@ -1,6 +1,6 @@
 import {readFileSync,readdirSync} from 'node:fs';
 
-const directory=new URL('../sites-source/tests/',import.meta.url);
+const directory=new URL('../tests/',import.meta.url);
 const forbidden=/\b(?:test|nodeTest)\.skip\b|\bskip\s*:/;
 const violations=[];
 for(const name of readdirSync(directory).filter(name=>name.endsWith('-regression.mjs'))){

@@ -1,9 +1,0 @@
-node_modules/
-.next/
-.sites-runtime/
-generated/
-data/
-backups/
-.env*
-!.env.example
-*.tsbuildinfo

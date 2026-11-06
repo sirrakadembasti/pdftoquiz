@@ -18,6 +18,14 @@ Sentetik testler şu genel davranışları kapsar:
 | Başlık/altbilgi dışlama ve gömülü şekil sınırları | Sentetik raster/XObject testleri |
 | React öğretmen önizlemesi ve paylaşılan öğrenci bağlantısı | Bellek deposu ve sentetik tarama |
 
+## Hangi kod sınanıyor?
+
+- `test` komutu (`scripts/run-tests.mjs`) kökteki **`tests/`** regresyonlarını doğrudan kök `lib/` ve `app/` kaynaklarına karşı çalıştırır; ayrı bir ayna kopya yoktur (6 Kasım 2026'da `sites-source/` kaldırıldı ve testler köke birleştirildi).
+- Testler derlenmiş modüllerini ve çıktılarını git dışı `.test-tmp/qa/` altına yazar (eski adı `.sites-runtime`).
+- Kök `lib/db.ts`, `lib/storage.ts` ve `lib/local-auth.ts` birim testlerinde mock/derleme listesiyle yüklenir; gerçek SQLite, oturum ve yetki davranışı `test:server` (üretim derlemesi + gerçek HTTP, 9 test) ile sınanır; önce `build` gerekir.
+- ESLint (`eslint app lib`) test paketine dahil değildir ve `package.json`'da betiği yoktur; 6 Kasım 2026 durumu: 183 hata (154'ü `no-explicit-any`), 33 uyarı.
+- Gerçek referans PDF'ler `tests/reference/` altındadır. `node scripts/convert-reference.mjs` bunları gerçek dönüşüm hattından geçirir; `test:ocr` (`scripts/ocr/run.mjs`) varsayılan olarak `saglik2017programci.pdf` ve `grup-36---programci.pdf` ile OCR ölçümü yapar (`TAPU_REFERENCE_PDF` / `REAL_REFERENCE_PDF` ile değiştirilebilir).
+
 ## Gerçek belge kabul katmanı
 
 Belirli eski belgelerin tam soru sayısı, metni ve koordinatlarına bağlı dokuz kontrol standart başarı sayısından ayrılmıştır. Bunlar genel regresyonların yerine geçmez; yalnız ek kabul kanıtıdır.

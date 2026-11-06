@@ -26,7 +26,7 @@ Belirsiz veya beklenen bölgeden uzak metin için öneri üretilmez. Böylece ya
 - Otomatik metin düzeltmesi yapılmaz.
 - PDF cevap anahtarı algılansa bile otomatik uygulanmaz.
 - Öğrenci verisine cevap anahtarı, öğretmen kaynak görseli veya birleşik soru+şık görseli gönderilmez.
-- Kök uygulama ve `sites-source` aynı üretim mantığını taşır.
+- Üretim mantığı tek kaynaktadır (kök `lib/`); eski `sites-source` kopyası kaldırıldı.
 
 ## Doğrulama
 

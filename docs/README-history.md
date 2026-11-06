@@ -1,6 +1,8 @@
 # PDF to Online Quiz
 
-Öğretmenlerin PDF sınavlarını, soru ve şık görselleri korunarak paylaşılabilir web sınavlarına dönüştürdüğü Türkçe uygulama. Mevcut Vinext/React, Cloudflare Worker ve R2 yapısı korunmuştur.
+Öğretmenlerin PDF sınavlarını, soru ve şık görselleri korunarak paylaşılabilir web sınavlarına dönüştürdüğü Türkçe uygulama. > **Tarihsel not (6 Kasım 2026):** Bu belge Sites/Cloudflare dönemini anlatır. Güncel taşınabilir sürüm Next.js + yerel SQLite kullanır; R2 yerine SQLite `StoredObject` tablosu vardır. Güncel işleyiş için [README](../README.md) esastır.
+
+Mevcut Vinext/React, Cloudflare Worker ve R2 yapısı o dönemde korunmuştu.
 
 ## Dönüştürme
 
@@ -20,7 +22,7 @@ Alan koordinatları, metin, şekil ve formül işlemesini ayıran yaklaşım iç
 
 Öğrenci ekranında PDF seçme/görüntüleme yoktur. Kaynak PDF adresi yalnız sınav sahibine açıktır. Cevap anahtarı başlangıçtaki öğrenci API yanıtına gönderilmez; sonuç sunucuda hesaplanır:
 
-`Puan = doğru cevap sayısı / toplam soru sayısı × 100`
+`Puan = doğru cevap sayısı / cevap anahtarı bulunan soru sayısı × 100` (güncel kod: `grade`, `lib/quiz.ts`; cevap anahtarı olmayan sorular puana katılmaz ve sonuç ekranında ayrıca belirtilir. Önceki sürümlerde payda toplam soru sayısıydı.)
 
 Son ekranda doğru, yanlış, boş sayıları ve 100 üzerinden puan gösterilir; sonuç öğretmenin sınav kaydına eklenir. Yeni paylaşımlarda tüm doğru cevaplar zorunludur. Eski sürümlerde anahtarı eksik sorular ayrıca belirtilir.
 

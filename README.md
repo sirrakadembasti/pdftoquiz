@@ -2,7 +2,7 @@
 
 23 Ekim 2026 · Faz 3D/3E/3F/3G, elle şık tamamlama ve güvenli görsel onayı, birleşik PDF metin editörü, checkbox gösterim tercihleri, toplu cevap aktarımı ve body hydration uyumluluk düzeltmesi dahil.
 
-Next.js App Router + Node.js/Bun + React + Tailwind; doğrudan libSQL istemcisiyle yerel SQLite. Çalışma zamanında üretilmiş Prisma istemcisi veya Prisma motoru indirmesi gerekmez. Sites hizmeti veya Cloudflare hesabı gerektirmez. Kaynaklar, görseller, PDF.js/OCR worker/WASM dosyaları, Türkçe/İngilizce OCR dil modelleri, SQLite şeması, testler, Docker ve pnpm paketin içindedir. `sites-source/` güncel barındırılan uygulamanın kaynaklarını da içerir; bu klasör Next.js tarafından derlenmez.
+Next.js App Router + Node.js/Bun + React + Tailwind; doğrudan libSQL istemcisiyle yerel SQLite. Prisma/ORM kullanılmaz; SQLite şeması `lib/db.ts` içinde tek kaynaktır ve ilk çalıştırmada kendiliğinden oluşur. Sites hizmeti veya Cloudflare hesabı gerektirmez. Kaynaklar, görseller, PDF.js/OCR worker/WASM dosyaları, Türkçe/İngilizce OCR dil modelleri, SQLite şeması, testler, referans sınav PDF'leri ve pnpm paketin içindedir. Eski ChatGPT Sites geliştirme profili (`sites-source/`) 6 Kasım 2026'da kaldırıldı; geçmişi Git'te (commit `316897a` ve öncesi) durur, `docs/` altındaki tarihli raporlardaki `sites-source` ve `.sites-runtime` atıfları tarihseldir.
 
 ## FAZ 3G — 12 Ekim 2026
 
@@ -34,11 +34,11 @@ GitHub kaynağı: [sirrakadembasti/pdftoquiz](https://github.com/sirrakadembasti
 
 Node.js 24 LTS önerilir (>=22.13). Kurulum, Node.js ve ilk paket indirme için internet gerektirir. Yönetici/global pnpm kurulumu gerekmez; paketteki pnpm kullanılır. Ağınız paket indirmeyi engelliyorsa kurulum yapılabilecek bir bilgisayarda hazırlayın. `node_modules` işletim sistemi/mimariye bağlı olduğundan ZIP'te bulunmaz.
 
-1. ZIP'i `D:\dnm\pdf-to-onlinequiz` içine açın. Bu klasörde `package.json` bulunmalı.
+1. ZIP'i herhangi bir klasöre (örnek: `D:\dnm\pdf-to-onlinequiz`) açın. Bu klasörde `package.json` bulunmalı.
 2. PowerShell'de:
 
 ```powershell
-cd D:\dnm\pdf-to-onlinequiz
+cd <açtığınız klasör>
 node --version
 node scripts/setup.mjs
 node tools/pnpm/dist/pnpm.mjs dev
@@ -73,20 +73,6 @@ node tools/pnpm/dist/pnpm.mjs start
 
 PORT farklıysa sunucuya ortam değişkeniyle verin. Geliştirme komutu için `node tools/pnpm/dist/pnpm.mjs dev --port 3001` kullanılabilir. LAN erişiminde geliştirmede `--hostname 0.0.0.0`; üretimde HOSTNAME değişkenini ayarlayın. İnternete açılan sunucuda HTTPS kullanın.
 
-## Docker / başka sunucu
-
-Docker ve Compose kurulu bir sunucuda:
-
-```sh
-# Örnek ayarları .env içine kopyalayın; ilk hesap şifresini isterseniz belirleyin.
-docker compose up -d --build
-docker compose logs quiz
-```
-
-İlk hesap yoksa başlangıçta oluşturulur; boş şifrede rastgele şifre logda bir kez gösterilir. SQLite `quiz-data` kalıcı volume'ündedir. Konteyner root olarak çalışmaz. Varsayılan port yalnız sunucunun 127.0.0.1 adresine açılır; Nginx örneği buna bağlanır. Lokal Docker denemesi için aynı sunucuda http://localhost:3000 açın. `.env` için `APP_ORIGIN` ve `COOKIE_SECURE` ayarını gerçek alan adınıza göre yapın.
-
-Docker imajının derlenmesi bağımlılıkların kurulması için internet gerektirir; çalışma zamanında Prisma istemcisi üretilmez veya Prisma motoru indirilmez. SQLite volume'ünü silmeyin (`down -v` verileri siler). Tek yazıcı sunucu/tek replica içindir; bu dosyayı farklı VPS'lerden aynı anda kullanmayın. Ölçekleme/veritabanı değişikliği ayrı iştir.
-
 ## Hesaplar, depolama ve yedek
 
 - Öğretmen hesabı gerektiren işlemler: kayıt, düzenleme, kaynak PDF, sonuç listesi, AI isteği. Öğrenci yalnız paylaşım bağlantısıyla sınava katılır.
@@ -107,7 +93,7 @@ Hibrit önce yerel geçiş yapar; kalite kapısında sorunlu alanları seçer ve
 
 ## Bağımlılıklar ve testler
 
-`package.json`, `bun.lock`, `pnpm-lock.yaml`, `DEPENDENCIES.md` ve lisanslar pakette. Next 16.4.0, React 19.3.0, Tailwind 4.3.3, Lucide 1.52.0 güncellendi. SQLite çalışma zamanı doğrudan `@libsql/client` kullanır; çevrimdışı başlatma için Prisma istemcisi üretimi gerekmez. Prisma 7 paketleri geçiş uyumluluğu ve şema referansı için dağıtımda tutulmaktadır. PDF.js 5.4.296 / Tesseract 5.1.1 worker/dil varlıklarıyla eşleşen test edilmiş sürümlerde korundu. pnpm 11.25.0 JavaScript dağıtımı Windows/Linux uyumluluğu için ZIP'e eklendi; Bun kilidi ayrıca desteklenir.
+`package.json`, `bun.lock`, `pnpm-lock.yaml`, `DEPENDENCIES.md` ve lisanslar pakette. Next 16.4.0, React 19.3.0, Tailwind 4.3.3, Lucide 1.52.0 güncellendi. SQLite çalışma zamanı doğrudan `@libsql/client` kullanır; Prisma paketleri ve `prisma/` klasörü 6 Kasım 2026'da kaldırıldı. PDF.js 5.4.296 / Tesseract 5.1.1 worker/dil varlıklarıyla eşleşen test edilmiş sürümlerde korundu. pnpm 11.25.0 JavaScript dağıtımı Windows/Linux uyumluluğu için ZIP'e eklendi; Bun kilidi ayrıca desteklenir.
 
 ```sh
 node tools/pnpm/dist/pnpm.mjs typecheck
@@ -118,7 +104,7 @@ node tools/pnpm/dist/pnpm.mjs test:server
 
 `test` ortak uygulama mantığını; depodaki özgün sentetik PDF/OCR fixture'ları, mock AI ve React olaylarıyla doğrular. `test:server` geçici SQLite'da gerçek Next.js üretim sunucusunu başlatıp giriş/yetki, paylaşım, varlık/PDF, puanlama, kalıcılık ve yedeklemeyi sınar; gerçek kullanıcı dosyanızı değiştirmez.
 
-Standart `bun run test` kullanıcı belgesi istemez ve atlanan teste izin vermez. Belgeye özgü dokuz ek kontrol ayrı `bun run test:acceptance` katmanındadır. Bu komut `MULTISECTION_REFERENCE_PDF`, `ANSWER_KEY_REFERENCE_IMAGE`, `STRUCTURED_REFERENCE_PDF` ve `SCANNED_REFERENCE_PDF` yollarını ister; dosyalar verilmezse açık yapılandırma hatasıyla durur ve standart test sonucuna “atlandı” olarak eklenmez. Ayrıntılı kapsam, eski değişken adlarının uyumluluk eşlemesi ve fixture politikası: [test stratejisi](docs/test-strategy.md).
+Standart `bun run test` harici belge istemez ve atlanan teste izin vermez. Belgeye özgü dokuz ek kontrol ayrı `bun run test:acceptance` katmanındadır. Bu komut `MULTISECTION_REFERENCE_PDF`, `ANSWER_KEY_REFERENCE_IMAGE`, `STRUCTURED_REFERENCE_PDF` ve `SCANNED_REFERENCE_PDF` yollarını ister; dosyalar verilmezse açık yapılandırma hatasıyla durur ve standart test sonucuna “atlandı” olarak eklenmez. Ayrıntılı kapsam, eski değişken adlarının uyumluluk eşlemesi ve fixture politikası: [test stratejisi](docs/test-strategy.md).
 
 Faz 3D düzeltme 2 bulguları ve doğrulama sınırları: [rapor](docs/phase3d2.md). İptal, tanılama ve bellek ölçümleri: [ayrı Faz 3E raporu](docs/phase3e.md).
 
@@ -136,12 +122,23 @@ node scripts/measure-resilience.mjs 30 .audit/resilience-30.json
 
 Windows'ta üretim derlemesi, pnpm bağımlılık bağlantılarını ve dinamik yüklenen SQLite native paketini `scripts/standalone-links.mjs` ile standalone çıktısına tamamlar. Derlemeyi çalıştırmadan yalnız `next build` çağırmak bu son paketleme adımını atlar; README'deki `build` komutunu kullanın.
 
-Gerçek tarayıcı, Windows çalışma ortamı, Docker motoru, harici VPS ve canlı AI doğrulama durumu `TEST-REPORT.md` içindedir. README'deki komutlar bu sınırlarla değerlendirilmelidir.
+Gerçek tarayıcı, Windows çalışma ortamı, harici VPS ve canlı AI doğrulama durumu `TEST-REPORT.md` içindedir. README'deki komutlar bu sınırlarla değerlendirilmelidir.
+
+## Referans PDF'ler ve gerçek dönüşüm simülasyonu
+
+`tests/reference/` altında üç gerçek sınav PDF'i bulunur: `grup-36---programci.pdf` (taranmış, 12 sayfa, 50 soru, 5 şık), `saglik2017programci.pdf` (dijital, 9 sayfa, 50 soru, 4 şık, sayfa 9'da cevap anahtarı) ve `hacettepe_programci_2014.pdf` (dijital, 16 sayfa, 50 soru, 5 şık, cevap anahtarsız). Bunlar standart test paketinin parçası değildir; uygulamanın gerçek dönüşüm hattını (PDF.js + yerel Tesseract OCR, AI yok) sınamak için kullanılır:
+
+```sh
+node scripts/convert-reference.mjs                      # üç PDF'yi dönüştürür, özet + ayrıntı JSON (.test-tmp/reference)
+node scripts/convert-reference.mjs baska-sinav.pdf      # istenen PDF
+node tools/pnpm/dist/pnpm.mjs test:ocr                   # OCR ölçümü (varsayılan: saglik2017 + grup-36)
+```
+
+Başka PDF'ler için `TAPU_REFERENCE_PDF` / `REAL_REFERENCE_PDF` / `MULTISECTION_REFERENCE_PDF` / `SCANNED_REFERENCE_PDF` ile yol verilebilir. Güncel sonuçlar [TEST-REPORT.md](TEST-REPORT.md) içindedir.
 
 ## Kaynaklar
 
 - https://nextjs.org/docs/app/api-reference/config/next-config-js/output
-- https://www.prisma.io/docs/orm/v7/core-concepts/supported-databases/sqlite
 - https://github.com/mozilla/pdf.js
 - https://github.com/naptha/tesseract.js
 

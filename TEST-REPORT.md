@@ -1,3 +1,36 @@
+# Güncel doğrulama — 6 Kasım 2026 / bağımsız yeniden çalıştırma
+
+Kod değiştirilmeden, mevcut `main` (316897a) üzerinde Windows / Node.js v24.21.0 ile çalıştırıldı.
+
+| Kontrol | Sonuç |
+|---|---|
+| Standart test paketi (`scripts/run-tests.mjs`) | 232/232 geçti; 0 başarısız, 0 atlanan |
+| TypeScript (`tsc --noEmit --incremental false`) | çıkış 0 |
+| Üretim derlemesi (`scripts/build.mjs`) | başarılı; 7/7 statik sayfa |
+| `test:server` (gerçek Next.js HTTP + SQLite + paket taşıma) | 9/9 geçti |
+| ESLint (`app`, `lib`) | 183 hata, 33 uyarı (154'ü `no-explicit-any`); test paketine dahil değil |
+| Kök regresyonları doğrudan çalıştırma (temizlik öncesi) | 25 geçti; `phase1` ve `answer-color` `./storage` eksikliğinden düştü, temizlikte onarıldı |
+
+**Docker kaldırıldı** (`Dockerfile`, `docker-compose.yml`, `.dockerignore`, `scripts/container-start.mjs`); ihtiyaç olursa yeniden eklenir. Dağıtım için Node/Nginx yolu (`deploy/nginx.conf`) kalır.
+
+**Temiz kurulum denemesi** (`D:\dnm\use-node.ps1` ve `start-project.ps1 -Install` akışı, geçici kopyada; pnpm 9.15.1): kilit dosyası `package.json` ile uyumlu çözüldü (389 paket, dosya değişmedi); proje pnpm 11 ile `--frozen-lockfile --offline` kilit kontrolü de geçti. Bu bilgisayarda ağ erişimi yok (`ENOTFOUND registry.npmjs.org`) ve yerel mağazada `@libsql/client` ile `lucide-react` paketleri bulunmadığı için kurulum **tamamlanamadı**; gerçek sıfırdan kurulum ağ erişimi olan bir ortamda ayrıca doğrulanmalıdır. Not: `start-project.ps1`, PowerShell 5'te Node'un stderr uyarısını (DEP0169) hata sayıp kurulumu yarıda kesebiliyor.
+
+**Gerçek PDF dönüşümü** (`scripts/convert-reference.mjs`, yerel hat, AI yok, PDF'ler `tests/reference/` altında):
+
+| PDF | Tür | Sayfa | Soru | Şık | Not |
+|---|---|---|---|---|---|
+| `saglik2017programci.pdf` | dijital | 9 | 50/50, eksik no yok | 4 × 50 | sayfa 9'dan 50 cevap tespit edildi, 0 çakışma; uyarı 0; 13,7 sn |
+| `hacettepe_programci_2014.pdf` | dijital | 16 | 50/50, eksik no yok | 5 × 50 | PDF'de anahtar yok; 3 sorada (6, 22, 36) `NEIGHBOR_OVERLAP` kırpma uyarısı; 31 sn |
+| `grup-36---programci.pdf` | taranmış (OCR) | 12 | 50/50, eksik no yok | 5 × 50 | 47 soruda öğretmen kontrol uyarısı (sıra çıkarımı, kesik şık görseli, kalem izi), 6 soruda boş şık, 44/50 soruda tüm şık görselleri; 94 sn |
+
+Belgeye özgü kabul testleri: `red-ink` gerçek tarama testi `grup-36` ile geçti (7/7). `TAPU_REFERENCE_PDF` isteyen dört test (`answer-color`, `crop-quality`, `number-sequence`, `text-options`) `saglik2017` ile başarısız oldu; bu testler belirli bir eski belgenin içeriğine (örn. “11/23, 33 numaralı kod”) göre yazılmıştır, yani belge uyuşmazlığıdır ve uygulama hatası olarak yorumlanmamalıdır. `test:ocr` aracı (`scripts/ocr`) önceki taşımadan kalma iki hatayla (eksik `question-quality` modül listesi, Windows yazı tipi yolu) çalışmıyordu; düzeltildi ve çalıştı (grup-36 gerçek tarama: numara geri çağırma 0,92).
+
+Bu değişikliklerden sonra: typecheck çıkış 0, standart paket 232/232, build başarılı, `test:server` 9/9.
+
+Kapsam: Aynı gün `sites-source/` (eski ChatGPT Sites aynası) ve `.sites-runtime` kaldırıldı; testler `tests/` altında kök kaynağa karşı çalışır, geçici çıktı `.test-tmp/` içindedir. İki bozuk kök test (`phase1`, `answer-color`) onarıldı, `tail` tanılaması birleştirildi; temizlik sonrası standart paket yine 232/232 geçti. Ardından `app/chatgpt-auth.ts` yerel `lib/session.ts` ile değiştirildi; Prisma paketleri, `prisma/`, `prisma.config.ts` ve kilit dosyalarındaki kayıtları kaldırıldı (`db:generate` betiği silindi, `db:migrate` `scripts/db-command.mjs` çalıştırır). Bu değişikliklerden sonra: typecheck çıkış 0, standart paket 232/232, build başarılı, `test:server` 9/9. Aşağıdaki kayıtlardaki `sites-source` ve `.audit/` atıfları tarihseldir. Gerçek tarayıcı/mobil, Docker, canlı AI ve harici referans PDF doğrulamaları yapılmadı.
+
+---
+
 # Güncel doğrulama — 23 Ekim 2026 / toplu cevap aktarımı ve depo bakımı
 
 Bu kayıt, PDF'den tespit edilen güvenli cevapların kullanıcı onayıyla manuel cevap alanlarına topluca aktarılmasını ve aynı gün tamamlanan depo/Docker bakımını kapsar.

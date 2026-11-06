@@ -5,9 +5,9 @@ import assert from 'node:assert/strict';
 import {fileURLToPath} from 'node:url';
 const root=path.dirname(path.dirname(fileURLToPath(import.meta.url))),require=createRequire(path.join(root,'package.json'));
 const ts=require('typescript'),before=process.argv.includes('--record-before');
-const dir=path.join(root,'.sites-runtime/qa/tail-modules');fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'package.json'),'{}');
+const dir=path.join(root,'.test-tmp/qa/tail-modules');fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'package.json'),'{}');
 for(const name of ['conversion-diagnostics','question-quality','ai','hybrid','answer-key','quiz','pdf-layout','pdf-import']){
- const source=before&&!['ai','answer-key','hybrid'].includes(name)?path.join(root,'.sites-runtime/qa/tail-before',name+'.ts'):path.join(root,'lib',name+'.ts');
+ const source=before&&!['ai','answer-key','hybrid'].includes(name)?path.join(root,'.test-tmp/qa/tail-before',name+'.ts'):path.join(root,'lib',name+'.ts');
  fs.writeFileSync(path.join(dir,name+'.js'),ts.transpileModule(fs.readFileSync(source,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText);
 }
 const pdfRequire=createRequire(require.resolve('pdfjs-dist/package.json')),canvas=pdfRequire('@napi-rs/canvas');
@@ -19,7 +19,7 @@ try{
 for(const name of ['tail-single','tail-columns','tail-repeated','tail-scanned']){
  const doc=await pdf.getDocument({data:new Uint8Array(fs.readFileSync(path.join(root,'tests/fixtures',name+'.pdf'))),standardFontDataUrl:path.join(root,'node_modules/pdfjs-dist/standard_fonts').replaceAll('\\','/')+'/'}).promise;
  const converted=await importer.convertPDF(doc,{mode:'local',engine:pdf,progress:()=>{},cancelled:()=>false,ai:()=>{throw new Error('AI kullanılmamalı');},ocr:async()=>{
- if(!worker){worker=await Tesseract.createWorker('tur+eng',1,{langPath:path.join(root,'public/vendor/ocr'),cachePath:path.join(root,'.sites-runtime/qa')});}
+ if(!worker){worker=await Tesseract.createWorker('tur+eng',1,{langPath:path.join(root,'public/vendor/ocr'),cachePath:path.join(root,'.test-tmp/qa')});}
  return {setParameters:settings=>worker.setParameters(settings),recognize:c=>worker.recognize(c.toBuffer('image/png'),{},{text:true,blocks:true})};
  }});
  const summary={pdf:name+'.pdf',questions:converted.questions.map(q=>({number:q.number,text:q.text,options:q.options})),warnings:converted.warnings};results.push(summary);
@@ -29,7 +29,8 @@ for(const name of ['tail-single','tail-columns','tail-repeated','tail-scanned'])
  if(name==='tail-single'){assert.equal(converted.questions[0].options[3],'Gerçek şık metni ikinci satırda devam eder.');const page=await doc.getPage(1);const viewport=page.getViewport({scale:1});const content=await page.getTextContent();const lines=layout.textLines(content.items,viewport,pdf.Util);const a=layout.analyzePage(lines,1);const end=a.regions[0].options[3];const footer=lines.find(l=>l.text==='Sayfa 7');assert.ok(end.y+end.h<footer.y,'Şık görüntüsü de footer öncesinde bitmeli');}
  if(name==='tail-columns'){assert.deepEqual(converted.questions.map(q=>q.number),[1,2,3]);assert.deepEqual(converted.questions[0].options,['Sol A','Sol B','Sol C','Sol D']);assert.deepEqual(converted.questions[1].options,['Sağ A','Sağ B','Sağ C','Sağ D']);}
  if(name==='tail-repeated')assert.ok(converted.questions.every(q=>q.options[3]==='4'));
- assert.ok(converted.questions.every(q=>q.optionImages?.filter(Boolean).length===q.options.length),name+' şık görselleri');
+ const imageCounts=converted.questions.map(q=>({number:q.number,options:q.options.length,images:q.optionImages?.map(Boolean),markers:q.optionMarkerRights,cells:q.options.map((_,i)=>q.provenance?.['optionImages.'+i]?.box)}));
+ assert.ok(converted.questions.every(q=>q.optionImages?.filter(Boolean).length===q.options.length),name+' şık görselleri: '+JSON.stringify(imageCounts));
  }
  await doc.destroy();console.log((before?'ÖNCE':'SONRA')+': '+name+' — '+JSON.stringify(summary.questions));
 }

@@ -20,6 +20,6 @@ if(missing.length||unreadable.length){
 const suites=['phase1','answer-key','layout-quality','hybrid','answer-color','number-sequence','text-options','crop-quality','red-ink'];
 const environment={...process.env,RUN_REAL_ACCEPTANCE:'1',REFERENCE_PDF:configured.MULTISECTION_REFERENCE_PDF,REFERENCE_KEY_IMAGE:configured.ANSWER_KEY_REFERENCE_IMAGE,TAPU_REFERENCE_PDF:configured.STRUCTURED_REFERENCE_PDF,REAL_REFERENCE_PDF:configured.SCANNED_REFERENCE_PDF};
 for(const name of suites){
- const result=spawnSync(process.execPath,['--test','sites-source/tests/'+name+'-regression.mjs'],{stdio:'inherit',env:environment});
+ const result=spawnSync(process.execPath,['--test','tests/'+name+'-regression.mjs'],{stdio:'inherit',env:environment});
  if(result.status!==0)process.exit(result.status||1);
 }

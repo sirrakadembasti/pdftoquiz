@@ -3,7 +3,7 @@ node_modules/
 !tools/pnpm/dist/node_modules/
 !tools/pnpm/dist/node_modules/**
 .next/
-.sites-runtime/
+.test-tmp/
 .audit/
 .pnpm-store/
 output/

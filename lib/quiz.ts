@@ -78,7 +78,7 @@ export function examIssues(e:Exam,purpose:'preview'|'publish'='publish'){
  if(!Number.isInteger(e.duration)||e.duration<1||e.duration>600)issues.push(gate(-1,undefined,'Süre geçersiz','1–600 dakika girin.'));
  if(purpose==='publish'&&!e.title?.trim())issues.push(gate(-1,undefined,'Sınav adı eksik','Sınav adını girin.'));
  for(const [i,q] of (e.questions||[]).entries()){
-  const d=displaySettings(q),a=displayAvailability(q),safe=protectedImages(q),number=q.number??i+1;
+  const d=displaySettings(q),a=displayAvailability(q),safe=protectedImages(q);
   if(q.optionPenInkRisks!=null&&(!Array.isArray(q.optionPenInkRisks)||q.optionPenInkRisks.some(j=>!Number.isInteger(j)||j<0||j>=q.options.length)))issues.push(gate(i,q,'Şık kalem izi bilgisi geçersiz','İlgili şık görselini yeniden seçin.',undefined,'INVALID_OPTION_PEN_RISK'));
   if(d.question==='text'&&(!q.text.trim()||q.text==='OKUNAMADI'))issues.push(gate(i,q,'Soru metni eksik','Metni girin veya soru görselini seçin.',undefined,'MISSING_STEM_TEXT'));
   if(d.question==='image'&&(!a.question||!safeStem(q)&&!(safe.image&&!q.imageIncludesOptions)))issues.push(gate(i,q,'Gövde görseli hazır değil',q.stemBoundaryFound===false?'Gövde sınırı bulunamadı: PDF’den seçin.':'PDF’den soru gövdesini seçin.',undefined,'MISSING_STEM_IMAGE'));

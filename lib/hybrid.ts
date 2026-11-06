@@ -1,4 +1,4 @@
-import {sortQuestions,readingWarnings,warningClasses,type Exam,type Question} from './quiz';
+import {sortQuestions,warningClasses,type Exam,type Question} from './quiz';
 import {addAIUsage,aiRepairOutput,aiPageRepairOutput} from './ai';
 export type Source='local'|'ai'|'manual';
 export type Strategy='automatic'|'local-first'|'ai-first';

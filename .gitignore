@@ -6,9 +6,6 @@ node_modules/
 .test-tmp/
 .audit/
 .pnpm-store/
-output/
-tmp/
-generated/
 data/
 backups/
 .env*

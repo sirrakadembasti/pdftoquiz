@@ -38,7 +38,7 @@ Belirsiz veya beklenen bölgeden uzak metin için öneri üretilmez. Böylece ya
 - Gerçek taranmış referans: 50/50 sıra; Q25-C ve Q39-C genel geometriyle eksiksiz öğretmen önerisi; otomatik uygulama yok.
 - FAZ 3I hedef paketi: 16/16.
 - Tam standart paket: toplu cevap aktarımı regresyonları eklendikten sonra 232/232 geçti, 0 başarısız, 0 atlanan.
-- Belgeye özgü dokuz kabul kontrolü standart paketten ayrıldı; `bun run test:acceptance` gerekli dört dosya yolu verilmeden açık yapılandırma hatasıyla durur.
+- Belgeye özgü dokuz kabul kontrolü standart paketten ayrıldı; `pnpm test:acceptance` gerekli dört dosya yolu verilmeden açık yapılandırma hatasıyla durur.
 - Önceden zorla atlanan React öğretmen önizlemesi ve paylaşılan öğrenci bağlantısı testi artık standart pakette çalışır ve geçer.
 - TypeScript ve Next.js 16.4.0 üretim build'i başarılı; 7/7 statik sayfa üretildi.
 

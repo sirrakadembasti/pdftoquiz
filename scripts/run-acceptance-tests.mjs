@@ -11,7 +11,7 @@ const configured=Object.fromEntries(Object.entries(requirements).map(([key,{lega
 const missing=Object.entries(requirements).filter(([key])=>!configured[key]);
 const unreadable=Object.entries(requirements).filter(([key])=>configured[key]&&!existsSync(configured[key]));
 if(missing.length||unreadable.length){
- console.error('Gerçek belge kabul testleri yapılandırılmadı. Standart `bun run test` için bu dosyalar gerekmez.');
+ console.error('Gerçek belge kabul testleri yapılandırılmadı. Standart `pnpm test` için bu dosyalar gerekmez.');
  for(const [key,{label}] of missing)console.error(`- ${key}: ${label} için dosya yolu eksik`);
  for(const [key,{label}] of unreadable)console.error(`- ${key}: ${label} bulunamadı (${configured[key]})`);
  process.exit(2);

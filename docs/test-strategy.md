@@ -2,7 +2,7 @@
 
 ## Standart paket
 
-`bun run test` depodaki özgün sentetik PDF/OCR fixture'larını, mock AI/kimlik/depolamayı ve React akışlarını kullanır. Bu katman çevrimdışıdır, kullanıcı belgesine bağlı değildir ve test atlamasına izin vermez. `scripts/check-test-policy.mjs`, regresyon dosyalarındaki `skip` kullanımını standart paket başlamadan reddeder.
+`pnpm test` depodaki özgün sentetik PDF/OCR fixture'larını, mock AI/kimlik/depolamayı ve React akışlarını kullanır. Bu katman çevrimdışıdır, kullanıcı belgesine bağlı değildir ve test atlamasına izin vermez. `scripts/check-test-policy.mjs`, regresyon dosyalarındaki `skip` kullanımını standart paket başlamadan reddeder.
 
 Sentetik testler şu genel davranışları kapsar:
 
@@ -23,14 +23,14 @@ Sentetik testler şu genel davranışları kapsar:
 - `test` komutu (`scripts/run-tests.mjs`) kökteki **`tests/`** regresyonlarını doğrudan kök `lib/` ve `app/` kaynaklarına karşı çalıştırır; ayrı bir ayna kopya yoktur (6 Kasım 2026'da `sites-source/` kaldırıldı ve testler köke birleştirildi).
 - Testler derlenmiş modüllerini ve çıktılarını git dışı `.test-tmp/qa/` altına yazar (eski adı `.sites-runtime`).
 - Kök `lib/db.ts`, `lib/storage.ts` ve `lib/local-auth.ts` birim testlerinde mock/derleme listesiyle yüklenir; gerçek SQLite, oturum ve yetki davranışı `test:server` (üretim derlemesi + gerçek HTTP, 9 test) ile sınanır; önce `build` gerekir.
-- ESLint (`eslint app lib`) test paketine dahil değildir ve `package.json`'da betiği yoktur; 6 Kasım 2026 durumu: 183 hata (154'ü `no-explicit-any`), 33 uyarı.
+- ESLint 6 Kasım 2026'da kaldırıldı (kullanılmayan yapılandırma, 183 hata borcu); statik denetimi `tsc` yapar.
 - Gerçek referans PDF'ler `tests/reference/` altındadır. `node scripts/convert-reference.mjs` bunları gerçek dönüşüm hattından geçirir; `test:ocr` (`scripts/ocr/run.mjs`) varsayılan olarak `saglik2017programci.pdf` ve `grup-36---programci.pdf` ile OCR ölçümü yapar (`TAPU_REFERENCE_PDF` / `REAL_REFERENCE_PDF` ile değiştirilebilir).
 
 ## Gerçek belge kabul katmanı
 
 Belirli eski belgelerin tam soru sayısı, metni ve koordinatlarına bağlı dokuz kontrol standart başarı sayısından ayrılmıştır. Bunlar genel regresyonların yerine geçmez; yalnız ek kabul kanıtıdır.
 
-`bun run test:acceptance` aşağıdaki dört yolu ister ve eksikse açık hata ile durur:
+`pnpm test:acceptance` aşağıdaki dört yolu ister ve eksikse açık hata ile durur:
 
 - `MULTISECTION_REFERENCE_PDF`: çok bölümlü dijital kabul PDF'si
 - `ANSWER_KEY_REFERENCE_IMAGE`: bu belgeyle eşleşen cevap anahtarı görüntüsü
@@ -39,7 +39,7 @@ Belirli eski belgelerin tam soru sayısı, metni ve koordinatlarına bağlı dok
 
 Eski geliştirme ortamları için önceki değişken adları geriye uyumlu takma ad olarak kabul edilir; yeni belgelerde nötr adlar kullanılmalıdır.
 
-Bu dosyalar yoksa standart geliştirme ve `bun run test` etkilenmez. Kabul testleri `RUN_REAL_ACCEPTANCE=1` değerini yalnız kabul çalıştırıcısı üzerinden alır; normal pakette kaydedilmez ve “atlandı” olarak başarı toplamına karışmaz.
+Bu dosyalar yoksa standart geliştirme ve `pnpm test` etkilenmez. Kabul testleri `RUN_REAL_ACCEPTANCE=1` değerini yalnız kabul çalıştırıcısı üzerinden alır; normal pakette kaydedilmez ve “atlandı” olarak başarı toplamına karışmaz.
 
 ## Fixture üretimi
 

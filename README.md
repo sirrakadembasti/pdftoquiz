@@ -2,7 +2,7 @@
 
 23 Ekim 2026 · Faz 3D/3E/3F/3G, elle şık tamamlama ve güvenli görsel onayı, birleşik PDF metin editörü, checkbox gösterim tercihleri, toplu cevap aktarımı ve body hydration uyumluluk düzeltmesi dahil.
 
-Next.js App Router + Node.js/Bun + React + Tailwind; doğrudan libSQL istemcisiyle yerel SQLite. Prisma/ORM kullanılmaz; SQLite şeması `lib/db.ts` içinde tek kaynaktır ve ilk çalıştırmada kendiliğinden oluşur. Sites hizmeti veya Cloudflare hesabı gerektirmez. Kaynaklar, görseller, PDF.js/OCR worker/WASM dosyaları, Türkçe/İngilizce OCR dil modelleri, SQLite şeması, testler, referans sınav PDF'leri ve pnpm paketin içindedir. Eski ChatGPT Sites geliştirme profili (`sites-source/`) 6 Kasım 2026'da kaldırıldı; geçmişi Git'te (commit `316897a` ve öncesi) durur, `docs/` altındaki tarihli raporlardaki `sites-source` ve `.sites-runtime` atıfları tarihseldir.
+Next.js App Router + Node.js + React + Tailwind; doğrudan libSQL istemcisiyle yerel SQLite. Prisma/ORM kullanılmaz; SQLite şeması `lib/db.ts` içinde tek kaynaktır ve ilk çalıştırmada kendiliğinden oluşur. Sites hizmeti veya Cloudflare hesabı gerektirmez. Kaynaklar, görseller, PDF.js/OCR worker/WASM dosyaları, Türkçe/İngilizce OCR dil modelleri, SQLite şeması, testler, referans sınav PDF'leri ve pnpm paketin içindedir. Eski ChatGPT Sites geliştirme profili (`sites-source/`) 6 Kasım 2026'da kaldırıldı; geçmişi Git'te (commit `316897a` ve öncesi) durur, `docs/` altındaki tarihli raporlardaki `sites-source` ve `.sites-runtime` atıfları tarihseldir.
 
 ## FAZ 3G — 12 Ekim 2026
 
@@ -48,17 +48,6 @@ node tools/pnpm/dist/pnpm.mjs dev
 
 `INITIAL_ADMIN_PASSWORD` yalnız ilk hesap oluşturulurken kullanılır; `.env` değerini sonradan değiştirmek mevcut hesabın şifresini güncellemez. Şifre 12–256 karakter olmalı; boş bırakılırsa rastgele üretilir. `user:add` ile eklenen öğretmenin şifresi ayrıca terminalde gösterilir. Unutulan mevcut şifre için `node tools/pnpm/dist/pnpm.mjs user:reset` kullanın. `localhost` veya `127.0.0.1` ile giriş desteklenir; üretim alan adında `APP_ORIGIN` tam adresle sabitlenir.
 
-Bun kullanan mevcut kurulumlarda eşdeğer akış:
-
-```powershell
-bun run setup:bun
-bun dev
-```
-
-`bun install` tek başına ilk yönetici hesabını hazırlamaz. `setup:bun` bağımlılık kilidini doğrular, SQLite şemasını hazırlar ve `.env` değerleriyle ilk hesabı oluşturur.
-
-Aynı çalışma ağacında bağımlılık kurma ve güncelleme işlemleri için Bun veya paketle gelen pnpm akışlarından birini seçin; iki paket yöneticisini aynı `node_modules` üzerinde dönüşümlü kurulum için kullanmayın. Bun ile hazırlanmış mevcut bir kurulumda `bun dev`, `bun run typecheck`, `bun run test` ve `bun run build` komutlarını kullanın. Kök pnpm yapılandırması, pnpm ile yalnızca bir betik çalıştırıldığında Bun tarafından hazırlanmış `node_modules` klasörünü kendiliğinden yeniden kurmaz; pnpm kurulumuna geçmek istiyorsanız `node tools/pnpm/dist/pnpm.mjs install --frozen-lockfile` komutunu açıkça çalıştırın.
-
 Çift tıklama seçenekleri: `KURULUM-WINDOWS.cmd`, `CALISTIR-GELISTIRME.cmd`, `CALISTIR-URETIM.cmd`. Windows terminal komutlarının güncel doğrulaması `TEST-REPORT.md` içindedir; çift tıklama ve gerçek tarayıcı görünümü ayrıca sınanmalıdır.
 
 ## Yerel üretim / Linux sunucu
@@ -93,7 +82,7 @@ Hibrit önce yerel geçiş yapar; kalite kapısında sorunlu alanları seçer ve
 
 ## Bağımlılıklar ve testler
 
-`package.json`, `bun.lock`, `pnpm-lock.yaml`, `DEPENDENCIES.md` ve lisanslar pakette. Next 16.4.0, React 19.3.0, Tailwind 4.3.3, Lucide 1.52.0 güncellendi. SQLite çalışma zamanı doğrudan `@libsql/client` kullanır; Prisma paketleri ve `prisma/` klasörü 6 Kasım 2026'da kaldırıldı. PDF.js 5.4.296 / Tesseract 5.1.1 worker/dil varlıklarıyla eşleşen test edilmiş sürümlerde korundu. pnpm 11.25.0 JavaScript dağıtımı Windows/Linux uyumluluğu için ZIP'e eklendi; Bun kilidi ayrıca desteklenir.
+`package.json`, `pnpm-lock.yaml`, `DEPENDENCIES.md` ve lisanslar pakette. Next 16.4.0, React 19.3.0, Tailwind 4.3.3, Lucide 1.52.0 güncellendi. SQLite çalışma zamanı doğrudan `@libsql/client` kullanır; Prisma paketleri ve `prisma/` klasörü 6 Kasım 2026'da kaldırıldı. PDF.js 5.4.296 / Tesseract 5.1.1 worker/dil varlıklarıyla eşleşen test edilmiş sürümlerde korundu. pnpm 11.25.0 JavaScript dağıtımı Windows/Linux uyumluluğu için ZIP'e eklendi;
 
 ```sh
 node tools/pnpm/dist/pnpm.mjs typecheck
@@ -104,7 +93,7 @@ node tools/pnpm/dist/pnpm.mjs test:server
 
 `test` ortak uygulama mantığını; depodaki özgün sentetik PDF/OCR fixture'ları, mock AI ve React olaylarıyla doğrular. `test:server` geçici SQLite'da gerçek Next.js üretim sunucusunu başlatıp giriş/yetki, paylaşım, varlık/PDF, puanlama, kalıcılık ve yedeklemeyi sınar; gerçek kullanıcı dosyanızı değiştirmez.
 
-Standart `bun run test` harici belge istemez ve atlanan teste izin vermez. Belgeye özgü dokuz ek kontrol ayrı `bun run test:acceptance` katmanındadır. Bu komut `MULTISECTION_REFERENCE_PDF`, `ANSWER_KEY_REFERENCE_IMAGE`, `STRUCTURED_REFERENCE_PDF` ve `SCANNED_REFERENCE_PDF` yollarını ister; dosyalar verilmezse açık yapılandırma hatasıyla durur ve standart test sonucuna “atlandı” olarak eklenmez. Ayrıntılı kapsam, eski değişken adlarının uyumluluk eşlemesi ve fixture politikası: [test stratejisi](docs/test-strategy.md).
+Standart `node tools/pnpm/dist/pnpm.mjs test` harici belge istemez ve atlanan teste izin vermez. Belgeye özgü dokuz ek kontrol ayrı `node tools/pnpm/dist/pnpm.mjs test:acceptance` katmanındadır. Bu komut `MULTISECTION_REFERENCE_PDF`, `ANSWER_KEY_REFERENCE_IMAGE`, `STRUCTURED_REFERENCE_PDF` ve `SCANNED_REFERENCE_PDF` yollarını ister; dosyalar verilmezse açık yapılandırma hatasıyla durur ve standart test sonucuna “atlandı” olarak eklenmez. Ayrıntılı kapsam, eski değişken adlarının uyumluluk eşlemesi ve fixture politikası: [test stratejisi](docs/test-strategy.md).
 
 Faz 3D düzeltme 2 bulguları ve doğrulama sınırları: [rapor](docs/phase3d2.md). İptal, tanılama ve bellek ölçümleri: [ayrı Faz 3E raporu](docs/phase3e.md).
 

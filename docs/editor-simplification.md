@@ -27,7 +27,7 @@ Uygulama adresi: http://127.0.0.1:3000. Kaynak kopyaları güncellendi; `SHA256S
 
 ## Son bakım doğrulaması — 11 Ekim 2026
 
-Body hydration düzeltmesi sonrası standart paket 180 testtir: 171 başarılı, 9 atlanan, 0 hata; bu toplam yukarıdaki 178 testlik önceki koşuya iki hydration testi ekler. TypeScript ve son üretim derlemesi geçti. [Güncel test raporu](../TEST-REPORT.md) ve [hydration incelemesi](hydration-and-git.md). Eski gerçek PDF ölçümleri ve tarayıcı doğrulama sınırları korunur.
+Body hydration düzeltmesi sonrası standart paket 180 testtir: 171 başarılı, 9 atlanan, 0 hata; bu toplam yukarıdaki 178 testlik önceki koşuya iki hydration testi ekler. TypeScript ve son üretim derlemesi geçti. [Güncel test raporu](TEST-REPORT.md) ve [hydration incelemesi](hydration-and-git.md). Eski gerçek PDF ölçümleri ve tarayıcı doğrulama sınırları korunur.
 
 
 ## FAZ 3G güncellemesi — 12 Ekim 2026
@@ -36,4 +36,4 @@ Elle şık tamamlama, 250 DPI aday önizlemesi, açık görsel onayı, uyarı ye
 
 ## Toplu PDF cevabı aktarımı — 23 Ekim 2026
 
-Kök Next.js uygulaması ile `sites-source` aynası aynı davranışa getirildi. Saf veri regresyonu güvenli cevapların birlikte uygulanmasını, çakışmalı/geçersiz eşleşmelerin korunmasını ve kaynak sınav nesnesinin değiştirilmemesini sınar. React akış testi onay reddinde manuel seçimlerin değişmediğini, onaydan sonra üç cevabın birlikte aktarıldığını ve durum metninin güncellendiğini doğrular. Güncel paket sonuçları [TEST-REPORT.md](../TEST-REPORT.md) içindedir.
+Kök Next.js uygulaması ile `sites-source` aynası aynı davranışa getirildi. Saf veri regresyonu güvenli cevapların birlikte uygulanmasını, çakışmalı/geçersiz eşleşmelerin korunmasını ve kaynak sınav nesnesinin değiştirilmemesini sınar. React akış testi onay reddinde manuel seçimlerin değişmediğini, onaydan sonra üç cevabın birlikte aktarıldığını ve durum metninin güncellendiğini doğrular. Güncel paket sonuçları [TEST-REPORT.md](TEST-REPORT.md) içindedir.

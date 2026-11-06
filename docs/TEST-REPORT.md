@@ -68,7 +68,7 @@ Bu kayıt, Gül Üniversitesi programcı sınavında soru ve şıkların düzenl
 | Üretim derlemesi | Next.js 16.4.0 derlemesi ve 7/7 statik sayfa üretimi başarılı |
 | Git diff denetimi | `git diff --check`: çıkış 0 |
 
-Ayrıntılı katman ve ortam değişkeni sözleşmesi: [test stratejisi](docs/test-strategy.md).
+Ayrıntılı katman ve ortam değişkeni sözleşmesi: [test stratejisi](test-strategy.md).
 
 ---
 
@@ -114,7 +114,7 @@ Bu kayıt son FAZ 3G kaynakları içindir; önceki tarihli sonuçlar aşağıda 
 
 Gerçek tarayıcıda giriş ve PDF yükleme simülasyonu **tamamlanmadı**: ana ajan görünür webview denemesi 411,282 saniyede zaman aşımı/kernel reset verdi. Otomatik React/API ve HTTP testleri gerçek tarayıcı görüntüsü sayılmaz. Bağımsız 49 soruluk kaynak ve dijital Tapu kaynağı bulunamadı; ilgili dış kaynak kontrolleri başarı olarak yazılmadı.
 
-[FAZ 3G: beş maddede bulgu → kanıt → değişiklik → sonuç](docs/arsiv/phase3g.md), [tüm soru ölçümleri](docs/arsiv/phase3g-assets/leakage-summary.md), [envanter ve doğrulanamayanlar](docs/arsiv/phase3g-assets/validation-evidence.json).
+[FAZ 3G: beş maddede bulgu → kanıt → değişiklik → sonuç](arsiv/phase3g.md), [tüm soru ölçümleri](arsiv/phase3g-assets/leakage-summary.md), [envanter ve doğrulanamayanlar](arsiv/phase3g-assets/validation-evidence.json).
 
 HTTP testinin iki tekrar denemesi sırasıyla 90 saniyelik toplam bütçe ve 60 saniyelik health hazırlık sınırında durdu. Test hazırlığı/başlangıç süreleri ve son HTTP durum/hata gövdesi tanılamaya eklendi; bütün işlevsel assertler korunuyor. Toplam test bütçesi 240 saniye, başlangıç 60 saniye, tek health isteği 3 saniye ile sınırlı. Son koşum 9/9 geçti: hazırlık 41.353 saniye, ilk health 13.107 saniye. Önceki geç hazır olmanın kesin kök nedeni **doğrulanmadı**; yalnız bütçe artırılmasıyla uygulama sorununun kalıcı çözüldüğü iddia edilmez.
 
@@ -134,7 +134,7 @@ Bu bölüm en son yerel kaynakların doğrulamasıdır; aşağıdaki eski sayıl
 | HTTP/SQLite ve taşınabilirlik | 9/9 geçti; gerçek Next HTTP, SQLite, oturum ve paket taşıma kontrolleri |
 | Üretim SSR ve health | 127.0.0.1:3001 sayfası HTTP 200, html lang=tr/body doğrulandı; health ok:true/storage:sqlite |
 
-Body'ye dışarıdan eklenen nitelik farkı için yalnız body seviyesinde hydration istisnası eklendi. Nitelikler uygulamaya taşınmadı, alt bileşen uyuşmazlıkları bastırılmaz. [Hydration ve Git incelemesi](docs/hydration-and-git.md), [birleşik editör ve cevap tablosu](docs/editor-simplification.md), [Faz 3F ölçümleri](docs/arsiv/phase3f.md).
+Body'ye dışarıdan eklenen nitelik farkı için yalnız body seviyesinde hydration istisnası eklendi. Nitelikler uygulamaya taşınmadı, alt bileşen uyuşmazlıkları bastırılmaz. [Hydration ve Git incelemesi](hydration-and-git.md), [birleşik editör ve cevap tablosu](editor-simplification.md), [Faz 3F ölçümleri](arsiv/phase3f.md).
 
 İlk sandbox derlemesi SWC'nin Windows yolunu canonicalize ederken erişim hatası vermesiyle durdu; aynı kaynaklar gerekli izinle yeniden derlendi ve son paket tamamlandı. Yeni bağımlılık veya OCR parametre değişikliği yoktur. Gerçek tarayıcı/eklenti hydration koşusu, native metin araçları ve mobil yerleşim bu testlerle doğrulanmış sayılmaz.
 

@@ -1,6 +1,6 @@
 # Bağımlılıklar ve lisanslar
 
-Bu dosya ve `VENDOR-LICENSES/` klasörü `node scripts/licenses.mjs` ile `package.json` ve `node_modules` içeriğinden üretilir; elle düzenlemeyin. `build` komutu dosyaları günceller, standart test paketi güncel olup olmadığını denetler.
+Bu dosya ve `docs/lisanslar/vendor/` klasörü `node scripts/licenses.mjs` ile `package.json` ve `node_modules` içeriğinden üretilir; elle düzenlemeyin. `build` komutu dosyaları günceller, standart test paketi güncel olup olmadığını denetler.
 
 Sürümler taşınabilir paketin doğrudan kurulan bağımlılıklarıdır. Tam transitive/işletim sistemi çözümlemesi `pnpm-lock.yaml` içindedir.
 
@@ -27,6 +27,6 @@ Sürümler taşınabilir paketin doğrudan kurulan bağımlılıklarıdır. Tam 
 
 pnpm: 11.25.0, MIT; tools/pnpm dağıtımının özgün lisans ve bildirimleri dahil.
 
-`VENDOR-LICENSES` doğrudan paketlerin LICENSE/COPYING/NOTICE dosyalarını içerir. Her transitif paketin özgün lisansı kurulumdan sonra `node_modules` içinde korunur. Uygulamanın kendisine yeni bir açık kaynak lisansı atanmamıştır.
+`vendor/` doğrudan paketlerin LICENSE/COPYING/NOTICE dosyalarını içerir. Her transitif paketin özgün lisansı kurulumdan sonra `node_modules` içinde korunur. Uygulamanın kendisine yeni bir açık kaynak lisansı atanmamıştır.
 
 PDF.js, Tesseract ve sunulan WASM/dil varlıkları birlikte korunmuştur. Referans sınav PDF'leri `tests/reference/` altındadır.

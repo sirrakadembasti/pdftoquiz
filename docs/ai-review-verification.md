@@ -2,7 +2,7 @@
 
 Tarih: 16 Ekim 2026 (Europe/Istanbul)
 
-Bu belge tarihli doğrulama kaydıdır. Güncel toplu test sonuçları için [TEST-REPORT.md](../TEST-REPORT.md) belgesine bakın.
+Bu belge tarihli doğrulama kaydıdır. Güncel toplu test sonuçları için [TEST-REPORT.md](TEST-REPORT.md) belgesine bakın.
 
 ## Tamamlanan değişiklikler
 

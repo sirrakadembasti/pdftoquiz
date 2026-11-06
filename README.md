@@ -26,7 +26,7 @@ Next.js App Router + Node.js + React + Tailwind; doğrudan libSQL istemcisiyle y
 - Tarayıcı tarafından body'ye eklenen nitelikler için dar hydration istisnası eklendi; alt bileşen uyuşmazlıkları bastırılmaz. Ayrıntılar: [hydration incelemesi](docs/hydration-and-git.md).
 - Kalite kontrolü ve hibrit AI incelemesi artık teknik hata kodları yerine soru numarası, eksik alan ve kullanıcıdan beklenen işlemi açıklayan Türkçe durum metinleri gösterir. AI önerisinin uygulanıp uygulanmadığı ayrıca belirtilir; düzenleme veya öneri uygulama sonrasında Çözümleme özeti, şüpheli sorular ve paylaşım kontrolleri sayfa yenilemeden yeniden hesaplanır.
 
-Kalite/AI inceleme akışı uygulama içi gerçek tarayıcıda doğrulandı; native metin araçları ve mobil yerleşim ayrıca doğrulanmalıdır. Güncel kanıtlar [TEST-REPORT.md](TEST-REPORT.md), [AI inceleme doğrulaması](docs/ai-review-verification.md), [düzenleyici raporu](docs/editor-simplification.md) ve [Faz 3F raporu](docs/arsiv/phase3f.md) içindedir.
+Kalite/AI inceleme akışı uygulama içi gerçek tarayıcıda doğrulandı; native metin araçları ve mobil yerleşim ayrıca doğrulanmalıdır. Güncel kanıtlar [TEST-REPORT.md](docs/TEST-REPORT.md), [AI inceleme doğrulaması](docs/ai-review-verification.md), [düzenleyici raporu](docs/editor-simplification.md) ve [Faz 3F raporu](docs/arsiv/phase3f.md) içindedir.
 
 ## Windows'ta hızlı başlatma
 
@@ -48,7 +48,7 @@ node tools/pnpm/dist/pnpm.mjs dev
 
 `INITIAL_ADMIN_PASSWORD` yalnız ilk hesap oluşturulurken kullanılır; `.env` değerini sonradan değiştirmek mevcut hesabın şifresini güncellemez. Şifre 12–256 karakter olmalı; boş bırakılırsa rastgele üretilir. `user:add` ile eklenen öğretmenin şifresi ayrıca terminalde gösterilir. Unutulan mevcut şifre için `node tools/pnpm/dist/pnpm.mjs user:reset` kullanın. `localhost` veya `127.0.0.1` ile giriş desteklenir; üretim alan adında `APP_ORIGIN` tam adresle sabitlenir.
 
-Çift tıklama seçenekleri: `KURULUM-WINDOWS.cmd`, `CALISTIR-GELISTIRME.cmd`, `CALISTIR-URETIM.cmd`. Windows terminal komutlarının güncel doğrulaması `TEST-REPORT.md` içindedir; çift tıklama ve gerçek tarayıcı görünümü ayrıca sınanmalıdır.
+Çift tıklama seçenekleri: `scripts/windows/KURULUM-WINDOWS.cmd`, `scripts/windows/CALISTIR-GELISTIRME.cmd`, `scripts/windows/CALISTIR-URETIM.cmd`. Windows terminal komutlarının güncel doğrulaması `docs/TEST-REPORT.md` içindedir; çift tıklama ve gerçek tarayıcı görünümü ayrıca sınanmalıdır.
 
 ## Yerel üretim / Linux sunucu
 
@@ -82,7 +82,7 @@ Hibrit önce yerel geçiş yapar; kalite kapısında sorunlu alanları seçer ve
 
 ## Bağımlılıklar ve testler
 
-`package.json`, `pnpm-lock.yaml`, `DEPENDENCIES.md` ve lisanslar pakette; son ikisi `scripts/licenses.mjs` ile otomatik üretilir (`build` yazar, `test` güncelliği denetler). Next 16.4.0, React 19.3.0, Tailwind 4.3.3, Lucide 1.52.0 güncellendi. SQLite çalışma zamanı doğrudan `@libsql/client` kullanır; Prisma paketleri ve `prisma/` klasörü 6 Kasım 2026'da kaldırıldı. PDF.js 5.4.296 / Tesseract 5.1.1 worker/dil varlıklarıyla eşleşen test edilmiş sürümlerde korundu. pnpm 11.25.0 JavaScript dağıtımı Windows/Linux uyumluluğu için ZIP'e eklendi;
+`package.json`, `pnpm-lock.yaml`, `docs/lisanslar/DEPENDENCIES.md` ve lisanslar pakette; son ikisi `scripts/licenses.mjs` ile otomatik üretilir (`build` yazar, `test` güncelliği denetler). Next 16.4.0, React 19.3.0, Tailwind 4.3.3, Lucide 1.52.0 güncellendi. SQLite çalışma zamanı doğrudan `@libsql/client` kullanır; Prisma paketleri ve `prisma/` klasörü 6 Kasım 2026'da kaldırıldı. PDF.js 5.4.296 / Tesseract 5.1.1 worker/dil varlıklarıyla eşleşen test edilmiş sürümlerde korundu. pnpm 11.25.0 JavaScript dağıtımı Windows/Linux uyumluluğu için ZIP'e eklendi;
 
 ```sh
 node tools/pnpm/dist/pnpm.mjs typecheck
@@ -111,7 +111,7 @@ node scripts/measure-resilience.mjs 30 .audit/resilience-30.json
 
 Windows'ta üretim derlemesi, pnpm bağımlılık bağlantılarını ve dinamik yüklenen SQLite native paketini `scripts/standalone-links.mjs` ile standalone çıktısına tamamlar. Derlemeyi çalıştırmadan yalnız `next build` çağırmak bu son paketleme adımını atlar; README'deki `build` komutunu kullanın.
 
-Gerçek tarayıcı, Windows çalışma ortamı, harici VPS ve canlı AI doğrulama durumu `TEST-REPORT.md` içindedir. README'deki komutlar bu sınırlarla değerlendirilmelidir.
+Gerçek tarayıcı, Windows çalışma ortamı, harici VPS ve canlı AI doğrulama durumu `docs/TEST-REPORT.md` içindedir. README'deki komutlar bu sınırlarla değerlendirilmelidir.
 
 ## Referans PDF'ler ve gerçek dönüşüm simülasyonu
 
@@ -123,7 +123,7 @@ node scripts/convert-reference.mjs baska-sinav.pdf      # istenen PDF
 node tools/pnpm/dist/pnpm.mjs test:ocr                   # OCR ölçümü (varsayılan: saglik2017 + grup-36)
 ```
 
-Başka PDF'ler için `TAPU_REFERENCE_PDF` / `REAL_REFERENCE_PDF` / `MULTISECTION_REFERENCE_PDF` / `SCANNED_REFERENCE_PDF` ile yol verilebilir. Güncel sonuçlar [TEST-REPORT.md](TEST-REPORT.md) içindedir.
+Başka PDF'ler için `TAPU_REFERENCE_PDF` / `REAL_REFERENCE_PDF` / `MULTISECTION_REFERENCE_PDF` / `SCANNED_REFERENCE_PDF` ile yol verilebilir. Güncel sonuçlar [TEST-REPORT.md](docs/TEST-REPORT.md) içindedir.
 
 ## Kaynaklar
 

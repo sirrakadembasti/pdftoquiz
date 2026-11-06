@@ -2,7 +2,7 @@
 
 ## 11 Ekim 2026 güncellemesi
 
-Sonraki geliştirmeler için [düzenleyici raporu](editor-simplification.md), [hydration/Git incelemesi](hydration-and-git.md) ve [güncel test raporu](../TEST-REPORT.md) kullanılır. Aşağıdaki yerel inceleme bulguları geçmiş kayıt olarak korunur.
+Sonraki geliştirmeler için [düzenleyici raporu](editor-simplification.md), [hydration/Git incelemesi](hydration-and-git.md) ve [güncel test raporu](TEST-REPORT.md) kullanılır. Aşağıdaki yerel inceleme bulguları geçmiş kayıt olarak korunur.
 
 Bu belge ilk incelemenin hata kanıtlarını korur. Ardından yapılan yerel düzeltmeler ve güncel doğrulama sonuçları kökteki `TEST-REPORT.md` dosyasında açıklanır; aşağıdaki başarısızlık tablosu düzeltme öncesine aittir.
 

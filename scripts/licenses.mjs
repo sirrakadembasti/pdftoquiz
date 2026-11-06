@@ -1,4 +1,4 @@
-// DEPENDENCIES.md ve VENDOR-LICENSES/ klasörünü package.json + node_modules'tan üretir.
+// docs/lisanslar/DEPENDENCIES.md ve docs/lisanslar/vendor/ klasörünü package.json + node_modules'tan üretir.
 // Kullanım:
 //   node scripts/licenses.mjs           yazar (build sırasında otomatik çalışır)
 //   node scripts/licenses.mjs --check   dosyalar güncel değilse hata ile çıkar (testlerde çalışır)
@@ -11,7 +11,7 @@ const pnpmVersion = JSON.parse(readFileSync('tools/pnpm/package.json', 'utf8')).
 const names = Object.keys({...pkg.dependencies, ...pkg.devDependencies}).sort();
 
 const rows = [];
-const files = new Map(); // 'VENDOR-LICENSES/dizin/dosya' -> Buffer
+const files = new Map(); // 'docs/lisanslar/vendor/dizin/dosya' -> Buffer
 for (const name of names) {
   const base = realpathSync(join('node_modules', name));
   const meta = JSON.parse(readFileSync(join(base, 'package.json'), 'utf8'));
@@ -19,7 +19,7 @@ for (const name of names) {
   rows.push(`| ${name} | ${meta.version} | ${license} |`);
   for (const file of readdirSync(base).filter(n => /^(licen[sc]e|copying|notice)/i.test(n))) {
     if (statSync(join(base, file)).isFile()) {
-      files.set(`VENDOR-LICENSES/${name.replaceAll('/', '__')}/${file}`, readFileSync(join(base, file)));
+      files.set(`docs/lisanslar/vendor/${name.replaceAll('/', '__')}/${file}`, readFileSync(join(base, file)));
     }
   }
 }
@@ -27,7 +27,7 @@ for (const name of names) {
 const doc = [
   '# Bağımlılıklar ve lisanslar',
   '',
-  'Bu dosya ve `VENDOR-LICENSES/` klasörü `node scripts/licenses.mjs` ile `package.json` ve `node_modules` içeriğinden üretilir; elle düzenlemeyin. `build` komutu dosyaları günceller, standart test paketi güncel olup olmadığını denetler.',
+  'Bu dosya ve `docs/lisanslar/vendor/` klasörü `node scripts/licenses.mjs` ile `package.json` ve `node_modules` içeriğinden üretilir; elle düzenlemeyin. `build` komutu dosyaları günceller, standart test paketi güncel olup olmadığını denetler.',
   '',
   'Sürümler taşınabilir paketin doğrudan kurulan bağımlılıklarıdır. Tam transitive/işletim sistemi çözümlemesi `pnpm-lock.yaml` içindedir.',
   '',
@@ -37,7 +37,7 @@ const doc = [
   '',
   `pnpm: ${pnpmVersion}, MIT; tools/pnpm dağıtımının özgün lisans ve bildirimleri dahil.`,
   '',
-  '`VENDOR-LICENSES` doğrudan paketlerin LICENSE/COPYING/NOTICE dosyalarını içerir. Her transitif paketin özgün lisansı kurulumdan sonra `node_modules` içinde korunur. Uygulamanın kendisine yeni bir açık kaynak lisansı atanmamıştır.',
+  '`vendor/` doğrudan paketlerin LICENSE/COPYING/NOTICE dosyalarını içerir. Her transitif paketin özgün lisansı kurulumdan sonra `node_modules` içinde korunur. Uygulamanın kendisine yeni bir açık kaynak lisansı atanmamıştır.',
   '',
   'PDF.js, Tesseract ve sunulan WASM/dil varlıkları birlikte korunmuştur. Referans sınav PDF\'leri `tests/reference/` altındadır.',
   '',
@@ -45,15 +45,15 @@ const doc = [
 
 // Mevcut durum
 const current = new Map();
-if (existsSync('VENDOR-LICENSES')) {
-  for (const dir of readdirSync('VENDOR-LICENSES')) {
-    for (const file of readdirSync(join('VENDOR-LICENSES', dir))) {
-      current.set(`VENDOR-LICENSES/${dir}/${file}`, readFileSync(join('VENDOR-LICENSES', dir, file)));
+if (existsSync('docs/lisanslar/vendor')) {
+  for (const dir of readdirSync('docs/lisanslar/vendor')) {
+    for (const file of readdirSync(join('docs/lisanslar/vendor', dir))) {
+      current.set(`docs/lisanslar/vendor/${dir}/${file}`, readFileSync(join('docs/lisanslar/vendor', dir, file)));
     }
   }
 }
 const problems = [];
-if (!existsSync('DEPENDENCIES.md') || readFileSync('DEPENDENCIES.md', 'utf8') !== doc) problems.push('DEPENDENCIES.md');
+if (!existsSync('docs/lisanslar/DEPENDENCIES.md') || readFileSync('docs/lisanslar/DEPENDENCIES.md', 'utf8') !== doc) problems.push('docs/lisanslar/DEPENDENCIES.md');
 for (const [path, data] of files) if (!current.has(path) || !current.get(path).equals(data)) problems.push(path);
 for (const path of current.keys()) if (!files.has(path)) problems.push(path + ' (fazla)');
 
@@ -64,11 +64,11 @@ if (check) {
   }
   console.log('Lisans envanteri güncel.');
 } else {
-  rmSync('VENDOR-LICENSES', {recursive: true, force: true});
+  rmSync('docs/lisanslar/vendor', {recursive: true, force: true});
   for (const [path, data] of files) {
     mkdirSync(join(path, '..'), {recursive: true});
     writeFileSync(path, data);
   }
-  writeFileSync('DEPENDENCIES.md', doc);
+  writeFileSync('docs/lisanslar/DEPENDENCIES.md', doc);
   console.log(problems.length ? 'Lisans envanteri güncellendi: ' + problems.join(', ') : 'Lisans envanteri zaten güncel.');
 }

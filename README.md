@@ -58,7 +58,7 @@ node tools/pnpm/dist/pnpm.mjs build
 node tools/pnpm/dist/pnpm.mjs start
 ```
 
-Üretim Node.js sunucusu varsayılan olarak `127.0.0.1:3000` dinler. Sunucuda Nginx/Caddy arkasında çalıştırın; `.env` içinde `APP_ORIGIN=https://quiz.example.com` ve `COOKIE_SECURE=true` ayarlayın. APP_ORIGIN tam adres olmalı; origin kontrolü bunu kullanır. `deploy/nginx.conf` örneğindeki alan adını değiştirin ve HTTPS sertifikanızı ekleyin. Alan adını değiştirmek sınav verilerini değiştirmez; bağlantıları yeni alan adıyla yeniden kopyalayın.
+Üretim Node.js sunucusu varsayılan olarak `127.0.0.1:3000` dinler. Sunucuda Nginx/Caddy arkasında çalıştırın; `.env` içinde `APP_ORIGIN=https://quiz.example.com` ve `COOKIE_SECURE=true` ayarlayın. APP_ORIGIN tam adres olmalı; origin kontrolü bunu kullanır. Ters vekil `Host` ile `X-Forwarded-Host/Proto/For` başlıklarını iletmeli, istek gövdesi sınırını (`client_max_body_size`) PDF ve görseller için yeterince yüksek tutmalı ve HTTPS sertifikası sağlamalıdır. Alan adını değiştirmek sınav verilerini değiştirmez; bağlantıları yeni alan adıyla yeniden kopyalayın.
 
 PORT farklıysa sunucuya ortam değişkeniyle verin. Geliştirme komutu için `node tools/pnpm/dist/pnpm.mjs dev --port 3001` kullanılabilir. LAN erişiminde geliştirmede `--hostname 0.0.0.0`; üretimde HOSTNAME değişkenini ayarlayın. İnternete açılan sunucuda HTTPS kullanın.
 

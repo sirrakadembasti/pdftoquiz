@@ -59,6 +59,6 @@ Tarayıcı eklentilerinin `<body>`'ye eklediği nitelikler (ör. `cz-shortcut-li
 ## 6. Doğrulanamayanlar ve bilinen borçlar
 
 - Sıfırdan bağımlılık kurulumu bu geliştirme bilgisayarında (ağ yok) tamamlanamadı; kilit dosyası tutarlılığı doğrulandı, gerçek kurulum ağı olan makinede denenmelidir.
-- Gerçek tarayıcıda PDF yükleme arayüzü, native metin araçları (geri al, araç çubuğu), dokunmatik/mobil yerleşim, çift tıklamalı `.cmd` başlatıcılar, harici VPS/Nginx dağıtımı ve canlı AI sağlayıcı çağrıları bu ortamda doğrulanmadı. Yalnız tarayıcıda yerel OCR çalışması ayrıca denendi.
+- Gerçek tarayıcıda PDF yükleme arayüzü, native metin araçları (geri al, araç çubuğu), dokunmatik/mobil yerleşim, çift tıklamalı `.cmd` başlatıcılar, harici sunucu (ters vekil) dağıtımı ve canlı AI sağlayıcı çağrıları bu ortamda doğrulanmadı. Yalnız tarayıcıda yerel OCR çalışması ayrıca denendi.
 - `app/page.tsx` (~107 KB) ve `app/globals.css` (~47 KB) tek dosyada; bileşenlere bölünmesi ayrı bir iş.
 - Öğrenci sonuç gönderimi (POST) kimlik doğrulamasız ve hız sınırsızdır.

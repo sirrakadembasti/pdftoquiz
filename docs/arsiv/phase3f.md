@@ -2,7 +2,7 @@
 
 ## 11 Ekim 2026 güncellemesi
 
-Bu rapor FAZ 3F sırasında doğrulanan ölçümleri kaydeder. Sonraki kullanıcı onayıyla radio grupları iki checkbox'a, soru metni ve ayrı görünüm tek editöre dönüştürüldü; [güncel düzenleyici raporu](editor-simplification.md). Bu değişiklik eski gerçek PDF/OCR ölçümlerini yeni tarayıcı testi olarak sunmaz.
+Bu rapor FAZ 3F sırasında doğrulanan ölçümleri kaydeder. Sonraki kullanıcı onayıyla radio grupları iki checkbox'a, soru metni ve ayrı görünüm tek editöre dönüştürüldü; [güncel düzenleyici raporu](../editor-simplification.md). Bu değişiklik eski gerçek PDF/OCR ölçümlerini yeni tarayıcı testi olarak sunmaz.
 
 Gösterim seçimi, öğrenci verisi, sıra, kırpma ve hibrit tanılama değiştirildi. Yeni bağımlılık eklenmedi. OCR tur+eng / OEM1 / PSM11 / 144 DPI, 3C numara-sütun kabul kuralları ve üretim kırmızı eşiği korundu. 250 DPI yalnız şekilli şık görsellerinin render işleminde kullanılır; OCR girdisini değiştirmez. Otomatik metin düzeltmesi uygulanmaz.
 

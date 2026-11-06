@@ -21,7 +21,7 @@ Koordinatlar PDF sol ust referansina gore nokta cinsindedir. Normalize kırpma k
 | 16 / D | 3 | x=454,27-525,32; y=534,80-707,11; çok satırli kod | [0,730034; 0,618237; 0,244966; 0,313763] | 3.466 -> 0 |
 | 30 / D | 6 | x=42,48-257,20; y=429,54-460,34; üç satır SQL | [0,068357; 0,507181; 0,363435; 0,039348] | 4.712 -> 0 |
 
-Bu iki kırpmanin önce/sonra PNG'leri `docs/phase1b-evidence/` altindadir. `metrics.json` tüm 50 sorunun sayfa, şık kutusu, önerisi ve piksel ölçümunu içerir. 16 ve 30'un yeni öğrenci kırpmalari görsel olarak da incelendi.
+Bu iki kırpmanin önce/sonra PNG'leri `phase1b-evidence/` altindadir. `metrics.json` tüm 50 sorunun sayfa, şık kutusu, önerisi ve piksel ölçümunu içerir. 16 ve 30'un yeni öğrenci kırpmalari görsel olarak da incelendi.
 
 ## Referans testini engelleyen ek kök nedenler
 

@@ -10,7 +10,7 @@
 
 ## Aynı PDF'lerin gerçek önce/sonra çıktıları
 
-Eski sürümün kodu ile yeni kod aynı dört test PDF'sine uygulandı. Önce kayıtları düzeltme öncesinde oluşturuldu. Tam metin çıktısı: [tail-comparison.json](tail-comparison.json).
+Eski sürümün kodu ile yeni kod aynı dört test PDF'sine uygulandı. Önce kayıtları düzeltme öncesinde oluşturuldu. Tam metin çıktısı: [../tail-comparison.json](../tail-comparison.json).
 
 | PDF | Önce | Sonra |
 |---|---|---|

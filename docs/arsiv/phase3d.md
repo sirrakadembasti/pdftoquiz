@@ -231,7 +231,7 @@ OCR bütçesi≤%110 geçti. Önceki yeni kaynak ölçümü+%1,66 idi; son değe
 
 ## Değişen dosyalar
 
-app/page.tsx; app/globals.css; lib/quiz.ts; lib/pdf-import.ts; lib/pdf-layout.ts (güven metadata, placeholder için limit parametresi; OCR varsayılanı korunur); lib/hybrid.ts; package.json (sürüm/test); scripts/ocr/measure.mjs (okunmuş/yer tutucu ayrı metrik, kaynak seçimi ve isteğe bağlı sınav kaydı); tests/reading-regression.mjs; tests/red-ink-regression.mjs; portable/template/scripts/run-tests.mjs; scripts/export-portable.mjs (sürüm açıklaması); docs/phase3d.md.
+app/page.tsx; app/globals.css; lib/quiz.ts; lib/pdf-import.ts; lib/pdf-layout.ts (güven metadata, placeholder için limit parametresi; OCR varsayılanı korunur); lib/hybrid.ts; package.json (sürüm/test); scripts/ocr/measure.mjs (okunmuş/yer tutucu ayrı metrik, kaynak seçimi ve isteğe bağlı sınav kaydı); tests/reading-regression.mjs; tests/red-ink-regression.mjs; portable/template/scripts/run-tests.mjs; scripts/export-portable.mjs (sürüm açıklaması); phase3d.md.
 
 Yeni PDF/PNG fixture binary’si repoya eklenmedi. Referanslar dış yollarla verilir. SafJS/canvas ve mevcut PDF.js/tesseract.js kullanıldı; sürüm/PSM/dil/DPI yükseltilmedi. Kanıt paketinde JSON/ham kutular/test logları ve seçilmiş orijinal/güvenli kırpmalar bulunur. Kaynak paketi2.0.10, önceki portable profilinin mevcut bağımlılıklarını korur.
 

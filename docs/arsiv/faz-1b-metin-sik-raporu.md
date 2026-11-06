@@ -50,7 +50,7 @@ Karşılaştırma NFKC ve boşluk düzenleme sonrası büyük/küçük harfe duy
 
 87 kontrol geçti (4 PDF sınır kontrolü dahil); isteğe bağlı gerçek OCR ekran görüntüsü testi girdisi sağlanmadığından 1 test atlandı. Yeni 7 testin tamamı, gerçek Tapu referansı, önceki 80 soruluk PDF, renk güvenliği, numara sırası, API, OCR ve React regresyonları geçti. TypeScript ve `git diff --check` geçti. Üretim derlemesi paketleme sırasında ayrıca doğrulanır. Gerçek tarayıcı, Windows kurulumu ve yerel SQLite sunucusu bu oturumda çalıştırılmadı. API/React regresyonları mock kimlik/depolama/arayüz kullanır. Tüm PDF düzenleri için kusursuz dönüşüm garantisi verilmez.
 
-Eski taslaklar öğretmen değişikliklerini ezmemek için otomatik yeniden yazılmaz. PDF yeniden dönüştürülmelidir. Koordinat ve önce/sonra metin kanıtı: `docs/phase1b-text-evidence/text-diagnostics.json`.
+Eski taslaklar öğretmen değişikliklerini ezmemek için otomatik yeniden yazılmaz. PDF yeniden dönüştürülmelidir. Koordinat ve önce/sonra metin kanıtı: `phase1b-text-evidence/text-diagnostics.json`.
 
 ```bash
 TAPU_REFERENCE_PDF='/dosyalar/tapu.pdf' node --test tests/text-options-regression.mjs

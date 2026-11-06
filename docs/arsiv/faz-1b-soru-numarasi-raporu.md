@@ -83,7 +83,7 @@ Sayfa sınıfı `cover`/`instructions` olan sayfalar soru bölgesi analizine hi�
 - Yeni sıra/kod/kapak/geri alma/sayfa devamı testleri gerçek PDF ve sentetik satırlarla yapıldı. Önceki renk güvenliği, gerçek 80 soruluk PDF, OCR, API, hibrit onay ve React regresyonları ayrıca çalıştırıldı.
 - Toplam 80 kontrol geçti; isteğe bağlı gerçek OCR ekran görüntüsü testi, girdisi sağlanmadığı için atlandı. TypeScript ve `git diff --check` geçti. Üretim derlemesi paketleme sırasında ayrıca doğrulanır.
 - Gerçek tarayıcıdaki öğretmen/öğrenci akışı, Windows kurulumu ve yerel SQLite sunucusu bu oturumda çalıştırılmadı. Tarayıcı testleri React mock; API testleri gerçek route fonksiyonları ile mock kimlik/depolama kullanır. Tüm olası PDF düzenlerinde kusursuzluk garantisi yoktur.
-- Koordinat izi: `docs/phase1b-number-evidence/number-diagnostics.json`. Referans PDF repoya/pakete eklenmedi.
+- Koordinat izi: `phase1b-number-evidence/number-diagnostics.json`. Referans PDF repoya/pakete eklenmedi.
 
 Yeniden çalıştırma:
 

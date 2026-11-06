@@ -2,7 +2,7 @@
 
 ## 11 Ekim 2026 güncellemesi
 
-PDF/OCR parametreleri korunarak gösterim, sıra ve kırpma güvenliği için [Faz 3F](phase3f.md), editör ve cevap tablosu için [düzenleyici raporu](editor-simplification.md) geçerlidir. Programcı dönüşümündeki anahtar, öğretmen tablosunda 50 soru karşısında gösterilir; otomatik uygulanmaz. Aşağıdaki 7 Ekim verileri geçmiş ölçümlerdir.
+PDF/OCR parametreleri korunarak gösterim, sıra ve kırpma güvenliği için [Faz 3F](phase3f.md), editör ve cevap tablosu için [düzenleyici raporu](../editor-simplification.md) geçerlidir. Programcı dönüşümündeki anahtar, öğretmen tablosunda 50 soru karşısında gösterilir; otomatik uygulanmaz. Aşağıdaki 7 Ekim verileri geçmiş ölçümlerdir.
 
 7 Ekim 2026. Mevcut tasarım, paylaşım/öğrenci akışları ve Vinext/Worker/R2 yapısı korunarak PDF çözümleme yolu geliştirildi.
 

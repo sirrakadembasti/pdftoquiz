@@ -8,7 +8,7 @@ Next.js App Router + Node.js + React + Tailwind; doğrudan libSQL istemcisiyle y
 
 Şık başına elle kırp/yükle, 250 DPI aday önizlemesi, açık güvenli kopya onayı ve şık metnine erişim eklendi. Boş şık/yer tutucu uyarıları yalnız öğretmenin ilgili tamamlamasıyla güncellenir. Eski tam görselin elle yenilenen şıkları veya yeniden dönüştürmede güvenli gövdeyi atlaması engellendi. OCR/3C/kırmızı eşik ve bağımlılıklar değişmedi.
 
-[FAZ 3G raporu](docs/phase3g.md) her madde için bulgu, kanıt, değişiklik ve sonucu; 50 soru envanterini ve normalize sızıntı ölçümünü içerir. 43 soruda geometri yeterli, 7 soru ölçülemedi. Normalize sonuçlar sızıntısızlık kanıtı değildir. Bağımsız 49/Tapu kaynakları bulunamadı; gerçek tarayıcı giriş ve PDF yükleme simülasyonu bağlantı zaman aşımı nedeniyle tamamlanmadı. Gereken girdiler raporda yazılıdır.
+[FAZ 3G raporu](docs/arsiv/phase3g.md) her madde için bulgu, kanıt, değişiklik ve sonucu; 50 soru envanterini ve normalize sızıntı ölçümünü içerir. 43 soruda geometri yeterli, 7 soru ölçülemedi. Normalize sonuçlar sızıntısızlık kanıtı değildir. Bağımsız 49/Tapu kaynakları bulunamadı; gerçek tarayıcı giriş ve PDF yükleme simülasyonu bağlantı zaman aşımı nedeniyle tamamlanmadı. Gereken girdiler raporda yazılıdır.
 
 ## Güncel geliştirmeler
 
@@ -26,7 +26,7 @@ Next.js App Router + Node.js + React + Tailwind; doğrudan libSQL istemcisiyle y
 - Tarayıcı tarafından body'ye eklenen nitelikler için dar hydration istisnası eklendi; alt bileşen uyuşmazlıkları bastırılmaz. Ayrıntılar: [hydration incelemesi](docs/hydration-and-git.md).
 - Kalite kontrolü ve hibrit AI incelemesi artık teknik hata kodları yerine soru numarası, eksik alan ve kullanıcıdan beklenen işlemi açıklayan Türkçe durum metinleri gösterir. AI önerisinin uygulanıp uygulanmadığı ayrıca belirtilir; düzenleme veya öneri uygulama sonrasında Çözümleme özeti, şüpheli sorular ve paylaşım kontrolleri sayfa yenilemeden yeniden hesaplanır.
 
-Kalite/AI inceleme akışı uygulama içi gerçek tarayıcıda doğrulandı; native metin araçları ve mobil yerleşim ayrıca doğrulanmalıdır. Güncel kanıtlar [TEST-REPORT.md](TEST-REPORT.md), [AI inceleme doğrulaması](docs/ai-review-verification.md), [düzenleyici raporu](docs/editor-simplification.md) ve [Faz 3F raporu](docs/phase3f.md) içindedir.
+Kalite/AI inceleme akışı uygulama içi gerçek tarayıcıda doğrulandı; native metin araçları ve mobil yerleşim ayrıca doğrulanmalıdır. Güncel kanıtlar [TEST-REPORT.md](TEST-REPORT.md), [AI inceleme doğrulaması](docs/ai-review-verification.md), [düzenleyici raporu](docs/editor-simplification.md) ve [Faz 3F raporu](docs/arsiv/phase3f.md) içindedir.
 
 ## Windows'ta hızlı başlatma
 
@@ -95,7 +95,7 @@ node tools/pnpm/dist/pnpm.mjs test:server
 
 Standart `node tools/pnpm/dist/pnpm.mjs test` harici belge istemez ve atlanan teste izin vermez. Belgeye özgü dokuz ek kontrol ayrı `node tools/pnpm/dist/pnpm.mjs test:acceptance` katmanındadır. Bu komut `MULTISECTION_REFERENCE_PDF`, `ANSWER_KEY_REFERENCE_IMAGE`, `STRUCTURED_REFERENCE_PDF` ve `SCANNED_REFERENCE_PDF` yollarını ister; dosyalar verilmezse açık yapılandırma hatasıyla durur ve standart test sonucuna “atlandı” olarak eklenmez. Ayrıntılı kapsam, eski değişken adlarının uyumluluk eşlemesi ve fixture politikası: [test stratejisi](docs/test-strategy.md).
 
-Faz 3D düzeltme 2 bulguları ve doğrulama sınırları: [rapor](docs/phase3d2.md). İptal, tanılama ve bellek ölçümleri: [ayrı Faz 3E raporu](docs/phase3e.md).
+Faz 3D düzeltme 2 bulguları ve doğrulama sınırları: [rapor](docs/arsiv/phase3d2.md). İptal, tanılama ve bellek ölçümleri: [ayrı Faz 3E raporu](docs/arsiv/phase3e.md).
 
 Tanılama paketini öğretmen düzenleyicisinden yerel olarak indirin; sınav metni içerir. OCR çalıştırmadan parser tekrar yürütmesi:
 
@@ -134,7 +134,7 @@ Başka PDF'ler için `TAPU_REFERENCE_PDF` / `REAL_REFERENCE_PDF` / `MULTISECTION
 
 ## FAZ 3F doğrulaması
 
-Gösterim, sızıntı ölçümü, sıra/kırpma ve doğrulama sınırları: [FAZ 3F raporu](docs/phase3f.md). Yeni regresyonlar standart `test` komutuna dahildir. Yerel ölçüm: `node scripts/measure-leakage.mjs kaynak.pdf ogretmen-taslagi.json sonuc.json`; anahtar yalnız yerel ölçümde kullanılır. Gerçek tarayıcı/mobil, bağımsız gerçek 49 sorulu OCR, Tapu A ve OOM doğrulanamadı.
+Gösterim, sızıntı ölçümü, sıra/kırpma ve doğrulama sınırları: [FAZ 3F raporu](docs/arsiv/phase3f.md). Yeni regresyonlar standart `test` komutuna dahildir. Yerel ölçüm: `node scripts/measure-leakage.mjs kaynak.pdf ogretmen-taslagi.json sonuc.json`; anahtar yalnız yerel ölçümde kullanılır. Gerçek tarayıcı/mobil, bağımsız gerçek 49 sorulu OCR, Tapu A ve OOM doğrulanamadı.
 
 
 ## Güncel PDF düzenleyicisi

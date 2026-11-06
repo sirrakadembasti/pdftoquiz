@@ -85,7 +85,7 @@ Ham kayıtlar: `.audit/typecheck.log`, `build.log`, `test.log`, `server.log`, `a
 
 ## Belgelerin değerlendirilmesi ve diğer sınırlar
 
-README başlığı 2.0.0 / 7 Ekim, TEST-REPORT 7 Ekim ve 72 ortak kontrol diyor. package.json ve VERSION.json ise **2.0.10**; en yeni faz belgesi **docs/phase3d.md (10 Ekim)**. Önceki raporlar geçmiş faz/ortam ölçümleridir; bu Windows oturumunda tüm testler geçmedi.
+README başlığı 2.0.0 / 7 Ekim, TEST-REPORT 7 Ekim ve 72 ortak kontrol diyor. package.json ve VERSION.json ise **2.0.10**; en yeni faz belgesi **arsiv/phase3d.md (10 Ekim)**. Önceki raporlar geçmiş faz/ortam ölçümleridir; bu Windows oturumunda tüm testler geçmedi.
 
 Faz 1B belgeleri dijital PDF numara, boşluk/kod metni, kırpma ve renkli cevap sızıntısı düzeltmelerini anlatıyor; JSON kanıtları koordinat/önce-sonra çıktıları içeriyor. Faz 3C-2 kırmızı tarama güvenli kopyalarını; 3C-3 harf sırası çıkarımını; follow-up hedefli OCR ile 46→48 okunmuş soruyu anlatıyor. Son 3D raporunda **48 okunmuş + 2 OKUNAMADI = 50 kayıt** var; bu 50 sorunun OCR ile doğru okunduğu anlamına gelmiyor. 43 soruda beş harf algılanmış, 42 soru uyarılı. 5/21 öğretmen çözümü/onayı gerektiriyor; 3E/3F yapılmamış. Bu oturumda telifli dış referanslarla bu ölçümler yeniden üretilmedi.
 

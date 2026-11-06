@@ -26,7 +26,7 @@ Sonraki değişiklikler için `git status`, `git add <dosyalar>`, `git commit` v
 
 ## FAZ 3G teslim güncellemesi — 12 Ekim 2026
 
-Kullanıcının açık isteğiyle FAZ 3G kaynakları, ilgili Markdown belgeleri ve Sites kopyaları aynı teslim kapsamına alındı. [FAZ 3G raporu](phase3g.md), [test raporu](../TEST-REPORT.md), README ve uygulama planı güncellendi. İlk Git kurulumuna ilişkin yukarıdaki kayıt tarihsel olarak korunur.
+Kullanıcının açık isteğiyle FAZ 3G kaynakları, ilgili Markdown belgeleri ve Sites kopyaları aynı teslim kapsamına alındı. [FAZ 3G raporu](arsiv/phase3g.md), [test raporu](../TEST-REPORT.md), README ve uygulama planı güncellendi. İlk Git kurulumuna ilişkin yukarıdaki kayıt tarihsel olarak korunur.
 
 Son uygulama doğrulaması: standart pakette 195 test, 186 geçiş, 9 dış kaynak atlaması, 0 hata; TypeScript ve üretim derlemesi çıkış 0; HTTP/SQLite kontrolleri 9/9. Öğretmen hesabıyla gerçek HTTP girişi doğrulandı. Gerçek tarayıcı giriş/PDF yükleme simülasyonu, bağımsız 49 soruluk OCR ve dijital Tapu doğrulanmadı; nedenler ve gereken girdiler FAZ 3G raporunda yer alır.
 

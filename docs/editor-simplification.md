@@ -32,7 +32,7 @@ Body hydration düzeltmesi sonrası standart paket 180 testtir: 171 başarılı,
 
 ## FAZ 3G güncellemesi — 12 Ekim 2026
 
-Elle şık tamamlama, 250 DPI aday önizlemesi, açık görsel onayı, uyarı yenileme ve konuma göre ölçüm eklendi. Önceki tarihli sayılar korunur; güncel envanter ve doğrulanamayan kontroller [FAZ 3G raporunda](phase3g.md). Gerçek tarayıcı giriş/PDF yükleme simülasyonu tamamlanmadı.
+Elle şık tamamlama, 250 DPI aday önizlemesi, açık görsel onayı, uyarı yenileme ve konuma göre ölçüm eklendi. Önceki tarihli sayılar korunur; güncel envanter ve doğrulanamayan kontroller [FAZ 3G raporunda](arsiv/phase3g.md). Gerçek tarayıcı giriş/PDF yükleme simülasyonu tamamlanmadı.
 
 ## Toplu PDF cevabı aktarımı — 23 Ekim 2026
 

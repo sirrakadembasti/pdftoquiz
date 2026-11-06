@@ -1,6 +1,8 @@
-# Bağımlılıklar ve lisanslar — 7 Ekim 2026
+# Bağımlılıklar ve lisanslar
 
-Sürümler taşınabilir paketin doğrudan kurulan bağımlılıklarıdır. Tam transitive/işletim sistemi çözümlemesi pnpm-lock.yaml içindedir. PDF/OCR/TypeScript/ESLint major sürümleri uyumluluk doğrulanmadan yükseltilmedi.
+Bu dosya ve `VENDOR-LICENSES/` klasörü `node scripts/licenses.mjs` ile `package.json` ve `node_modules` içeriğinden üretilir; elle düzenlemeyin. `build` komutu dosyaları günceller, standart test paketi güncel olup olmadığını denetler.
+
+Sürümler taşınabilir paketin doğrudan kurulan bağımlılıklarıdır. Tam transitive/işletim sistemi çözümlemesi `pnpm-lock.yaml` içindedir.
 
 | Paket | Kullanılan sürüm | Lisans |
 |---|---|---|
@@ -25,14 +27,6 @@ Sürümler taşınabilir paketin doğrudan kurulan bağımlılıklarıdır. Tam 
 
 pnpm: 11.25.0, MIT; tools/pnpm dağıtımının özgün lisans ve bildirimleri dahil.
 
-VENDOR-LICENSES doğrudan paketlerin mevcut LICENSE/COPYING/NOTICE dosyalarını içerir. Her transitif paketin özgün lisansı kurulumdan sonra node_modules içinde korunur. Kullanıcının uygulamasına yeni bir açık kaynak lisansı atanmamıştır.
+`VENDOR-LICENSES` doğrudan paketlerin LICENSE/COPYING/NOTICE dosyalarını içerir. Her transitif paketin özgün lisansı kurulumdan sonra `node_modules` içinde korunur. Uygulamanın kendisine yeni bir açık kaynak lisansı atanmamıştır.
 
-PDF.js, Tesseract ve sunulan WASM/dil varlıkları birlikte korunmuştur. Gerçek referans sınav PDF'leri `tests/reference/` altındadır.
-
-## 23 Ekim 2026 bakım güncellemesi
-
-Uygulama kaynaklarında kullanılmayan örnek UI bileşenleri, bunlara ait doğrudan paketler ve kullanılmayan D1/Drizzle örnek altyapısı kaldırıldı. Kilit dosyaları ve dağıtılan doğrudan lisans envanteri bu gerçek çalışma kümesine göre yenilendi. Toplu cevap aktarımı ve Docker/libSQL düzenlemesi yeni bağımlılık eklemedi.
-
-## 6 Kasım 2026 temizliği
-
-Kullanılmayan Prisma paketleri (`@prisma/client`, `@prisma/adapter-libsql`, `prisma`), `prisma/` şema–migrasyon klasörü ve `prisma.config.ts` kaldırıldı. SQLite şeması tek kaynak olarak `lib/db.ts` içindedir; `db:migrate` eksik tabloları oluşturur. Eski ChatGPT Sites profili (`sites-source/`) ve ChatGPT kimlik adlandırması da kaldırıldı; oturum okuma `lib/session.ts` içindedir.
+PDF.js, Tesseract ve sunulan WASM/dil varlıkları birlikte korunmuştur. Referans sınav PDF'leri `tests/reference/` altındadır.

@@ -82,7 +82,7 @@ Hibrit önce yerel geçiş yapar; kalite kapısında sorunlu alanları seçer ve
 
 ## Bağımlılıklar ve testler
 
-`package.json`, `pnpm-lock.yaml`, `DEPENDENCIES.md` ve lisanslar pakette. Next 16.4.0, React 19.3.0, Tailwind 4.3.3, Lucide 1.52.0 güncellendi. SQLite çalışma zamanı doğrudan `@libsql/client` kullanır; Prisma paketleri ve `prisma/` klasörü 6 Kasım 2026'da kaldırıldı. PDF.js 5.4.296 / Tesseract 5.1.1 worker/dil varlıklarıyla eşleşen test edilmiş sürümlerde korundu. pnpm 11.25.0 JavaScript dağıtımı Windows/Linux uyumluluğu için ZIP'e eklendi;
+`package.json`, `pnpm-lock.yaml`, `DEPENDENCIES.md` ve lisanslar pakette; son ikisi `scripts/licenses.mjs` ile otomatik üretilir (`build` yazar, `test` güncelliği denetler). Next 16.4.0, React 19.3.0, Tailwind 4.3.3, Lucide 1.52.0 güncellendi. SQLite çalışma zamanı doğrudan `@libsql/client` kullanır; Prisma paketleri ve `prisma/` klasörü 6 Kasım 2026'da kaldırıldı. PDF.js 5.4.296 / Tesseract 5.1.1 worker/dil varlıklarıyla eşleşen test edilmiş sürümlerde korundu. pnpm 11.25.0 JavaScript dağıtımı Windows/Linux uyumluluğu için ZIP'e eklendi;
 
 ```sh
 node tools/pnpm/dist/pnpm.mjs typecheck

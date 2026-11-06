@@ -22,6 +22,7 @@
     "user:add": "node --import tsx scripts/admin.ts",
     "user:reset": "node --import tsx scripts/admin.ts --reset",
     "backup": "node --import tsx scripts/backup.ts",
+    "licenses": "node scripts/licenses.mjs",
     "reference": "node scripts/convert-reference.mjs"
   },
   "dependencies": {

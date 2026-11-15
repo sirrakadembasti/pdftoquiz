@@ -15,7 +15,7 @@ Sürümler taşınabilir paketin doğrudan kurulan bağımlılıklarıdır. Tam 
 | @types/react-dom | 19.2.3 | MIT |
 | dotenv | 18.0.6 | BSD-2-Clause |
 | lucide-react | 1.52.0 | ISC |
-| next | 16.4.0 | MIT |
+| next | 16.4.6 | MIT |
 | pdfjs-dist | 5.4.296 | Apache-2.0 |
 | react | 19.3.0 | MIT |
 | react-dom | 19.3.0 | MIT |

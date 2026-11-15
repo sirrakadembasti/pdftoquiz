@@ -8,6 +8,7 @@ Sürümler taşınabilir paketin doğrudan kurulan bağımlılıklarıdır. Tam 
 |---|---|---|
 | @libsql/client | 0.18.0 | MIT |
 | @napi-rs/canvas | 0.1.100 | MIT |
+| @sirrakadembasti/llm-manager | 2.0.0 | MIT |
 | @tailwindcss/postcss | 4.3.3 | MIT |
 | @types/node | 22.19.19 | MIT |
 | @types/react | 19.2.14 | MIT |

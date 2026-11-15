@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "type": "nextjs",
+  "pagePath": "/llm",
+  "apiPath": "/api/llm",
+  "authMode": "basic",
+  "generatedFiles": [
+    "llm.js",
+    "app/api/llm/[...slug]/route.js",
+    "app/llm/[[...slug]]/route.js",
+    "app/actions/llm.js"
+  ]
+}

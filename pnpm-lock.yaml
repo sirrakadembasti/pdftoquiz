@@ -11,6 +11,9 @@ importers:
       '@libsql/client':
         specifier: 0.18.0
         version: 0.18.0
+      '@sirrakadembasti/llm-manager':
+        specifier: github:sirrakadembasti/llm-manager#ce919043071b13a739f361bbfe769fcabf023c9d
+        version: https://codeload.github.com/sirrakadembasti/llm-manager/tar.gz/ce919043071b13a739f361bbfe769fcabf023c9d
       dotenv:
         specifier: 18.0.6
         version: 18.0.6
@@ -664,6 +667,17 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@sirrakadembasti/llm-manager@https://codeload.github.com/sirrakadembasti/llm-manager/tar.gz/ce919043071b13a739f361bbfe769fcabf023c9d':
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/sirrakadembasti/llm-manager/tar.gz/ce919043071b13a739f361bbfe769fcabf023c9d}
+    version: 2.0.0
+    engines: {node: '>=22.12.0'}
+    hasBin: true
+    peerDependencies:
+      express: ^4.19.2 || ^5.0.0
+    peerDependenciesMeta:
+      express:
+        optional: true
+
   '@swc/helpers@0.5.23':
     resolution: {integrity: sha512-5lSsMOTXURePglDfvuAQUqkGek9Hg2kksOYay2m0+XR++b2NWYL/4sWyuvVBIs8oKnJaxkdi9whaL/sqN13afw==}
 
@@ -1141,6 +1155,10 @@ packages:
 
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+
+  undici@7.30.2:
+    resolution: {integrity: sha512-mLyPQnHwUxaM/rideoK/+KL8DaAJLRl4aBCfmX444aCSLnIaomqPLtNRe2jdCYcsk5wZzXrDIQC8ZeYNRAYyIA==}
+    engines: {node: '>=20.18.1'}
 
   update-browserslist-db@1.3.1:
     resolution: {integrity: sha512-ZZ61DsRsOnakl74HAmp3oSN4aXUmEWXf+i/yv0h7tIBfICc3VdrFErQKUUKPgu3AMsTUMbcongALEN4l6GSUrQ==}
@@ -1640,6 +1658,10 @@ snapshots:
   '@next/swc-win32-x64-msvc@16.4.6':
     optional: true
 
+  '@sirrakadembasti/llm-manager@https://codeload.github.com/sirrakadembasti/llm-manager/tar.gz/ce919043071b13a739f361bbfe769fcabf023c9d':
+    dependencies:
+      undici: 7.30.2
+
   '@swc/helpers@0.5.23':
     dependencies:
       tslib: 2.8.1
@@ -2083,6 +2105,8 @@ snapshots:
   typescript@5.9.3: {}
 
   undici-types@6.21.0: {}
+
+  undici@7.30.2: {}
 
   update-browserslist-db@1.3.1(browserslist@4.28.8):
     dependencies:

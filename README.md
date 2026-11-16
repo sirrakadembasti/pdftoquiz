@@ -18,11 +18,10 @@ Node.js 24 LTS (>=22.13) ve pnpm 11.25.0 gerekir (pnpm yoksa: `corepack enable` 
 git clone https://github.com/sirrakadembasti/pdftoquiz.git
 cd pdftoquiz
 pnpm install
-pnpm user:add
-pnpm dev
+Copy-Item .env.example .env
 ```
 
-`user:add` e-posta ve ad sorar, ilk öğretmen hesabını oluşturup şifresini terminalde gösterir (kaydedin). Sonra http://localhost:3000 adresini açıp /account sayfasından giriş yapın. Veritabanı ilk çalıştırmada kendiliğinden oluşur; `.env` isteğe bağlıdır.
+`.env` dosyasını açıp `INITIAL_ADMIN_PASSWORD=` satırına en az 12 karakterlik bir şifre yazın, sonra `pnpm dev` ile başlatın. Hesap yoksa sunucu ilk açılışta `admin@local.test` e-postası (`INITIAL_ADMIN_EMAIL` ile değişir) ve bu şifreyle öğretmen hesabını kendisi oluşturur; http://localhost:3000/account sayfasından giriş yapın. Veritabanı da ilk çalıştırmada kendiliğinden oluşur. Hesap oluştuktan sonra `.env`'deki bu değerler yok sayılır; şifreyi değiştirmek için `pnpm user:reset` kullanın. Şifre yazmak istemezseniz `pnpm user:add` rastgele şifreli hesap oluşturur ve şifreyi terminalde gösterir.
 
 ## Komutlar
 

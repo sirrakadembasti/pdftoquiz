@@ -6,9 +6,13 @@ Kısa başlangıç için [README](../README.md). Test, geliştirme ve bağımlı
 
 Node.js 24 LTS önerilir (>=22.13). Paket yöneticisi pnpm 11.25.0'dır (`package.json` içindeki `packageManager` alanı). Yoksa `corepack enable` (Node ile gelir; ilk kullanımda indirir) ya da `npm install -g pnpm@11.25.0` ile kurun. `bun run` ve `npm run` da `package.json` betiklerini çalıştırır, ama kilit dosyası pnpm'e aittir. İlk paket indirme için internet gerekir; `node_modules` işletim sistemine bağlı olduğundan depoda yoktur.
 
-Komutlar [README](../README.md) içindeki "Hızlı başlangıç" bölümündedir (`git clone`, `pnpm install`, `pnpm user:add`, `pnpm dev`).
+Komutlar [README](../README.md) içindeki "Hızlı başlangıç" bölümündedir (`git clone`, `pnpm install`, `.env` kopyalama, `pnpm dev`).
 
-`pnpm install` bağımlılıkları kilit dosyasına göre kurar. `pnpm user:add` ilk öğretmen hesabını oluşturur; hesap olmadan giriş yapılamaz. SQLite dosyası (`data/quiz.db`) ve şeması ilk çalıştırmada kendiliğinden oluşur. `.env` yoksa varsayılanlar kullanılır; ayar gerekirse `.env.example` dosyasını `.env` olarak kopyalayın (üretim adresi, `/llm` parolası vb.).
+`pnpm install` bağımlılıkları kilit dosyasına göre kurar. SQLite dosyası (`data/quiz.db`) ve şeması ilk çalıştırmada kendiliğinden oluşur.
+
+**İlk öğretmen hesabı:** Hesap olmadan giriş yapılamaz (kayıt sayfası yoktur). Sunucu her açılışta (`instrumentation.ts` → `lib/initial-account.ts`) veritabanında hiç hesap yoksa ve `.env` içinde `INITIAL_ADMIN_PASSWORD` doluysa hesabı kendisi oluşturur: e-posta `INITIAL_ADMIN_EMAIL` (varsayılan `admin@local.test`), ad `INITIAL_ADMIN_NAME` (varsayılan `Öğretmen`). Şifre 12–256 karakter, e-posta geçerli olmalıdır; aksi hâlde sunucu açılır, günlüğe uyarı yazar ve hesap oluşturmaz. Şifre boşsa hiçbir şey yapılmaz; bu durumda `pnpm user:add` ile hesap oluşturun. Hesap bir kez oluşunca bu üç değer yok sayılır; `.env`'i değiştirmek giriş bilgisini değiştirmez.
+
+`.env` dosyası git dışıdır; şifre düz metin olarak orada durur. İlk girişten sonra satırı silebilirsiniz, hesap veritabanında kalır.
 
 Çift tıklama ile: `scripts/windows/CALISTIR-GELISTIRME.cmd`, `CALISTIR-URETIM.cmd` (çift tıklama davranışı ayrıca sınanmamıştır).
 
@@ -18,7 +22,6 @@ Komutlar [README](../README.md) içindeki "Hızlı başlangıç" bölümündedir
 
 ```sh
 pnpm install
-pnpm user:add
 pnpm build
 pnpm start
 ```

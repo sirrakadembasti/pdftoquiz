@@ -56,9 +56,38 @@ Taranmış belgelerde yoğun öğretmen kontrolü beklenir; bu uygulamanın belg
 
 Tarayıcı eklentilerinin `<body>`'ye eklediği nitelikler (ör. `cz-shortcut-listen`) sunucu/istemci farkı uyarısı üretebilir. `app/layout.tsx` yalnız `<body suppressHydrationWarning>` kullanır; bu body seviyesindeki dış nitelik uyarısını bastırır, nitelikleri silmez, alt bileşen uyuşmazlıklarını bastırmaz. `tests/hydration-regression.mjs` bunu sınar.
 
-## 6. Doğrulanamayanlar ve bilinen borçlar
+## 6. LLM Manager (`/llm`) ve bağımlılık kurulumu
 
-- Sıfırdan bağımlılık kurulumu bu geliştirme bilgisayarında (ağ yok) tamamlanamadı; kilit dosyası tutarlılığı doğrulandı, gerçek kurulum ağı olan makinede denenmelidir.
+**Nedir:** `@sirrakadembasti/llm-manager` (GitHub paketi, MIT), LLM sağlayıcı/model/API anahtarı profillerini yöneten ve sohbet edilebilen bir panel ve REST API ekler. Panel `/llm` (temel kimlik doğrulama), API `/api/llm/...`. Anahtarlar AES-256-GCM ile şifrelenip `data/` altında tutulur (`llm-profiles.json`, `llm-encryption.key`; ikisini birlikte yedekleyin, anahtar kaybolursa profiller çözülemez). Üretilen dosyalar: `llm.js`, `app/llm/[[...slug]]/route.js`, `app/api/llm/[...slug]/route.js`, `app/actions/llm.js`; ayarlar `.llm-manager.json` içindedir.
+
+**Mevcut AI ile ilişkisi:** Uygulamanın PDF kalite kontrolü (`/api/ai`) llm-manager'ı kullanmaz; kullanıcının tarayıcıda girdiği anahtarla çalışmaya devam eder. `app/actions/llm.js` içindeki `ask` eylemi, öğretmen yetkisi bağlanmadan bilerek hata verir.
+
+**Etkinleştirme:**
+
+1. Bağımlılıkları kurun (aşağıya bakın).
+2. `.env` dosyasına `LLM_ADMIN_PASSWORD=<güçlü parola>` ekleyin (`LLM_ADMIN_USER` varsayılan `admin`; isteğe bağlı `LLM_DATA_DIR`, `LLM_PAGE_PATH`, `LLM_API_PATH`, `LLM_CHAT_TOKENS`).
+3. `dev` ile başlatıp `/llm` adresinden giriş yapın, bir sağlayıcı profili ekleyin ve etkin yapın.
+4. Uygulama içinden sormak için `app/actions/llm.js` içindeki `requireAuthorizedUser` işlevini öğretmen oturumuna (`lib/session.ts` → `currentUser()`) bağlayın.
+
+**Kurulum:** ağı engelsiz bir makinede proje klasöründe:
+
+```sh
+node tools/pnpm/dist/pnpm.mjs install --frozen-lockfile
+```
+
+Beklenen sonuç: `node_modules/@sirrakadembasti/llm-manager` ve Next 16.4.6 kurulur. Kurulmadan `dev`/`build` `Can't resolve '@sirrakadembasti/llm-manager/core'` hatası verir; `test` ilk adımda `docs/lisanslar` ile kurulu sürümleri karşılaştırır, `node_modules` eski kalırsa güncel değil diye durur.
+
+**Bu bilgisayardaki kısıtlar (6 Kasım–16 Kasım 2026 gözlemi):**
+
+- Node'un `dns.lookup` çağrısı (getaddrinfo) başarısız olur (`ENOTFOUND`), `dns.resolve4/6` çalışır. `D:\dnm\localhost-fix.cjs` yalnız `localhost` için geçerlidir, kayıt defteri adlarını kapsamaz. PowerShell'in kendi istekleri etkilenmez.
+- Kayıt defteri/GitHub bazı paket tarball'ları için 403 döndürdü (`lucide-react`, llm-manager). Bu bir ağ politikasıdır; kurulum ağı serbest bir makinede yapılmalıdır.
+- Geçici çözüm olarak `D:\dnm\llm-manager-main` yerel kopyasından `node_modules/@sirrakadembasti/llm-manager` ve `node_modules/undici` elle oluşturulabilir (yalnız `node_modules`, git dışı). Bu kopya kilitli commit'ten (`ce91904`) farklıdır (`45d9ed9`); yalnız geliştirme içindir ve gerçek `install` ile değiştirilmelidir. Bu durumda `build` ve `licenses` betiği `docs/lisanslar/DEPENDENCIES.md` içinde Next sürümünü 16.4.0 yazar; commit etmeyin (`git checkout -- docs/lisanslar/DEPENDENCIES.md`).
+
+**Doğrulama (geçici kopyayla):** `build` başarılı; geçici veritabanı ve veri klasörüyle `/llm` kimlik bilgisiz 401, kimlik bilgisiyle 200; `/api/llm/catalog` 200. Gerçek sağlayıcı çağrısı ve uygulama içi `ask` doğrulanmadı.
+
+## 7. Doğrulanamayanlar ve bilinen borçlar
+
+- Sıfırdan bağımlılık kurulumu bu geliştirme bilgisayarında tamamlanamadı (bölüm 6: DNS ve 403 kısıtları); kilit dosyası tutarlılığı doğrulandı, gerçek kurulum ağı serbest bir makinede denenmelidir.
 - Gerçek tarayıcıda PDF yükleme arayüzü, native metin araçları (geri al, araç çubuğu), dokunmatik/mobil yerleşim, çift tıklamalı `.cmd` başlatıcılar, harici sunucu (ters vekil) dağıtımı ve canlı AI sağlayıcı çağrıları bu ortamda doğrulanmadı. Yalnız tarayıcıda yerel OCR çalışması ayrıca denendi.
 - `app/page.tsx` (~107 KB) ve `app/globals.css` (~47 KB) tek dosyada; bileşenlere bölünmesi ayrı bir iş.
 - Öğrenci sonuç gönderimi (POST) kimlik doğrulamasız ve hız sınırsızdır.

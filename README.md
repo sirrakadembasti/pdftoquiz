@@ -4,7 +4,7 @@
 
 **Teknoloji:** Next.js 16 (App Router) + React 19 + Tailwind 4 + TypeScript; veritabanı olarak doğrudan `@libsql/client` ile yerel SQLite (şema `lib/db.ts` içinde, ilk çalıştırmada kendiliğinden oluşur). Harici hizmet veya hesap gerektirmez. PDF.js/OCR worker, WASM ve dil dosyaları `public/vendor/` altındadır; pnpm `tools/pnpm/` ile gelir.
 
-Mimari notlar, test düzeni, referans PDF sonuçları ve bilinen sınırlar: [docs/TEKNIK-REHBER.md](docs/TEKNIK-REHBER.md). Bağımlılık lisansları: [docs/lisanslar/DEPENDENCIES.md](docs/lisanslar/DEPENDENCIES.md).
+Mimari notlar, test düzeni, referans PDF sonuçları ve bilinen sınırlar: [docs/GELISTIRICI-REHBERI.md](docs/GELISTIRICI-REHBERI.md). LLM sağlayıcı/anahtar paneli (/llm): [docs/LLM-MANAGER.md](docs/LLM-MANAGER.md). Bağımlılık lisansları: [docs/lisanslar/DEPENDENCIES.md](docs/lisanslar/DEPENDENCIES.md).
 
 ## Özellikler
 
@@ -62,7 +62,7 @@ node tools/pnpm/dist/pnpm.mjs build
 node tools/pnpm/dist/pnpm.mjs test:server    # gerçek Next sunucusu + SQLite (önce build)
 ```
 
-`test` harici belge istemez, atlanan teste izin vermez ve `docs/lisanslar` güncel değilse durur. Belgeye özgü kabul kontrolleri ayrıdır (`test:acceptance`, dört `*_REFERENCE_*` yolu ister). Ayrıntılar: [teknik rehber](docs/TEKNIK-REHBER.md).
+`test` harici belge istemez, atlanan teste izin vermez ve `docs/lisanslar` güncel değilse durur. Belgeye özgü kabul kontrolleri ayrıdır (`test:acceptance`, dört `*_REFERENCE_*` yolu ister). Ayrıntılar: [geliştirici rehberi](docs/GELISTIRICI-REHBERI.md).
 
 ### Referans PDF'ler
 

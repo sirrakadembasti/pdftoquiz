@@ -8,7 +8,6 @@
   },
   "packageManager": "pnpm@11.25.0",
   "scripts": {
-    "setup": "node scripts/setup.mjs",
     "dev": "next dev --hostname 127.0.0.1 --port 3000",
     "build": "node scripts/build.mjs",
     "start": "node scripts/serve.mjs",

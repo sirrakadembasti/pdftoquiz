@@ -17,15 +17,16 @@ Node.js 24 LTS (>=22.13) ve pnpm 11.25.0 gerekir (pnpm yoksa: `corepack enable` 
 ```powershell
 git clone https://github.com/sirrakadembasti/pdftoquiz.git
 cd pdftoquiz
-node scripts/setup.mjs
+pnpm install
+pnpm user:add
 pnpm dev
 ```
 
-http://localhost:3000 adresini açın; `setup` terminalde ilk öğretmen hesabını gösterir, /account sayfasından giriş yapın.
+`user:add` e-posta ve ad sorar, ilk öğretmen hesabını oluşturup şifresini terminalde gösterir (kaydedin). Sonra http://localhost:3000 adresini açıp /account sayfasından giriş yapın. Veritabanı ilk çalıştırmada kendiliğinden oluşur; `.env` isteğe bağlıdır.
 
 ## Komutlar
 
-Hepsi `pnpm <komut>` ile çalışır (`setup` hariç: `node scripts/setup.mjs`).
+Hepsi `pnpm <komut>` ile çalışır.
 
 | Komut | Ne yapar |
 |---|---|

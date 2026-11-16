@@ -6,18 +6,19 @@ Kısa başlangıç için [README](../README.md). Test, geliştirme ve bağımlı
 
 Node.js 24 LTS önerilir (>=22.13). Paket yöneticisi pnpm 11.25.0'dır (`package.json` içindeki `packageManager` alanı). Yoksa `corepack enable` (Node ile gelir; ilk kullanımda indirir) ya da `npm install -g pnpm@11.25.0` ile kurun. `bun run` ve `npm run` da `package.json` betiklerini çalıştırır, ama kilit dosyası pnpm'e aittir. İlk paket indirme için internet gerekir; `node_modules` işletim sistemine bağlı olduğundan depoda yoktur.
 
-Komutlar [README](../README.md) içindeki "Hızlı başlangıç" bölümündedir (`git clone`, `node scripts/setup.mjs`, `dev`).
+Komutlar [README](../README.md) içindeki "Hızlı başlangıç" bölümündedir (`git clone`, `pnpm install`, `pnpm user:add`, `pnpm dev`).
 
-`node scripts/setup.mjs` komutu `.env` yoksa `.env.example`'dan oluşturur, bağımlılıkları `--frozen-lockfile` ile kurar, SQLite şemasını hazırlar ve ilk öğretmen hesabını yaratır. Terminalde gösterilen e-posta ve şifreyi kaydedin; http://localhost:3000 adresini açıp /account sayfasından giriş yapın.
+`pnpm install` bağımlılıkları kilit dosyasına göre kurar. `pnpm user:add` ilk öğretmen hesabını oluşturur; hesap olmadan giriş yapılamaz. SQLite dosyası (`data/quiz.db`) ve şeması ilk çalıştırmada kendiliğinden oluşur. `.env` yoksa varsayılanlar kullanılır; ayar gerekirse `.env.example` dosyasını `.env` olarak kopyalayın (üretim adresi, `/llm` parolası vb.).
 
-Çift tıklama ile: `scripts/windows/KURULUM-WINDOWS.cmd`, `CALISTIR-GELISTIRME.cmd`, `CALISTIR-URETIM.cmd` (çift tıklama davranışı ayrıca sınanmamıştır).
+Çift tıklama ile: `scripts/windows/CALISTIR-GELISTIRME.cmd`, `CALISTIR-URETIM.cmd` (çift tıklama davranışı ayrıca sınanmamıştır).
 
 `dev` sunucusu `package.json` içindeki betikle `127.0.0.1:3000` üzerinde açılır; adres veya portu değiştirmek için betikteki `--hostname`/`--port` değerlerini düzenleyin. Aynı klasörde aynı anda yalnız bir `dev` sunucusu çalışır (ikincisi "Another next dev server is already running" der).
 
 ## 2. Üretim / Linux sunucu
 
 ```sh
-node scripts/setup.mjs
+pnpm install
+pnpm user:add
 pnpm build
 pnpm start
 ```
@@ -32,7 +33,7 @@ Windows'ta `build`, pnpm bağımlılık bağlantılarını ve SQLite yerel paket
 - Şifre scrypt hash'i olarak, oturum rastgele tokenın SHA-256 hash'i olarak SQLite'ta tutulur. Cookie HttpOnly/SameSite (HTTPS'te Secure).
 - Aynı e-posta için 15 dakika içinde 8 hatalı girişten sonra giriş, süre dolana kadar reddedilir.
 - Değiştiren isteklerde `Origin` başlığı uygulamanın adresiyle (`APP_ORIGIN` ya da istek adresi) eşleşmelidir.
-- `INITIAL_ADMIN_PASSWORD` yalnız ilk hesap oluşturulurken kullanılır (12–256 karakter; boşsa rastgele üretilir); `.env`'i sonradan değiştirmek mevcut şifreyi değiştirmez.
+- Şifre 12–256 karakter olmalıdır; `user:add` ve `user:reset` rastgele bir şifre üretip terminalde gösterir.
 - Yeni öğretmen: `pnpm user:add`. Şifre sıfırlama: `user:reset` (eski oturumları da iptal eder). Şifre terminalde gösterilir.
 
 ## 4. Veri ve yedek

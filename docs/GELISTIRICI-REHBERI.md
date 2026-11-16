@@ -1,6 +1,6 @@
 # Geliştirici rehberi — test, PDF/OCR, düzenleyici ve kurulum notları
 
-Bu belge pdftoquiz uygulamasını geliştirenler içindir: test komutları, PDF dönüşüm ve OCR ilkeleri, düzenleyici davranışları, AI açıklamaları, bağımlılık kurulumu ve bilinen sınırlar. LLM Manager paneli ayrı belgededir: [LLM-MANAGER.md](LLM-MANAGER.md). Kurulum ve kullanım için [README](../README.md), bağımlılık lisansları için [lisanslar/DEPENDENCIES.md](lisanslar/DEPENDENCIES.md). Eski faz raporları ve tarihli test kayıtları kaldırılmıştır; geçmişleri Git'te durur (`git log -- docs/`).
+Bu belge pdftoquiz uygulamasını geliştirenler içindir: test komutları, PDF dönüşüm ve OCR ilkeleri, düzenleyici davranışları, AI açıklamaları, bağımlılık kurulumu ve bilinen sınırlar. LLM Manager paneli ayrı belgededir: [LLM-MANAGER.md](LLM-MANAGER.md). Kurulum, sunucu ve yedek için [KURULUM-ISLETIM.md](KURULUM-ISLETIM.md); kısa başlangıç için [README](../README.md); bağımlılık lisansları için [lisanslar/DEPENDENCIES.md](lisanslar/DEPENDENCIES.md). Eski faz raporları ve tarihli test kayıtları kaldırılmıştır; geçmişleri Git'te durur (`git log -- docs/`).
 
 ## 1. Test düzeni
 
@@ -11,6 +11,19 @@ Bu belge pdftoquiz uygulamasını geliştirenler içindir: test komutları, PDF 
 | `test:acceptance` | Belirli bir belgeye bağlı dokuz kabul kontrolü. `MULTISECTION_REFERENCE_PDF`, `ANSWER_KEY_REFERENCE_IMAGE`, `STRUCTURED_REFERENCE_PDF`, `SCANNED_REFERENCE_PDF` yollarını ister, eksikse açık hatayla durur; standart sonuca karışmaz. Bu testler eski belgelerin içeriğine göre yazıldığından tüm referans PDF'lerle geçmez. |
 | `test:ocr` (`scripts/ocr/run.mjs`) | OCR ölçümü; varsayılan `saglik2017programci.pdf` ve `grup-36---programci.pdf`. |
 | `reference` (`scripts/convert-reference.mjs`) | `tests/reference/` altındaki PDF'leri gerçek yerel dönüşüm hattından (PDF.js + Tesseract, AI yok) geçirip özet JSON yazar (`.test-tmp/reference`). |
+
+### Referans PDF'ler ve tanılama araçları
+
+`tests/reference/` altındaki üç gerçek sınav PDF'i (`grup-36---programci.pdf` taranmış; `saglik2017programci.pdf` ve `hacettepe_programci_2014.pdf` dijital) standart pakete dahil değildir; gerçek dönüşüm hattını sınamak içindir:
+
+```sh
+node scripts/convert-reference.mjs                  # üç PDF; özet + JSON .test-tmp/reference altına
+node scripts/convert-reference.mjs baska-sinav.pdf  # istenen PDF
+node tools/pnpm/dist/pnpm.mjs test:ocr              # OCR ölçümü
+node scripts/replay-diagnostics.mjs paket.json sonuc.json          # öğretmen düzenleyicisinden indirilen tanılama paketini OCR'sız yeniden çözümler (sınav metni içerir)
+node scripts/measure-resilience.mjs 30 .audit/resilience-30.json   # sentetik bellek ölçümü
+node scripts/measure-leakage.mjs kaynak.pdf ogretmen-taslagi.json sonuc.json   # yerel sızıntı ölçümü
+```
 
 Fixture PDF'leri `tests/fixtures/` altındadır; üretici betikler kaldırılmıştır. ESLint kullanılmaz; statik denetimi `tsc` yapar.
 

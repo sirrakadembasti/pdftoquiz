@@ -6,15 +6,17 @@ Bu belge uygulamanın geçerli davranışını, test düzenini ve bilinen sını
 
 | Komut | Ne yapar |
 |---|---|
-| `test` (`scripts/run-tests.mjs`) | Önce `skip` kullanımını ve lisans envanterinin güncelliğini denetler, sonra `tests/*-regression.mjs` dosyalarını doğrudan kök `lib/` ve `app/` kaynaklarına karşı çalıştırır. Çevrimdışıdır, mock AI/kimlik/depolama kullanır, atlanan test kabul etmez. Derlenmiş modüller git dışı `.test-tmp/` altına yazılır. |
-| `test:server` | Üretim derlemesi + gerçek HTTP + gerçek SQLite (giriş, oturum, yetki, paket taşıma). Önce `build` gerekir. |
+| `test` (`scripts/run-tests.mjs`) | Önce `skip` kullanımını, gerçek veritabanı yalıtımını ve lisans envanterinin güncelliğini denetler, sonra `tests/*-regression.mjs` dosyalarını doğrudan kök `lib/` ve `app/` kaynaklarına karşı çalıştırır. Çevrimdışıdır, mock AI/kimlik/depolama kullanır, atlanan test kabul etmez. Derlenmiş modüller git dışı `.test-tmp/` altına yazılır. |
+| `test:server` | Üretim derlemesi + gerçek HTTP + gerçek SQLite (giriş, oturum, yetki, paket taşıma). Önce `build` gerekir. Veritabanı sistem geçici klasöründe oluşturulup silinir. |
 | `test:acceptance` | Belirli bir belgeye bağlı dokuz kabul kontrolü. `MULTISECTION_REFERENCE_PDF`, `ANSWER_KEY_REFERENCE_IMAGE`, `STRUCTURED_REFERENCE_PDF`, `SCANNED_REFERENCE_PDF` yollarını ister, eksikse açık hatayla durur; standart sonuca karışmaz. Bu testler eski belgelerin içeriğine göre yazıldığından tüm referans PDF'lerle geçmez. |
 | `test:ocr` (`scripts/ocr/run.mjs`) | OCR ölçümü; varsayılan `saglik2017programci.pdf` ve `grup-36---programci.pdf`. |
 | `reference` (`scripts/convert-reference.mjs`) | `tests/reference/` altındaki PDF'leri gerçek yerel dönüşüm hattından (PDF.js + Tesseract, AI yok) geçirip özet JSON yazar (`.test-tmp/reference`). |
 
+**Veritabanı yalıtımı:** `lib/db.ts` varsayılan olarak gerçek `data/quiz.db` dosyasını açar. `test` tüm paketlere `DATABASE_URL=file:.test-tmp/run-tests/quiz.db` verir; `lib/db.ts` modülünü yükleyen her regresyon dosyası ayrıca kendi geçici veritabanını `process.env.DATABASE_URL` ile ayarlamak zorundadır, ayarlamayan dosya `test:policy` tarafından reddedilir. Bu kural, testlerin gerçek veritabanına satır yazdığı bir hatadan sonra eklendi.
+
 Fixture PDF'leri `tests/fixtures/` altındadır; üretici betikler kaldırılmıştır. ESLint kullanılmaz; statik denetimi `tsc` yapar.
 
-**Son doğrulama (6 Kasım 2026, Windows, Node 24):** standart paket 232/232 (0 atlanan), `tsc` çıkış 0, üretim derlemesi başarılı, `test:server` 9/9.
+**Son doğrulama (16 Kasım 2026, Windows, Node 22.23, Next 16.4.6, LLM Manager entegrasyonu ve veritabanı yalıtımı sonrası):** standart paket 232/232 (0 atlanan), `tsc` çıkış 0, üretim derlemesi başarılı, `test:server` 9/9; gerçek `data/quiz.db` koşu öncesi ve sonrası birebir aynı kaldı.
 
 **Referans PDF sonuçları** (yerel hat, AI yok):
 

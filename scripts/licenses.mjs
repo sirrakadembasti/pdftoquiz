@@ -7,7 +7,7 @@ import {join} from 'node:path';
 
 const check = process.argv.includes('--check');
 const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
-const pnpmVersion = JSON.parse(readFileSync('tools/pnpm/package.json', 'utf8')).version;
+const pnpmVersion = String(pkg.packageManager || '').replace(/^pnpm@/, '');
 const names = Object.keys({...pkg.dependencies, ...pkg.devDependencies}).sort();
 
 const rows = [];
@@ -35,7 +35,7 @@ const doc = [
   '|---|---|---|',
   ...rows,
   '',
-  `pnpm: ${pnpmVersion}, MIT; tools/pnpm dağıtımının özgün lisans ve bildirimleri dahil.`,
+  `Paket yöneticisi: pnpm ${pnpmVersion} (MIT; depoya dahil değildir, package.json içindeki packageManager alanıyla belirtilir).`,
   '',
   '`vendor/` doğrudan paketlerin LICENSE/COPYING/NOTICE dosyalarını içerir. Her transitif paketin özgün lisansı kurulumdan sonra `node_modules` içinde korunur. Uygulamanın kendisine yeni bir açık kaynak lisansı atanmamıştır.',
   '',

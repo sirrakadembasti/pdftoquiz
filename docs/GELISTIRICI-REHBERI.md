@@ -19,7 +19,7 @@ Bu belge pdftoquiz uygulamasını geliştirenler içindir: test komutları, PDF 
 ```sh
 node scripts/convert-reference.mjs                  # üç PDF; özet + JSON .test-tmp/reference altına
 node scripts/convert-reference.mjs baska-sinav.pdf  # istenen PDF
-node tools/pnpm/dist/pnpm.mjs test:ocr              # OCR ölçümü
+pnpm test:ocr              # OCR ölçümü
 node scripts/replay-diagnostics.mjs paket.json sonuc.json          # öğretmen düzenleyicisinden indirilen tanılama paketini OCR'sız yeniden çözümler (sınav metni içerir)
 node scripts/measure-resilience.mjs 30 .audit/resilience-30.json   # sentetik bellek ölçümü
 node scripts/measure-leakage.mjs kaynak.pdf ogretmen-taslagi.json sonuc.json   # yerel sızıntı ölçümü
@@ -74,7 +74,7 @@ Tarayıcı eklentilerinin `<body>`'ye eklediği nitelikler (ör. `cz-shortcut-li
 Normal kurulum, ağı engelsiz bir makinede proje klasöründe:
 
 ```sh
-node tools/pnpm/dist/pnpm.mjs install --frozen-lockfile
+pnpm install --frozen-lockfile
 ```
 
 Kurulum `pnpm-lock.yaml` ile birebir paketleri getirir (Next 16.4.6 ve `@sirrakadembasti/llm-manager` dahil). `node_modules` eski kalırsa `test` ilk adımda `docs/lisanslar` ile kurulu sürümleri karşılaştırır ve güncel değil diye durur; `dev`/`build` ise paket eksikse `Can't resolve '@sirrakadembasti/llm-manager/core'` hatası verir ([LLM-MANAGER.md](LLM-MANAGER.md)).
@@ -82,6 +82,7 @@ Kurulum `pnpm-lock.yaml` ile birebir paketleri getirir (Next 16.4.6 ve `@sirraka
 **Bu bilgisayardaki kısıtlar (16 Kasım 2026 gözlemi):**
 
 - Node'un `dns.lookup` çağrısı (getaddrinfo) `ENOTFOUND` verir, `dns.resolve4/6` çalışır. `D:\dnm\localhost-fix.cjs` yalnız `localhost` için geçerlidir, kayıt defteri adlarını kapsamaz. PowerShell'in kendi istekleri etkilenmez.
+- Bu bilgisayarda PATH'te `pnpm` yoktur (yalnız `node` ve `bun`). pnpm, `D:\dnm\use-node.ps1` ile oturuma eklenir; o betik pnpm 9.15.1 getirir, depo ise 11.25.0 ister (kilit dosyası ikisiyle de çözülür, ama `pnpm-workspace.yaml` içindeki bazı ayarlar yalnız pnpm 10/11'de geçerlidir).
 - Kayıt defteri ve GitHub bazı paket tarball'ları için 403 döndürdü (`lucide-react`, llm-manager). Bu bir ağ politikasıdır; kurulum ağı serbest bir makinede yapılmalıdır.
 - Geçici çözüm: `D:\dnm\llm-manager-main` yerel kopyasından `node_modules/@sirrakadembasti/llm-manager` ve `node_modules/undici` elle oluşturuldu (yalnız `node_modules`, git dışı). Bu kopya kilitli commit'ten (`ce91904`) farklıdır (`45d9ed9`); yalnız geliştirme içindir, gerçek `install` ile değiştirilmelidir. Bu durumda `build` ve `licenses` betiği `docs/lisanslar/DEPENDENCIES.md` içine Next 16.4.0 yazar; bunu commit etmeyin (`git checkout -- docs/lisanslar/DEPENDENCIES.md`).
 - `next dev` çalışırken `next-env.d.ts` dosyasını yeniden yazar (`.next/dev/...` yolları); bu değişikliği commit etmeyin.

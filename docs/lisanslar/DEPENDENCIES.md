@@ -26,7 +26,7 @@ Sürümler taşınabilir paketin doğrudan kurulan bağımlılıklarıdır. Tam 
 | typescript | 5.9.3 | Apache-2.0 |
 | zod | 3.25.76 | MIT |
 
-pnpm: 11.25.0, MIT; tools/pnpm dağıtımının özgün lisans ve bildirimleri dahil.
+Paket yöneticisi: pnpm 11.25.0 (MIT; depoya dahil değildir, package.json içindeki packageManager alanıyla belirtilir).
 
 `vendor/` doğrudan paketlerin LICENSE/COPYING/NOTICE dosyalarını içerir. Her transitif paketin özgün lisansı kurulumdan sonra `node_modules` içinde korunur. Uygulamanın kendisine yeni bir açık kaynak lisansı atanmamıştır.
 

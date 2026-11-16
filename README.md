@@ -12,20 +12,20 @@ Sınırlar: 20 MB / 100 sayfa PDF, 300 soru, 1200 görsel. Taranmış belgelerde
 
 ## Hızlı başlangıç
 
-Node.js 24 LTS (>=22.13) gerekir; ilk kurulum internet ister.
+Node.js 24 LTS (>=22.13) ve pnpm 11.25.0 gerekir (pnpm yoksa: `corepack enable` ya da `npm install -g pnpm@11.25.0`); ilk kurulum internet ister.
 
 ```powershell
 git clone https://github.com/sirrakadembasti/pdftoquiz.git
 cd pdftoquiz
 node scripts/setup.mjs
-node tools/pnpm/dist/pnpm.mjs dev
+pnpm dev
 ```
 
 http://localhost:3000 adresini açın; `setup` terminalde ilk öğretmen hesabını gösterir, /account sayfasından giriş yapın.
 
 ## Komutlar
 
-Hepsi `node tools/pnpm/dist/pnpm.mjs <komut>` ile çalışır.
+Hepsi `pnpm <komut>` ile çalışır (`setup` hariç: `node scripts/setup.mjs`).
 
 | Komut | Ne yapar |
 |---|---|

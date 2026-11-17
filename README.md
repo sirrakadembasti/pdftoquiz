@@ -53,6 +53,16 @@ Windows'ta `build`, pnpm bağımlılık bağlantılarını ve SQLite yerel paket
 - Yeni öğretmen: `node tools/pnpm/dist/pnpm.mjs user:add`. Şifre sıfırlama: `user:reset` (eski oturumları da iptal eder). Şifre terminalde gösterilir.
 - Yedek: `node tools/pnpm/dist/pnpm.mjs backup` → `backups/` altında SQLite snapshot'ı (PDF ve görseller dahil). Taşımak için yeni uygulamayı kurup durdurun, veritabanı dosyasını yedekle değiştirin. Tarayıcı IndexedDB taslakları başka alan adına kendiliğinden taşınmaz.
 
+## LLM Yönetimi (isteğe bağlı)
+
+Uygulamaya [LLM Manager](https://github.com/sirrakadembasti/llm-manager) eklidir (kurulum sihirbazı: `node tools/pnpm/dist/pnpm.mjs llm init`). Uygulama çalışırken yönetim ekranı http://localhost:3000/llm, API'si `/api/llm` altındadır; buradan LLM sağlayıcı profilleri yönetilir ve Proje Asistanı kullanılır. Sınav dönüştürme ve AI kalite kapısı bundan bağımsızdır; LLM Manager ayarlanmasa da uygulama çalışır.
+
+- Giriş Basic auth ile yapılır; kullanıcı ve parola `.env` içindeki `LLM_ADMIN_USER` / `LLM_ADMIN_PASSWORD` değerleridir. Parola tanımlı değilse yönetim ekranı `AUTH_NOT_CONFIGURED` hatası verir. İnternete açarken yalnız HTTPS arkasında kullanın.
+- Profiller, şifreli API anahtarları ve geçmiş `LLM_DATA_DIR` klasörüne (proje kökündeki `data/`) yazılır; şifreleme anahtarı `*.key` dosyasıdır. `data/`, `.env*` ve `*.key` Git dışıdır.
+- `LLM_PROJECT_ROOT` Proje Asistanı'nın tarayacağı klasördür; standalone üretim sunucusu çalışma dizinini değiştirdiğinden mutlak yol olmalıdır.
+- `app/actions/llm.js` içindeki Server Action, uygulamanın kendi öğretmen yetkilendirmesi bağlanana kadar bilerek kapalıdır.
+- Üretilen dosyalar `.llm-manager.json` içinde listelenir; `next.config.ts` paketi `serverExternalPackages` ile derleme dışında tutar.
+
 ## Testler
 
 ```sh
@@ -62,7 +72,7 @@ node tools/pnpm/dist/pnpm.mjs build
 node tools/pnpm/dist/pnpm.mjs test:server    # gerçek Next sunucusu + SQLite (önce build)
 ```
 
-`test` harici belge istemez, atlanan teste izin vermez ve `docs/lisanslar` güncel değilse durur. Belgeye özgü kabul kontrolleri ayrıdır (`test:acceptance`, dört `*_REFERENCE_*` yolu ister). Ayrıntılar: [teknik rehber](docs/TEKNIK-REHBER.md).
+`test` harici belge istemez, atlanan teste izin vermez ve `docs/lisanslar` güncel değilse durur. Testler gerçek `data/quiz.db` dosyasına dokunmaz: `test` `.test-tmp/` altında, `test:server` sistem geçici klasöründe ayrı bir veritabanı kullanır. Belgeye özgü kabul kontrolleri ayrıdır (`test:acceptance`, dört `*_REFERENCE_*` yolu ister). Ayrıntılar: [teknik rehber](docs/TEKNIK-REHBER.md).
 
 ### Referans PDF'ler
 

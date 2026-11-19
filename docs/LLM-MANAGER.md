@@ -45,6 +45,7 @@ Projede sihirbazın eklediği dosyalar: `llm.js` (yönetici oluşturur ve `.env`
 
 - **Kurulum sihirbazı:** Bu projede sihirbaz zaten çalıştırılmış ve dosyalar üretilmiştir (`.llm-manager.json` içinde listelenir). Yeniden çalıştırmak gerekirse `pnpm llm init` (paketin `llm-manager` komutu). `next.config.ts` paketi `serverExternalPackages` ile derleme dışında tutar.
 - **Veri klasörü:** Profiller, şifreli API anahtarları ve sohbet geçmişi `LLM_DATA_DIR` klasörüne yazılır (varsayılan proje kökündeki `data/`). `data/`, `.env*` ve `*.key` git dışıdır.
+- **Kullanım sayacı:** Panelin aylık kullanım özeti varsayılan olarak kapalıdır ve 0 gösterir. `.env` içine `LLM_USAGE_LOG=true` yazıp sunucuyu yeniden başlatınca istekler `data/usage-YYYY-MM.jsonl` dosyasına yazılır. Özetteki toplam token yalnızca girdi + çıktıdır; Gemini gibi modellerin gizli "düşünme" tokenları sayılmaz, bu yüzden sağlayıcının faturasındaki toplam daha yüksek çıkabilir (denemede istek başına yaklaşık 100–300 token fark).
 - **Proje Asistanı:** Panelin ikinci sekmesi, `LLM_PROJECT_ROOT` ile gösterilen klasörü tarayıp kaynaklı sohbet sunar. Üretim (standalone) sunucusu çalışma dizinini değiştirdiği için bu değer **mutlak yol** olmalıdır.
 - **Üretimde:** İnternete açarken paneli yalnızca HTTPS arkasında kullanın (temel kimlik doğrulama parolayı her istekte gönderir).
 - **Uygulama içinden kullanım:** `app/actions/llm.js` içindeki Server Action, uygulamanın öğretmen yetkilendirmesi bağlanana kadar bilerek kapalıdır.

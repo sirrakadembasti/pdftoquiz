@@ -75,6 +75,16 @@ Madde 14 (kaynak numara, görsel soru başlığı), 15 (sunucuda aynı ad ile ik
 
 Madde 10 (beklenen sayı) ve 7 (sessiz yanlış eşleşme kapısı) uygulandı; testler `tests/number-sequence-regression.mjs` içinde (sentetik PDF dahil). Sertifika belgesinde ölçüm (110 sn, OCR): beklenen sayı artık 120 okunuyor; 1, 44 ve 64 numaralı sorular "başka soru" uyarısı alıyor. Soru sayısı hâlâ 64/120 (madde 6), şıklar (8), bölümler (9) ve anahtar sayfası (11) açık. Kapak tablosundaki "Her ders için N soru" bilgisi bölüm algısıyla (madde 9) birlikte ele alınmalı. Kutu yüksekliği temelli ek sinyal (kutu beklenenin katıysa uyarı) eklenmedi.
 
+## Madde 6 tanılaması (soru kaybı, 64/120)
+
+Yöntem: `GAP_REPAIR=1 DIAGNOSTICS=1 node scripts/convert-reference.mjs <pdf>` (sertifika belgesi, ~118 sn). `GAP_REPAIR=1` uygulamadaki gibi numara boşluğu OCR kurtarmasını açar; `DIAGNOSTICS=1` her sayfanın OCR satırlarını ve numara adaylarının kabul/ret kararlarını JSON'a yazar. Not: önceki ölçümler kurtarma kapalıyken yapılmıştı; açıkken de sonuç aynı (64/120, 118 sn), yani uygulama da aynı sayıyı görür.
+
+Bulgu: kayıp 56 sorunun soru metni OCR'da yüksek güvenle (%90+) okunuyor; kaybolan şey **numara işaretçisi**. İki ayrı kök neden:
+1. **Noktası okunmayan numara (45 soru):** OCR numarayı ("10", "21", "46"…) soru metninden ayrı, tek başına bir satır olarak veriyor; nokta yok. Satır sütunun sol kenarında ve soru metniyle aynı taban çizgisinde. İşaretçi deseni "N." beklediği için aday bile olmuyor (tanılamada reddedilen aday yok). Örnek: sayfa 7'de 46–48, sayfa 9'da 66–69, sayfa 12'de 92–99.
+2. **OCR'da hiç görünmeyen kalın numara (11 soru):** 2, 5, 7, 8, 9 (sayfa 2), 34–36, 49, 76, 108. Metin okunuyor, numara glifi yok. Hedefli OCR (`recoverNumberGaps`) yalnız 6 aralık deniyor (`numberGapSpans` limit=6) ve bulduğunu (örn. 86) `applied:false` ile yer tutucu önerisine bırakıyor.
+
+Sonuç ve öneri: 1. neden tek başına 64 → ~109 sorunun yolunu açar ve genel bir geometri sinyaliyle çözülebilir (belgeye özgü kural gerekmez): sütun sol kenarında, bir metin satırının hemen solunda, aynı taban çizgisinde, beklenen sıra numarasına uyan çıplak 1–3 haneli satır → "N." işaretçisi say; "numara noktası okunamadı, sıradan çıkarıldı" uyarısıyla (mevcut NUMBER_INFERENCE sınıfı) öğretmen onayına bırak. 2. neden için kurtarma sınırı ve uygulama politikası ayrıca ele alınmalı. Hedef ≥115/120 için ikisi de gerekir.
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

@@ -1,6 +1,8 @@
 // Gerçek PDF dönüşüm simülasyonu: bir veya birkaç PDF'yi uygulamanın yerel dönüşüm hattından (PDF.js + Tesseract OCR)
 // geçirir, özet raporu yazdırır ve ayrıntıyı JSON olarak kaydeder. AI çağrısı yapılmaz, veritabanına dokunulmaz.
 // Kullanım: node scripts/convert-reference.mjs [pdf ...]   (boşsa tests/reference/*.pdf)
+//           GAP_REPAIR=1: uygulamadaki gibi numara boşluğu OCR kurtarmasını açar (varsayılan kapalı, hızlı);
+//           DIAGNOSTICS=1: numara adaylarının kabul/ret kararlarını JSON'a yazar.
 //           OCR_OUTPUT_DIR ile çıktı klasörü seçilir (varsayılan .test-tmp/reference).
 import fs from 'node:fs';
 import path from 'node:path';
@@ -30,9 +32,9 @@ for(const file of files){
  global.document={createElement:()=>canvasLib.createCanvas(1,1)};
  const doc=await pdf.getDocument({data:bytes,standardFontDataUrl:fontUrl}).promise;
  let textChars=0;for(let i=1;i<=doc.numPages;i++){const content=await (await doc.getPage(i)).getTextContent();textChars+=content.items.map(x=>x.str).join('').length;}
- let worker,recognitions=0;const warnings=[];
+ let worker,recognitions=0;const diagPages=[];const warnings=[];
  try{
-  const result=await importer.convertPDF(doc,{mode:'local',engine:pdf,cancelled:()=>false,recoverNumberGaps:false,
+  const result=await importer.convertPDF(doc,{mode:'local',engine:pdf,cancelled:()=>false,recoverNumberGaps:process.env.GAP_REPAIR==='1',onDiagnostics:process.env.DIAGNOSTICS==='1'?p=>diagPages.push({page:p.page,reading:p.reading,lines:(p.lines||[]).map(l=>({x:+l.x.toFixed(3),y:+l.y.toFixed(3),w:+l.w.toFixed(3),h:+l.h.toFixed(3),text:l.text,confidence:l.confidence}))}):undefined,
    progress:(p,s)=>{if(process.env.VERBOSE)console.log('  '+Math.round(p*100)+'% '+s);},
    ai:()=>{throw new Error('Bu simülasyonda AI çağrısı yapılmamalı.');},
    ocr:async()=>{
@@ -51,7 +53,7 @@ for(const file of files){
    sections:(result.sections||[]).map(s=>({name:s.name,expected:s.expectedCount??null,actual:qs.filter(q=>q.sectionId===s.id).length})),
    excludedBlocks:(result.excludedBlocks||[]).length,warnings:qs.filter(q=>q.warnings?.length).length,suspicious:qs.filter(q=>q.warnings?.length||q.options.length<4).map(q=>q.number).slice(0,40)};
   summaries.push(summary);
-  fs.writeFileSync(path.join(out,path.basename(file,'.pdf')+'.json'),JSON.stringify({summary,questions:qs.map(({image,optionImages,stemImage,studentStemImage,studentImage,studentOptionImages,...q})=>({...q,hasImage:!!image,optionImages:(optionImages||[]).map(Boolean)}))},null,1));
+  fs.writeFileSync(path.join(out,path.basename(file,'.pdf')+'.json'),JSON.stringify({summary,questions:qs.map(({image,optionImages,stemImage,studentStemImage,studentImage,studentOptionImages,...q})=>({...q,hasImage:!!image,optionImages:(optionImages||[]).map(Boolean)})),numberDiagnostics:process.env.DIAGNOSTICS==='1'?result.numberDiagnostics:undefined,ocrPages:process.env.DIAGNOSTICS==='1'?diagPages:undefined,numberGapDiagnostics:process.env.DIAGNOSTICS==='1'?result.numberGapDiagnostics:undefined},null,1));
   console.log(JSON.stringify(summary,null,1));
  }finally{await worker?.terminate().catch(()=>{});await doc.destroy();}
 }

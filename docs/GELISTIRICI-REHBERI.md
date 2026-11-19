@@ -29,7 +29,7 @@ node scripts/measure-leakage.mjs kaynak.pdf ogretmen-taslagi.json sonuc.json   #
 
 Fixture PDF'leri `tests/fixtures/` altındadır; üretici betikler kaldırılmıştır. ESLint kullanılmaz; statik denetimi `tsc` yapar.
 
-**Son doğrulama (19 Kasım 2026, uzak PR #1–#4 ile birleştirme sonrası, Windows, Node 24):** regresyon dosyaları doğrudan koşuldu 238/238 (0 atlanan), `tsc` çıkış 0, test politikası temiz; `test:server` 9/9 (`.env` ile ilk hesap oluşturma eklendikten sonra, 16 Kasım). Bu bilgisayarda `node_modules` Next 16.4.0 içerdiğinden `pnpm test` lisans kontrolünde durur (bölüm 6); gerçek `install` sonrası kalkar.
+**Son doğrulama (19 Kasım 2026, uzak PR #1–#4 ile birleştirme sonrası, Windows, Node 24):** regresyon dosyaları doğrudan koşuldu 247/247 (Aşama 1 güvenlik yaması sonrası) (0 atlanan), `tsc` çıkış 0, test politikası temiz; `test:server` 9/9 (`.env` ile ilk hesap oluşturma eklendikten sonra, 16 Kasım). Bu bilgisayarda `node_modules` Next 16.4.0 içerdiğinden `pnpm test` lisans kontrolünde durur (bölüm 6); gerçek `install` sonrası kalkar.
 
 **Referans PDF sonuçları** (yerel hat, AI yok):
 
@@ -94,4 +94,4 @@ Kurulum `pnpm-lock.yaml` ile birebir paketleri getirir (Next 16.4.6 ve `@sirraka
 - Sıfırdan bağımlılık kurulumu bu geliştirme bilgisayarında tamamlanamadı (bölüm 6: DNS ve 403 kısıtları); kilit dosyası tutarlılığı doğrulandı, gerçek kurulum ağı serbest bir makinede denenmelidir.
 - Gerçek tarayıcıda PDF yükleme arayüzü, native metin araçları (geri al, araç çubuğu), dokunmatik/mobil yerleşim, çift tıklamalı `.cmd` başlatıcılar, harici sunucu (ters vekil) dağıtımı ve canlı AI sağlayıcı çağrıları bu ortamda doğrulanmadı. Yalnız tarayıcıda yerel OCR çalışması ayrıca denendi.
 - `app/page.tsx` (~107 KB) ve `app/globals.css` (~47 KB) tek dosyada; bileşenlere bölünmesi ayrı bir iş.
-- Öğrenci sonuç gönderimi (POST) kimlik doğrulamasız ve hız sınırsızdır.
+- Öğrenci sonuç gönderimi (POST) kimliksizdir; tek kullanımlık deneme belirteci ve IP başına hız sınırı ister (bkz. AGENTS.md §6, §13).

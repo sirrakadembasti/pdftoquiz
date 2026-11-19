@@ -34,8 +34,10 @@ Windows'ta `build`, pnpm bağımlılık bağlantılarını ve SQLite yerel paket
 
 - Kayıt, düzenleme, kaynak PDF, sonuç listesi ve AI isteği için öğretmen hesabı gerekir; öğrenci yalnız paylaşım bağlantısıyla katılır.
 - Şifre scrypt hash'i olarak, oturum rastgele tokenın SHA-256 hash'i olarak SQLite'ta tutulur. Cookie HttpOnly/SameSite (HTTPS'te Secure).
-- Aynı e-posta için 15 dakika içinde 8 hatalı girişten sonra giriş, süre dolana kadar reddedilir.
-- Değiştiren isteklerde `Origin` başlığı uygulamanın adresiyle (`APP_ORIGIN` ya da istek adresi) eşleşmelidir.
+- Aynı e-posta + IP için 15 dakika içinde 8 hatalı girişten sonra giriş reddedilir (e-posta başına tüm IP'lerden toplam 60); hatalı denemelerde artan gecikme uygulanır. Ters vekil arkasındaysanız `TRUST_PROXY=true` ayarlayın, yoksa tüm istemciler tek IP görünür ve kilit yalnız e-postaya bağlı kalır.
+- Değiştiren isteklerde `Origin` başlığı uygulamanın adresiyle (`APP_ORIGIN` ya da istek adresi) eşleşmelidir; başlık yoksa `Sec-Fetch-Site: same-origin` aranır, ikisi de yoksa istek reddedilir.
+- Yanıtlara CSP, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff` ve `Referrer-Policy: same-origin` eklenir.
+- Öğrenci sonucu: sınav açılırken tek kullanımlık deneme belirteci alınır; sınav başına IP başına 10 dakikada `ATTEMPT_LIMIT_PER_10MIN` (varsayılan 60) başlatma/gönderim sınırı vardır. Okul gibi tek IP'den çok öğrenci giriyorsa değeri artırın. Düzenleyicideki "soru bazlı durumu göster" seçeneği kapalıyken öğrenci yalnız toplam/bölüm sonucunu görür.
 - Şifre 12–256 karakter olmalıdır; `user:add` ve `user:reset` rastgele bir şifre üretip terminalde gösterir.
 - Yeni öğretmen: `pnpm user:add`. Şifre sıfırlama: `user:reset` (eski oturumları da iptal eder). Şifre terminalde gösterilir.
 

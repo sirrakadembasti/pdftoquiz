@@ -63,6 +63,10 @@ Yoklama betikleri git dışı `.test-tmp/sertifika/` altındadır (`probe-editor
 24. Gerçek tarayıcı uçtan uca testi (Playwright) yok; bu raporda elle yapılan öğrenci akışı otomatikleştirilmeli.
 25. Taranmış belge kabul seti: telif izni varsa bu PDF'in **anonim, sentetik bir benzeri** (iki sütun, kutulu ders başlıkları, 2×2 şık, dört sütunlu anahtar) `tests/fixtures` altına eklenmeli; belgenin kendisi değil.
 
+## Aşama 1 durumu (uygulandı)
+
+Madde 1–5 ve 13 uygulandı: `showDetails` ayarı (varsayılan kapalı), tek kullanımlık deneme belirteci + IP/sınav hız sınırı, e-posta+IP kilidi ve artan gecikme, `sameOrigin` sıkılaştırması, güvenlik başlıkları, sonuç ekranı düzeltmesi. Regresyon: `tests/result-leak-regression.mjs`. Kalan sınırlar: sınav süresi hâlâ sunucuda denetlenmiyor (madde 15); hız sınırı süreç belleğinde; CSP gerçek tarayıcıda yalnız kısmen doğrulandı.
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

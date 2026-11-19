@@ -67,6 +67,10 @@ Yoklama betikleri git dışı `.test-tmp/sertifika/` altındadır (`probe-editor
 
 Madde 1–5 ve 13 uygulandı: `showDetails` ayarı (varsayılan kapalı), tek kullanımlık deneme belirteci + IP/sınav hız sınırı, e-posta+IP kilidi ve artan gecikme, `sameOrigin` sıkılaştırması, güvenlik başlıkları, sonuç ekranı düzeltmesi. Regresyon: `tests/result-leak-regression.mjs`. Kalan sınırlar: sınav süresi hâlâ sunucuda denetlenmiyor (madde 15); hız sınırı süreç belleğinde; CSP gerçek tarayıcıda yalnız kısmen doğrulandı.
 
+## Aşama 2 durumu (uygulandı)
+
+Madde 14 (kaynak numara, görsel soru başlığı), 15 (sunucuda aynı ad ile ikinci gönderim reddi, cihazda tamamlanmış sınav için uyarı ve kapalı başlat düğmesi, sunucuda başlangıç/süre kaydı ve süre aşımı reddi) ve 16 (Enter ile başlatma) uygulandı. Süre denetimi yumuşak kalır: öğrenci belirteci geç alarak süreyi uzatabilir; gerçek zorlama için soruların da belirteçle verilmesi gerekir.
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

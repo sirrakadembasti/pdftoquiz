@@ -113,6 +113,7 @@ Hata yanıtları `error(e)` ile üretilir: `'AUTH'` → 401 ("giriş yapın"), d
 - **Otomatik metin düzeltmesi yok.** Eksik şık, PDF cevap anahtarı ve AI önerileri **öğretmen onayı olmadan uygulanmaz**; manuel alanlar AI'ya karşı kilitlidir.
 - Kırmızı mürekkep/kalem izi tespiti ve işaretsiz "güvenli kopya" üretimi (`eraseRedPixels`, `studentImage`, `imageProtection`) öğrenciye cevap sızmasını önler.
 - AI **yalnız** kalite kapısı bulunan alanlara, kullanıcı çağrı tahminini onayladıktan sonra gider (`hybrid.ts`); yerel sonuç hata durumunda korunur. Modlar: "Otomatik / Yerel-önce / AI-önce".
+- **Numara boşluğu kapısı** (`gapBoundaryWarnings`, `pdf-layout.ts`): bölüm içinde numara dizisinde boşluk varsa (1 → 6) boşluktan önceki soru, onaylanana kadar `BOUNDARY` sayılan "başka soru içeriği içerebilir" uyarısı alır; böylece sessiz yanlış eşleşme "sorunsuz" görünmez. Beklenen sayı kapak metninden (`Soru Sayısı: N`, `Toplam soru sayısı N`, ilk 3 sayfa) da okunur; tablo başlığındaki ilk hücre toplam sanılmaz.
 - Dönüşüm süreleri (referans PDF'ler, yerel hat): dijital 9–16 sayfa 14–31 sn, taranmış 12 sayfa ~94 sn.
 
 ## 8. AI (kalite kontrolü) — LLM Manager'dan bağımsız
@@ -126,7 +127,7 @@ Hata yanıtları `error(e)` ile üretilir: `'AUTH'` → 401 ("giriş yapın"), d
 
 ## 10. Test düzeni (bir şey değiştirmeden önce okuyun)
 
-- **Standart paket** `pnpm test` → `scripts/run-tests.mjs`: (1) `check-test-policy.mjs` (`skip` yasak; `lib/db.ts`'i yükleyen test kendi `process.env.DATABASE_URL`'ini ayarlamalı), (2) `licenses.mjs --check`, (3) sabit **liste**deki dosyalar sırayla (`--test`, `tail` hariç). Toplam **250 test**; 29 dosya, yaklaşık yarısı saf mantık, kalanı React/SSR ve API akışı.
+- **Standart paket** `pnpm test` → `scripts/run-tests.mjs`: (1) `check-test-policy.mjs` (`skip` yasak; `lib/db.ts`'i yükleyen test kendi `process.env.DATABASE_URL`'ini ayarlamalı), (2) `licenses.mjs --check`, (3) sabit **liste**deki dosyalar sırayla (`--test`, `tail` hariç). Toplam **255 test**; 29 dosya, yaklaşık yarısı saf mantık, kalanı React/SSR ve API akışı.
 - **Yeni test dosyasını `scripts/run-tests.mjs` içindeki `suites` listesine eklemek zorunludur;** dosya adı `tests/<ad>-regression.mjs` olmalı. Listede olmayan dosya sessizce çalışmaz.
 - **Kaynak, TypeScript'ten anlık derlenir:** testler `typescript.transpileModule` ile `lib/*.ts` ve `app/**/*.tsx`'i `.test-tmp/qa/modules/` altına CommonJS yazar; bağımlılıklar test dosyası içinde mock'lanır: derleme çıktısındaki `lib/session.js` yerine `global.__qaUser` döndüren bir stub, `lib/storage.js` yerine bellek kovası yazılır (bu dosyalar `.test-tmp/` altında üretilir, kaynakta yoktur). Modül eklerseniz test dosyalarındaki derleme listesine (`for (const name of [...])`) eklemeniz gerekebilir.
 - **Gerçek DB yok:** `test` tüm testlere `.test-tmp/run-tests/quiz.db` verir; sunucu testi (`test:server`) sistem geçici klasöründe DB kurar. Gerçek `data/quiz.db`'ye dokunan test yazmayın.

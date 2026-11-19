@@ -71,6 +71,10 @@ Madde 1–5 ve 13 uygulandı: `showDetails` ayarı (varsayılan kapalı), tek ku
 
 Madde 14 (kaynak numara, görsel soru başlığı), 15 (sunucuda aynı ad ile ikinci gönderim reddi, cihazda tamamlanmış sınav için uyarı ve kapalı başlat düğmesi, sunucuda başlangıç/süre kaydı ve süre aşımı reddi) ve 16 (Enter ile başlatma) uygulandı. Süre denetimi yumuşak kalır: öğrenci belirteci geç alarak süreyi uzatabilir; gerçek zorlama için soruların da belirteçle verilmesi gerekir.
 
+## Aşama 3 durumu (kısmen uygulandı)
+
+Madde 10 (beklenen sayı) ve 7 (sessiz yanlış eşleşme kapısı) uygulandı; testler `tests/number-sequence-regression.mjs` içinde (sentetik PDF dahil). Sertifika belgesinde ölçüm (110 sn, OCR): beklenen sayı artık 120 okunuyor; 1, 44 ve 64 numaralı sorular "başka soru" uyarısı alıyor. Soru sayısı hâlâ 64/120 (madde 6), şıklar (8), bölümler (9) ve anahtar sayfası (11) açık. Kapak tablosundaki "Her ders için N soru" bilgisi bölüm algısıyla (madde 9) birlikte ele alınmalı. Kutu yüksekliği temelli ek sinyal (kutu beklenenin katıysa uyarı) eklenmedi.
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

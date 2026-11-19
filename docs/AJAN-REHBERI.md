@@ -1,0 +1,180 @@
+# Yapay zekâ kod ajanları için proje rehberi
+
+Bu belge, pdftoquiz üzerinde geliştirme yapacak yapay zekâ kod ajanları (ve yeni geliştiriciler) için yazıldı: uygulamanın ne yaptığı, nerede ne olduğu, hangi kuralların bozulmaması gerektiği, nasıl test edildiği ve bilinen tuzaklar. Son güncelleme: 19 Kasım 2026, commit `1bca069` sonrası. Her bilgi kodu okuyarak ya da komut çalıştırarak doğrulandı; doğrulanmayanlar açıkça "doğrulanmadı" diye işaretlidir.
+
+Diğer belgeler: kısa başlangıç [README](../README.md) · kurulum/sunucu/hesap/yedek [KURULUM-ISLETIM.md](KURULUM-ISLETIM.md) · test ve PDF/OCR ayrıntısı [GELISTIRICI-REHBERI.md](GELISTIRICI-REHBERI.md) · `/llm` paneli [LLM-MANAGER.md](LLM-MANAGER.md).
+
+## 1. Uygulama ne yapar?
+
+Öğretmen bir PDF sınavı yükler; uygulama **tarayıcıda** PDF.js ile metni/konumları okur (taranmış sayfalarda Tesseract OCR, `tur+eng`), soruları ve A–E şıklarını ayırır, soru/şık görsellerini kırpar. Öğretmen düzenler, cevap anahtarını işler, isteğe bağlı AI ile kalite kontrolü yapar ve sınavı yayınlar. Öğrenci paylaşım bağlantısıyla (`/?exam=<uuid>`) sınavı çözer; puanlama **sunucuda** yapılır.
+
+İki rol: **öğretmen** (hesap ve oturum gerekir) ve **öğrenci** (hesapsız, yalnız bağlantı). Tek kullanıcılı, yerel SQLite'lı, harici hizmet gerektirmeyen bir uygulamadır; çok kullanıcılı portal değildir (kayıt sayfası yoktur).
+
+## 2. Hızlı komutlar
+
+| Komut (`pnpm …`) | Ne yapar |
+|---|---|
+| `dev` | `next dev --hostname 127.0.0.1 --port 3000` (Turbopack). Bir klasörde aynı anda **tek** dev sunucusu çalışır. |
+| `build` | `scripts/build.mjs`: önce lisans envanterini üretir, `next build --webpack`, sonra standalone çıktıyı tamamlar. |
+| `start` | `scripts/serve.mjs`: `.next/standalone/server.js`'i `127.0.0.1:3000`'de başlatır (önce `build`). |
+| `typecheck` | `tsc --noEmit --incremental false`. ESLint **yoktur**; statik denetim yalnız `tsc`. |
+| `test` | Politika + lisans denetimi + 28 regresyon dosyası (aşağıda §10). |
+| `test:server` | Gerçek üretim sunucusu + SQLite (önce `build`). |
+| `user:add` / `user:reset` | Öğretmen ekle (etkileşimli, rastgele şifre) / şifre sıfırla. |
+| `backup` | SQLite anlık yedeği. |
+| `reference` / `test:ocr` | Gerçek referans PDF'lerle dönüşüm simülasyonu / OCR ölçümü. |
+
+Paket yöneticisi pnpm 11.25.0 (`package.json` → `packageManager`). Bu geliştirme bilgisayarına özgü kurulum sorunları için §12'ye bakın.
+
+## 3. Mimari bir bakışta
+
+```
+Tarayıcı (ağır iş burada)                          Sunucu (ince)
+┌─────────────────────────────────────┐        ┌──────────────────────────────┐
+│ app/page.tsx  (tek sayfa, 8 görünüm)│  fetch │ Next.js API rotaları         │
+│  PDF.js + Tesseract.js (WASM, local)│ ─────► │  /api/exams  /api/auth  /ai  │
+│  lib/pdf-import, pdf-layout, hybrid │        │ lib/server, local-auth       │
+│  IndexedDB (taslak), localStorage   │        │ SQLite (libSQL) tek dosya    │
+└─────────────────────────────────────┘        │  data/quiz.db                │
+         ▲ AI anahtarı yalnız sekme belleğinde └──────────────────────────────┘
+```
+
+- **Çerçeve:** Next.js 16.4 App Router, React 19, Tailwind 4, TypeScript 5.9. `output: 'standalone'`. Kurulu Next sürümü yerelde 16.4.0, `package.json` 16.4.6 ister (bkz. §12). **Next 16 önceki sürümlerden farklı olabilir**; API'ye dokunmadan önce `node_modules/next/dist/docs/` altındaki ilgili rehberi okuyun.
+- **Veritabanı:** ORM yok. `lib/db.ts`, `@libsql/client`'ı sarmalayan küçük bir `db` nesnesi (`db.user`, `db.session`, `db.loginLimit`, `db.storedObject`…) ve şema tek kaynak olarak dosyanın içinde; ilk sorguda `ensureDatabase()` tabloları oluşturur (ayrı migrasyon adımı gerekmez).
+- **Depolama:** `lib/storage.ts` bir "kova" (bucket) taklidi yapar; her şey `StoredObject` tablosunda anahtar/değer olarak durur (§5).
+- **Sunucu tarafı küçük tutuldu:** PDF işleme, OCR ve düzenleme istemcide; sunucu yalnızca kayıt, yetki, puanlama, görsel/PDF dağıtımı ve AI isteği aktarımı yapar.
+
+## 4. Dizin haritası
+
+| Yol | Rol |
+|---|---|
+| `app/page.tsx` (~107 KB) | **Tüm arayüz** tek dosyada: `Home`, `PDFView`, `ExamCard`, `HybridReview`, `BulkAnswers`, `SectionNavigation`, `Modal`, `AIUsageCard`, `SourceBadge`, `OptionImagePreview`. Görünümler: `home, processing, editor, intro, quiz, result, loading, unavailable`. |
+| `app/account/page.tsx` | Giriş sayfası (yalnız login/logout/me; kayıt ve şifre değiştirme yok). |
+| `app/api/**` | `exams` (GET liste, POST kaydet), `exams/[id]` (GET sınav/sonuç/pdf/görsel/düzenle, POST sonuç gönder), `auth/{login,logout,me}`, `ai`, `health`, `llm/[...slug]`. |
+| `app/llm/[[...slug]]/route.js`, `app/actions/llm.js`, `llm.js`, `.llm-manager.json`, `instrumentation.ts` | LLM Manager bağlantısı ve açılışta ilk hesap oluşturma (§9). |
+| `lib/quiz.ts` | **Çekirdek alan modeli**: `Question`, `Exam`, `Section` tipleri; `parsePages`, `validateExam`, `examIssues` (yayın kapısı), `grade`, `studentExam` (öğrenci görünümü), görsel koruma. |
+| `lib/pdf-import.ts` | Dönüşüm orkestrasyonu (`convertPDF`) ve tuval/görsel yardımcıları (kırpma, kırmızı mürekkep, OCR boşluk kurtarma). |
+| `lib/pdf-layout.ts` | Satır/sütun/okuma sırası, şık dizisi onarımı, numara boşluğu, sayfa sınıflandırma. Saf mantık, test edilmesi en kolay modül. |
+| `lib/hybrid.ts`, `lib/ai.ts`, `lib/provider-fetch.ts` | Kalite kapısı + AI önerileri; AI isteği ve kullanım sayacı; Gemini için DNS yedeği. |
+| `lib/answer-key.ts`, `lib/answer-key-ocr.ts` | Cevap anahtarı ayrıştırma/uygulama; görsel anahtarın OCR'ı. |
+| `lib/db.ts`, `lib/storage.ts`, `lib/local-auth.ts`, `lib/session.ts`, `lib/server.ts`, `lib/assets.ts`, `lib/initial-account.ts` | Sunucu tarafı: veri, kova, parola/oturum, `currentUser()`, yetki (`owner()`, `sameOrigin()`), görsel kaydı, ilk hesap. |
+| `lib/student-question.tsx`, `question-text-editor.tsx`, `manual-option-tools.tsx`, `editor-*.ts`, `manual-option*.ts`, `draft-storage.ts`, `conversion-diagnostics.ts`, `question-quality.ts` | Öğrenci soru bileşeni, düzenleyici araçları, IndexedDB taslağı, tanılama paketi, uyarı sınıfları. |
+| `public/vendor/` | Çevrimdışı çalışan PDF.js (cmaps, fontlar, wasm) ve Tesseract (worker, LSTM çekirdekleri, `tur`/`eng` dil modelleri), ~25 MB. |
+| `tests/` | 28 `*-regression.mjs` + `local-server.mjs`, `standalone-packaging.mjs`, `fixtures/` (sentetik PDF), `reference/` (3 gerçek sınav PDF'i). |
+| `scripts/` | build/serve/yedek/hesap, test koşucuları, `licenses.mjs`, OCR ve tanılama araçları (`scripts/ocr/`), `windows/*.cmd`. |
+| `docs/` | Bu rehber dahil dört rehber, `lisanslar/` (otomatik üretilir — elle düzenlemeyin), `tail-comparison.json` (test girdisi). |
+
+## 5. Veri modeli
+
+**Tablolar** (`lib/db.ts`): `User(id,email,name,passwordHash,createdAt)`, `Session(tokenHash,userId,expiresAt)`, `LoginLimit(key,count,expiresAt)`, `StoredObject(key,data BLOB,contentType,customMetadata,updatedAt)`.
+
+**`StoredObject` anahtar şeması** (asıl veri burada):
+
+| Anahtar | İçerik |
+|---|---|
+| `exams/{id}/definition.json` | Tam `Exam` (cevaplar dahil, yalnız sunucuda). `owner` alanı = öğretmenin hash'i. |
+| `exams/{id}/source.pdf` | Kaynak PDF (yalnız öğretmene açık). |
+| `exams/{id}/assets/{uuid}` | Soru/şık/yönerge görselleri. |
+| `exams/{id}/attempts/{uuid}.json` | Öğrenci sonucu (en fazla 200 listelenir). |
+| `owned/{ownerHash}/{id}` | Öğretmenin sınav özeti (`customMetadata.summary`); "Sınavlarım" listesi (en fazla 100). |
+
+`ownerHash` = `SHA-256(userId)` (`lib/server.ts` → `owner()`).
+
+**`Exam` / `Question`** (`lib/quiz.ts`): temel alanlar `title, subject, duration, questions[], sections[]`; `Question` temel olarak `id, number, sectionId, text, textMarks, options[], correct (null = anahtar yok), page, image, optionImages[], reviewed, warnings[], provenance` ve görüntü korumasına, kırpma onayına ve gösterim tercihine ait yaklaşık 50 alan daha. `correct === null` olan soru puanlanmaz (`grade` yalnız anahtarı olan sorulardan puan hesaplar).
+
+**Tarayıcı tarafı depolar:** IndexedDB `pdfquiz/draft` (düzenleme taslağı, `lib/draft-storage.ts`), localStorage `pdfquiz-theme` ve `attempt-<id>` (öğrencinin devam eden yanıtı). AI anahtarı hiçbirinde saklanmaz.
+
+**Sınır değerleri (kodda doğrulandı):** PDF 20 MB / 100 sayfa, 300 soru, 1200 görsel, sınav JSON'u 24 MiB, form gövdesi 48 MB, sonuç gövdesi 50 KB, AI isteği 6 MiB, AI sayfa görseli 5 MB.
+
+## 6. API yüzeyi
+
+| Rota | Yetki | Not |
+|---|---|---|
+| `GET /api/exams` | öğretmen | Kendi sınav özetleri. |
+| `POST /api/exams` | öğretmen + `sameOrigin` | **Her kayıt yeni sınav oluşturur** (yeni UUID/bağlantı). Güncelleme/silme rotası **yoktur**. `validateExam` yayın kapısını uygular, görselleri `saveAssets` ile kalıcılaştırır, `%PDF-` sihirli baytını doğrular. |
+| `GET /api/exams/{id}` | herkes | Öğrenci görünümü (`studentExam`): cevap anahtarı, kaynak görsel, öğretmen alanları **yok**. |
+| `?action=results\|pdf\|edit` | yalnız sahibi | Sonuçlar, kaynak PDF, tam düzenleme verisi. |
+| `?action=asset&key=` | görsel öğrenciye açıksa herkes, değilse sahibi | Erişim, `studentExam` çıktısındaki izinli URL listesine bakılarak kararlaştırılır. |
+| `POST /api/exams/{id}` | **herkes** (kimliksiz, hız sınırsız) | Öğrenci sonucu; sunucuda `grade`, yanıtta `correct` alanları çıkarılır. |
+| `POST /api/auth/login`, `logout`, `GET me` | — | scrypt, 7 gün oturum, aynı e-posta 15 dk'da 8 hatalı giriş → kilit, `sameOrigin`. |
+| `POST /api/ai` | öğretmen + `sameOrigin` | Kullanıcının anahtarıyla izinli üç adrese istek aktarır (§8). |
+| `GET /api/health` | herkes | `SELECT 1` + `user.count()`. |
+| `/llm`, `/api/llm/*` | Basic auth (`LLM_ADMIN_*`) | LLM Manager paketine devredilir (§9). |
+
+Hata yanıtları `error(e)` ile üretilir: `'AUTH'` → 401 ("giriş yapın"), diğerleri 400; mesajlar Türkçe.
+
+## 7. PDF dönüşüm hattı (istemci)
+
+`convertPDF(doc, opts)` (`lib/pdf-import.ts`): sayfa sayfa okur → dijital metinse PDF.js öğeleri, taranmışsa Tesseract (OEM 1/LSTM, PSM 11, 144 DPI, `tur+eng`) → `pdf-layout.ts` ile satır/sütun/okuma sırası → `parsePages` (`quiz.ts`) ile soru ve şık ayrıştırma → kapak/yönerge/cevap anahtarı sayfalarını sınıflandırıp dışarıda bırakma (`excludedBlocks`) → soru ve şık görsellerini kırpma → uyarılar (`warnings`, `provenance`).
+
+Önemli ilkeler (bozmayın):
+- **Belgeye özgü sabitleme yok:** soru numarası, dosya adı veya cümleye bağlı kural eklenmez; genel geometri sinyali + belirsizlik kapısı + sentetik regresyon birlikte eklenir.
+- **Otomatik metin düzeltmesi yok.** Eksik şık, PDF cevap anahtarı ve AI önerileri **öğretmen onayı olmadan uygulanmaz**; manuel alanlar AI'ya karşı kilitlidir.
+- Kırmızı mürekkep/kalem izi tespiti ve işaretsiz "güvenli kopya" üretimi (`eraseRedPixels`, `studentImage`, `imageProtection`) öğrenciye cevap sızmasını önler.
+- AI **yalnız** kalite kapısı bulunan alanlara, kullanıcı çağrı tahminini onayladıktan sonra gider (`hybrid.ts`); yerel sonuç hata durumunda korunur. Modlar: "Otomatik / Yerel-önce / AI-önce".
+- Dönüşüm süreleri (referans PDF'ler, yerel hat): dijital 9–16 sayfa 14–31 sn, taranmış 12 sayfa ~94 sn.
+
+## 8. AI (kalite kontrolü) — LLM Manager'dan bağımsız
+
+`/api/ai` → `requestAI` (`lib/ai.ts`): izinli adresler **yalnızca** `https://api.openai.com/v1`, `https://openrouter.ai/api/v1`, `https://generativelanguage.googleapis.com/v1beta/openai`. Anahtar her istekte tarayıcıdan gelir (`payload.key`), sunucuda saklanmaz. `providerFetch`, yalnız Gemini adresi `ENOTFOUND` verirse `dns.resolve4` ile yeniden dener. İstek zaman aşımı 65 sn.
+
+## 9. LLM Manager (`/llm`) ve ilk hesap
+
+- Paket `@sirrakadembasti/llm-manager` (GitHub, lock'ta sabit commit). `/llm` paneli ve `/api/llm` Basic auth ile korunur; parola `.env` → `LLM_ADMIN_PASSWORD` (yoksa `AUTH_NOT_CONFIGURED`). Profiller ve şifreli anahtarlar `LLM_DATA_DIR` (varsayılan `data/`) içinde; `LLM_USAGE_LOG=true` ile aylık sayaç. **Uygulamanın hiçbir işlevi bu paneli kullanmaz**; `app/actions/llm.js` içindeki Server Action öğretmen yetkisi bağlanana kadar bilerek kapalı. Ayrıntı: [LLM-MANAGER.md](LLM-MANAGER.md).
+- **İlk öğretmen hesabı:** `instrumentation.ts` (Node çalışma zamanı) her sunucu açılışında `lib/initial-account.ts → ensureInitialTeacher()` çağırır: hesap yoksa ve `INITIAL_ADMIN_PASSWORD` (12–256 karakter) doluysa `INITIAL_ADMIN_EMAIL` (varsayılan `admin@local.test`) ile hesap oluşturulur; geçersiz değerde yalnız uyarı yazılır, sunucu açılır. Hesap bir kez oluşunca `.env` değerleri yok sayılır; giriş her zaman veritabanına bakar.
+
+## 10. Test düzeni (bir şey değiştirmeden önce okuyun)
+
+- **Standart paket** `pnpm test` → `scripts/run-tests.mjs`: (1) `check-test-policy.mjs` (`skip` yasak; `lib/db.ts`'i yükleyen test kendi `process.env.DATABASE_URL`'ini ayarlamalı), (2) `licenses.mjs --check`, (3) sabit **liste**deki dosyalar sırayla (`--test`, `tail` hariç). Toplam **238 test**; 28 dosya, yaklaşık yarısı saf mantık, kalanı React/SSR ve API akışı.
+- **Yeni test dosyasını `scripts/run-tests.mjs` içindeki `suites` listesine eklemek zorunludur;** dosya adı `tests/<ad>-regression.mjs` olmalı. Listede olmayan dosya sessizce çalışmaz.
+- **Kaynak, TypeScript'ten anlık derlenir:** testler `typescript.transpileModule` ile `lib/*.ts` ve `app/**/*.tsx`'i `.test-tmp/qa/modules/` altına CommonJS yazar; bağımlılıklar test dosyası içinde mock'lanır: derleme çıktısındaki `lib/session.js` yerine `global.__qaUser` döndüren bir stub, `lib/storage.js` yerine bellek kovası yazılır (bu dosyalar `.test-tmp/` altında üretilir, kaynakta yoktur). Modül eklerseniz test dosyalarındaki derleme listesine (`for (const name of [...])`) eklemeniz gerekebilir.
+- **Gerçek DB yok:** `test` tüm testlere `.test-tmp/run-tests/quiz.db` verir; sunucu testi (`test:server`) sistem geçici klasöründe DB kurar. Gerçek `data/quiz.db`'ye dokunan test yazmayın.
+- **Belgeye özgü kabul katmanı** (`test:acceptance`, `RUN_REAL_ACCEPTANCE=1`) standart sayıma girmez; dört `*_REFERENCE_*` yolu ister ve eski bir belgenin içeriğine bağlıdır. `tests/reference/` PDF'leri standart pakete dahil değildir; `pnpm reference` bunları gerçek hattan geçirir (son sonuç: üçü de 50/50 soru).
+- **Gerçek tarayıcı/mobil, canlı AI, çift tıklamalı `.cmd`, harici sunucu dağıtımı doğrulanmadı**; React/SSR testleri tarayıcı doğrulaması yerine geçmez.
+
+## 11. Kod stili ve değişiklik kuralları
+
+- **Yoğun, çok uzun satırlı kod:** özellikle `app/page.tsx` ve `lib/*.ts` içinde tek satırda yüzlerce karakterlik fonksiyonlar vardır. Biçimlendirici/otomatik yeniden yazım **çalıştırmayın**; küçük, hedefli düzenleme yapın (benzersiz bir dize ile) ve ardından `tsc` + ilgili test dosyasını çalıştırın.
+- **Dil:** arayüz metni, hata mesajları, commit ve belgeler **Türkçe**; test adları Türkçe. Yeni kullanıcı mesajı ekliyorsanız aynı üslubu koruyun.
+- `any` yaygındır; ESLint yoktur. Tür hatası kapısı `pnpm typecheck`'tir. Kullanılmayan tanım bırakmayın (`tsc --noUnusedLocals --noUnusedParameters` şu an temiz).
+- Bağımlılık eklemeden önce gerekçe arayın; ekleyecekseniz `pnpm-lock.yaml` ve `docs/lisanslar` güncellenmeli (`pnpm build` ya da `node scripts/licenses.mjs` yazar, `test` denetler).
+- `docs/lisanslar/**` ve `pnpm-lock.yaml` **elle düzenlenmez**.
+- Commit biçimi: `feat:`/`fix:`/`docs:`/`chore:` önekleri (Conventional Commits), Türkçe veya İngilizce kısa açıklama.
+
+## 12. Ortam tuzakları
+
+- **Bu geliştirme bilgisayarı (Windows, kısıtlı ağ):** PATH'te `pnpm`/`npm` yok; `. D:\dnm\use-node.ps1` ile pnpm 9.15.1 gelir (depo 11.25.0 ister; kilit dosyası ikisiyle de çözülür). Node'un `dns.lookup`'ı bozuk (`ENOTFOUND`), kayıt defteri bazı paket tarball'ları için 403 verir; bu yüzden `node_modules` güncel kilitten geridedir (Next 16.4.0; `@sirrakadembasti/llm-manager` yerel kopyadan elle yerleştirildi). Sonuç: bu makinede `pnpm test` lisans denetiminde durur; testleri `node --test tests/*-regression.mjs` ile doğrudan koşun. Gerçek `pnpm install --frozen-lockfile` ağı serbest bir makinede yapılmalıdır.
+- **`.env` yükleme önceliği:** süreçte tanımlı ortam değişkeni `.env` değerini ezer (boş dize bile). Test/deney yaparken `INITIAL_ADMIN_*` gibi değerleri açıkça verin.
+- **Derleme:** `next build --webpack`; `next.config.ts` üretim derlemesinde webpack önbelleğini kapatır (Windows/pnpm symlink sorunu). Windows'ta standalone çıktısının bağımlılık bağlantılarını `scripts/standalone-links.mjs` tamamlar; yalnız `next build` çağırmayın, `pnpm build` kullanın. `@libsql/*` ve llm-manager `serverExternalPackages` içindedir.
+- `next-env.d.ts` çalışan `next dev` tarafından yeniden yazılır (`.next/dev/...` yolları); commit'e almayın (`git checkout -- next-env.d.ts`).
+- Çalışan `build`/`licenses`, yerel `node_modules` eski olduğundan `docs/lisanslar/DEPENDENCIES.md` içine yanlış Next sürümü yazabilir; geri alın.
+- Git dışı yerel veri: `.env`, `data/` (gerçek `quiz.db`, LLM profilleri/anahtarı), `backups/`, `.next/`, `.test-tmp/`. Bunları commit etmeyin, içeriklerini günlüğe/çıktıya yazmayın.
+
+## 13. Değişmezler (güvenlik ve veri bütünlüğü)
+
+1. Öğrenciye giden hiçbir yanıt `correct`, cevap anahtarı, kaynak PDF veya işaretsiz olmayan kaynak görseli taşımamalıdır (`studentExam`, `?action=asset` izin listesi, sonuç yanıtında `correct` temizliği). Bu mantığa dokunan her değişiklik regresyon testi gerektirir.
+2. Öğretmen işlemleri `owner()` ile sahiplik kontrolü yapar; başka öğretmenin görseli kopyalanamaz (`saveAssets`).
+3. Değiştiren her istek `sameOrigin` ile `Origin` doğrular.
+4. AI adres beyaz listesi genişletilirken SSRF riski düşünülmelidir.
+5. Yayın kapısı (`examIssues`/`validateExam` ve arayüzdeki paylaşım onayı): kodda doğrulanan engeller — hiç soru olmaması, `OKUNAMADI` yer tutucusu, eksik/belirsiz şık görseli, gövde sınırı bulunamaması, komşu alana taşan kırpma, kalem izi çakışması, güvenli kopya onayı beklemesi, renkli işaret gizlemenin kapalı olması, geçersiz şık sayısı. Arayüz ayrıca doğru cevapların tamamlanmasını ve açık onayı ister. Kapıyı gevşeten değişiklikler açıkça tartışılmalıdır.
+
+## 14. Bilinen borçlar ve geliştirme fırsatları
+
+- `app/page.tsx` (~107 KB) ve `app/globals.css` (~47 KB) tek dosya: bileşenlere bölünebilir (davranışı bozmadan, test eşliğinde).
+- Sınav **güncelleme/silme** rotası yok; her kayıt yeni sürümdür. Eski sürümler birikir.
+- `POST /api/exams/{id}` (öğrenci sonucu) kimlik doğrulamasız ve hız sınırsız; kötüye kullanıma açık. Sonuç listesi 200, sınav listesi 100 ile sınırlı (sayfalama yok).
+- Kayıt/şifre değiştirme arayüzü yok; hesap yönetimi yalnız CLI (`user:add`, `user:reset`) ve ilk hesap `.env`. Çok kullanıcı portalı ayrı bir tasarım işidir.
+- LLM Manager, uygulama işlevlerine (ör. soru üretme) bağlanmadı; bağlanacaksa `app/actions/llm.js` içindeki yetkilendirme `currentUser()` ile yapılmalı. Panelin token toplamı gizli düşünme tokenlarını saymaz.
+- Taranmış belgelerde yoğun öğretmen kontrolü beklenir (grup-36: 50 sorunun 47'sinde uyarı, 6 boş şık).
+- ESLint ve Windows dışı platform doğrulaması yok.
+
+## 15. Bir değişiklik yapmadan önce kontrol listesi
+
+1. İlgili modülü ve onu sınayan `tests/*-regression.mjs` dosyasını okuyun (`grep` ile modül adını testlerde arayın).
+2. Hedefli düzenleme yapın; uzun satırları yeniden biçimlendirmeyin.
+3. `node node_modules/typescript/bin/tsc --noEmit --incremental false` (veya `pnpm typecheck`).
+4. İlgili dosyayı çalıştırın: `node --test tests/<ad>-regression.mjs`; sonra tüm paketi (`node --test tests/*-regression.mjs` ya da `pnpm test`).
+5. Sunucu/yetki/derleme değiştiyse `pnpm build` ve `pnpm test:server`.
+6. Öğrenci verisi, kimlik veya depolama mantığına dokunduysanız §13'ü yeniden okuyun ve test ekleyin.
+7. Yeni test dosyasını `suites` listesine ekleyin; yeni `.env` değişkenini `.env.example` ve ilgili rehbere yazın.
+8. Belgeyi güncel tutun: davranış değiştiyse README/KURULUM-ISLETIM/GELISTIRICI-REHBERI/bu belge.

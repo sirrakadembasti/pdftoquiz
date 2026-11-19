@@ -41,6 +41,14 @@ Projede sihirbazın eklediği dosyalar: `llm.js` (yönetici oluşturur ve `.env`
 5. **Profil ekleyin.** Paneldeki **LLM Yönetimi** sekmesinde **Yeni profil** ile profil adı, sağlayıcı, model ve API anahtarını girin → **Profili kaydet** → profil kartından bağlantı testi → **Etkinleştir**. **Modelleri getir (canlı)** düğmesi hesabınızın erişebildiği modelleri listeler. Aynı anda tek profil etkindir.
 6. **Deneyin.** **Proje Asistanı** sekmesindeki **Model denemesi** türüyle bir mesaj gönderip yanıt alın.
 
+## Ayarlar ve bilinmesi gerekenler
+
+- **Kurulum sihirbazı:** Bu projede sihirbaz zaten çalıştırılmış ve dosyalar üretilmiştir (`.llm-manager.json` içinde listelenir). Yeniden çalıştırmak gerekirse `pnpm llm init` (paketin `llm-manager` komutu). `next.config.ts` paketi `serverExternalPackages` ile derleme dışında tutar.
+- **Veri klasörü:** Profiller, şifreli API anahtarları ve sohbet geçmişi `LLM_DATA_DIR` klasörüne yazılır (varsayılan proje kökündeki `data/`). `data/`, `.env*` ve `*.key` git dışıdır.
+- **Proje Asistanı:** Panelin ikinci sekmesi, `LLM_PROJECT_ROOT` ile gösterilen klasörü tarayıp kaynaklı sohbet sunar. Üretim (standalone) sunucusu çalışma dizinini değiştirdiği için bu değer **mutlak yol** olmalıdır.
+- **Üretimde:** İnternete açarken paneli yalnızca HTTPS arkasında kullanın (temel kimlik doğrulama parolayı her istekte gönderir).
+- **Uygulama içinden kullanım:** `app/actions/llm.js` içindeki Server Action, uygulamanın öğretmen yetkilendirmesi bağlanana kadar bilerek kapalıdır.
+
 ## Yedekleme
 
 `data/llm-profiles.json` ve `data/llm-encryption.key` dosyalarını **birlikte** saklayın. Anahtar dosyası kaybolursa kayıtlı profiller çözülemez. Varsa `data/llm-profiles.json.assistant.enc` (sohbet geçmişi) de aynı çiftle birlikte yedeklenmelidir. `data/` zaten git dışıdır.

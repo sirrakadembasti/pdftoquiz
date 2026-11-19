@@ -6,8 +6,8 @@ Bu belge pdftoquiz uygulamasını geliştirenler içindir: test komutları, PDF 
 
 | Komut | Ne yapar |
 |---|---|
-| `test` (`scripts/run-tests.mjs`) | Önce `skip` kullanımını ve lisans envanterinin güncelliğini denetler, sonra `tests/*-regression.mjs` dosyalarını doğrudan kök `lib/` ve `app/` kaynaklarına karşı çalıştırır. Çevrimdışıdır, mock AI/kimlik/depolama kullanır, atlanan test kabul etmez. Derlenmiş modüller git dışı `.test-tmp/` altına yazılır. |
-| `test:server` | Üretim derlemesi + gerçek HTTP + gerçek SQLite (giriş, oturum, yetki, paket taşıma). Önce `build` gerekir. |
+| `test` (`scripts/run-tests.mjs`) | Önce `skip` kullanımını, gerçek veritabanı yalıtımını ve lisans envanterinin güncelliğini denetler, sonra `tests/*-regression.mjs` dosyalarını doğrudan kök `lib/` ve `app/` kaynaklarına karşı çalıştırır. Çevrimdışıdır, mock AI/kimlik/depolama kullanır, atlanan test kabul etmez. Derlenmiş modüller git dışı `.test-tmp/` altına yazılır. |
+| `test:server` | Üretim derlemesi + gerçek HTTP + gerçek SQLite (giriş, oturum, yetki, paket taşıma). Önce `build` gerekir. Veritabanı sistem geçici klasöründe oluşturulup silinir. |
 | `test:acceptance` | Belirli bir belgeye bağlı dokuz kabul kontrolü. `MULTISECTION_REFERENCE_PDF`, `ANSWER_KEY_REFERENCE_IMAGE`, `STRUCTURED_REFERENCE_PDF`, `SCANNED_REFERENCE_PDF` yollarını ister, eksikse açık hatayla durur; standart sonuca karışmaz. Bu testler eski belgelerin içeriğine göre yazıldığından tüm referans PDF'lerle geçmez. |
 | `test:ocr` (`scripts/ocr/run.mjs`) | OCR ölçümü; varsayılan `saglik2017programci.pdf` ve `grup-36---programci.pdf`. |
 | `reference` (`scripts/convert-reference.mjs`) | `tests/reference/` altındaki PDF'leri gerçek yerel dönüşüm hattından (PDF.js + Tesseract, AI yok) geçirip özet JSON yazar (`.test-tmp/reference`). |
@@ -25,9 +25,11 @@ node scripts/measure-resilience.mjs 30 .audit/resilience-30.json   # sentetik be
 node scripts/measure-leakage.mjs kaynak.pdf ogretmen-taslagi.json sonuc.json   # yerel sızıntı ölçümü
 ```
 
+**Veritabanı yalıtımı:** `lib/db.ts` varsayılan olarak gerçek `data/quiz.db` dosyasını açar. `test` tüm paketlere `DATABASE_URL=file:.test-tmp/run-tests/quiz.db` verir; `lib/db.ts` modülünü yükleyen her regresyon dosyası ayrıca kendi geçici veritabanını `process.env.DATABASE_URL` ile ayarlamak zorundadır, ayarlamayan dosya `test:policy` tarafından reddedilir. Bu kural, testlerin gerçek veritabanına satır yazdığı bir hatadan sonra eklendi.
+
 Fixture PDF'leri `tests/fixtures/` altındadır; üretici betikler kaldırılmıştır. ESLint kullanılmaz; statik denetimi `tsc` yapar.
 
-**Son doğrulama (6 Kasım 2026, Windows, Node 24):** standart paket 232/232 (0 atlanan), `tsc` çıkış 0, üretim derlemesi başarılı, `test:server` 9/9.
+**Son doğrulama (19 Kasım 2026, uzak PR #1–#4 ile birleştirme sonrası, Windows, Node 24):** regresyon dosyaları doğrudan koşuldu 238/238 (0 atlanan), `tsc` çıkış 0, test politikası temiz; `test:server` 9/9 (`.env` ile ilk hesap oluşturma eklendikten sonra, 16 Kasım). Bu bilgisayarda `node_modules` Next 16.4.0 içerdiğinden `pnpm test` lisans kontrolünde durur (bölüm 6); gerçek `install` sonrası kalkar.
 
 **Referans PDF sonuçları** (yerel hat, AI yok):
 

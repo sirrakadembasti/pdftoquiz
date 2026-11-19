@@ -42,6 +42,6 @@ Hepsi `pnpm <komut>` ile çalışır.
 |---|---|
 | [docs/KURULUM-ISLETIM.md](docs/KURULUM-ISLETIM.md) | Ayrıntılı kurulum, üretim/sunucu, hesaplar ve güvenlik, veri ve yedek |
 | [docs/GELISTIRICI-REHBERI.md](docs/GELISTIRICI-REHBERI.md) | Test düzeni, PDF/OCR ilkeleri, düzenleyici davranışları, referans PDF'ler, bilinen sınırlar |
-| [docs/AJAN-REHBERI.md](docs/AJAN-REHBERI.md) | Yapay zekâ kod ajanları ve yeni geliştiriciler için: mimari, dizin haritası, veri modeli, API, test düzeni, değişmezler, tuzaklar |
+| [AGENTS.md](AGENTS.md) | Yapay zekâ kod ajanları ve yeni geliştiriciler için: mimari, dizin haritası, veri modeli, API, test düzeni, değişmezler, tuzaklar |
 | [docs/LLM-MANAGER.md](docs/LLM-MANAGER.md) | `/llm` paneli: nedir, nasıl kurulur ve kullanılır |
 | [docs/lisanslar/DEPENDENCIES.md](docs/lisanslar/DEPENDENCIES.md) | Bağımlılık sürümleri ve lisansları (otomatik üretilir) |

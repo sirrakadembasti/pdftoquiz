@@ -1,8 +1,8 @@
-# Yapay zekâ kod ajanları için proje rehberi
+# Yapay zekâ kod ajanları için proje rehberi (AGENTS.md)
 
 Bu belge, pdftoquiz üzerinde geliştirme yapacak yapay zekâ kod ajanları (ve yeni geliştiriciler) için yazıldı: uygulamanın ne yaptığı, nerede ne olduğu, hangi kuralların bozulmaması gerektiği, nasıl test edildiği ve bilinen tuzaklar. Son güncelleme: 19 Kasım 2026, commit `1bca069` sonrası. Her bilgi kodu okuyarak ya da komut çalıştırarak doğrulandı; doğrulanmayanlar açıkça "doğrulanmadı" diye işaretlidir.
 
-Diğer belgeler: kısa başlangıç [README](../README.md) · kurulum/sunucu/hesap/yedek [KURULUM-ISLETIM.md](KURULUM-ISLETIM.md) · test ve PDF/OCR ayrıntısı [GELISTIRICI-REHBERI.md](GELISTIRICI-REHBERI.md) · `/llm` paneli [LLM-MANAGER.md](LLM-MANAGER.md).
+Diğer belgeler: kısa başlangıç [README](README.md) · kurulum/sunucu/hesap/yedek [docs/KURULUM-ISLETIM.md](docs/KURULUM-ISLETIM.md) · test ve PDF/OCR ayrıntısı [docs/GELISTIRICI-REHBERI.md](docs/GELISTIRICI-REHBERI.md) · `/llm` paneli [docs/LLM-MANAGER.md](docs/LLM-MANAGER.md).
 
 ## 1. Uygulama ne yapar?
 
@@ -62,7 +62,7 @@ Tarayıcı (ağır iş burada)                          Sunucu (ince)
 | `public/vendor/` | Çevrimdışı çalışan PDF.js (cmaps, fontlar, wasm) ve Tesseract (worker, LSTM çekirdekleri, `tur`/`eng` dil modelleri), ~25 MB. |
 | `tests/` | 28 `*-regression.mjs` + `local-server.mjs`, `standalone-packaging.mjs`, `fixtures/` (sentetik PDF), `reference/` (3 gerçek sınav PDF'i). |
 | `scripts/` | build/serve/yedek/hesap, test koşucuları, `licenses.mjs`, OCR ve tanılama araçları (`scripts/ocr/`), `windows/*.cmd`. |
-| `docs/` | Bu rehber dahil dört rehber, `lisanslar/` (otomatik üretilir — elle düzenlemeyin), `tail-comparison.json` (test girdisi). |
+| `docs/` | Üç rehber (`KURULUM-ISLETIM`, `GELISTIRICI-REHBERI`, `LLM-MANAGER`), `lisanslar/` (otomatik üretilir — elle düzenlemeyin), `tail-comparison.json` (test girdisi). |
 
 ## 5. Veri modeli
 
@@ -120,7 +120,7 @@ Hata yanıtları `error(e)` ile üretilir: `'AUTH'` → 401 ("giriş yapın"), d
 
 ## 9. LLM Manager (`/llm`) ve ilk hesap
 
-- Paket `@sirrakadembasti/llm-manager` (GitHub, lock'ta sabit commit). `/llm` paneli ve `/api/llm` Basic auth ile korunur; parola `.env` → `LLM_ADMIN_PASSWORD` (yoksa `AUTH_NOT_CONFIGURED`). Profiller ve şifreli anahtarlar `LLM_DATA_DIR` (varsayılan `data/`) içinde; `LLM_USAGE_LOG=true` ile aylık sayaç. **Uygulamanın hiçbir işlevi bu paneli kullanmaz**; `app/actions/llm.js` içindeki Server Action öğretmen yetkisi bağlanana kadar bilerek kapalı. Ayrıntı: [LLM-MANAGER.md](LLM-MANAGER.md).
+- Paket `@sirrakadembasti/llm-manager` (GitHub, lock'ta sabit commit). `/llm` paneli ve `/api/llm` Basic auth ile korunur; parola `.env` → `LLM_ADMIN_PASSWORD` (yoksa `AUTH_NOT_CONFIGURED`). Profiller ve şifreli anahtarlar `LLM_DATA_DIR` (varsayılan `data/`) içinde; `LLM_USAGE_LOG=true` ile aylık sayaç. **Uygulamanın hiçbir işlevi bu paneli kullanmaz**; `app/actions/llm.js` içindeki Server Action öğretmen yetkisi bağlanana kadar bilerek kapalı. Ayrıntı: [docs/LLM-MANAGER.md](docs/LLM-MANAGER.md).
 - **İlk öğretmen hesabı:** `instrumentation.ts` (Node çalışma zamanı) her sunucu açılışında `lib/initial-account.ts → ensureInitialTeacher()` çağırır: hesap yoksa ve `INITIAL_ADMIN_PASSWORD` (12–256 karakter) doluysa `INITIAL_ADMIN_EMAIL` (varsayılan `admin@local.test`) ile hesap oluşturulur; geçersiz değerde yalnız uyarı yazılır, sunucu açılır. Hesap bir kez oluşunca `.env` değerleri yok sayılır; giriş her zaman veritabanına bakar.
 
 ## 10. Test düzeni (bir şey değiştirmeden önce okuyun)
@@ -146,6 +146,7 @@ Hata yanıtları `error(e)` ile üretilir: `'AUTH'` → 401 ("giriş yapın"), d
 - **Bu geliştirme bilgisayarı (Windows, kısıtlı ağ):** PATH'te `pnpm`/`npm` yok; `. D:\dnm\use-node.ps1` ile pnpm 9.15.1 gelir (depo 11.25.0 ister; kilit dosyası ikisiyle de çözülür). Node'un `dns.lookup`'ı bozuk (`ENOTFOUND`), kayıt defteri bazı paket tarball'ları için 403 verir; bu yüzden `node_modules` güncel kilitten geridedir (Next 16.4.0; `@sirrakadembasti/llm-manager` yerel kopyadan elle yerleştirildi). Sonuç: bu makinede `pnpm test` lisans denetiminde durur; testleri `node --test tests/*-regression.mjs` ile doğrudan koşun. Gerçek `pnpm install --frozen-lockfile` ağı serbest bir makinede yapılmalıdır.
 - **`.env` yükleme önceliği:** süreçte tanımlı ortam değişkeni `.env` değerini ezer (boş dize bile). Test/deney yaparken `INITIAL_ADMIN_*` gibi değerleri açıkça verin.
 - **Derleme:** `next build --webpack`; `next.config.ts` üretim derlemesinde webpack önbelleğini kapatır (Windows/pnpm symlink sorunu). Windows'ta standalone çıktısının bağımlılık bağlantılarını `scripts/standalone-links.mjs` tamamlar; yalnız `next build` çağırmayın, `pnpm build` kullanın. `@libsql/*` ve llm-manager `serverExternalPackages` içindedir.
+- Bu `AGENTS.md` elle yazılmıştır. `next.config.ts` içinde `agentRules: false` olduğundan `next dev` bu dosyaya Next.js'in kendi kural bloğunu eklemez; dosyada o bloğun işaretleri (`<!-- BEGIN:nextjs-agent-rules -->`) bulunmaz, bu yüzden silinmez.
 - `next-env.d.ts` çalışan `next dev` tarafından yeniden yazılır (`.next/dev/...` yolları); commit'e almayın (`git checkout -- next-env.d.ts`).
 - Çalışan `build`/`licenses`, yerel `node_modules` eski olduğundan `docs/lisanslar/DEPENDENCIES.md` içine yanlış Next sürümü yazabilir; geri alın.
 - Git dışı yerel veri: `.env`, `data/` (gerçek `quiz.db`, LLM profilleri/anahtarı), `backups/`, `.next/`, `.test-tmp/`. Bunları commit etmeyin, içeriklerini günlüğe/çıktıya yazmayın.

@@ -1,0 +1,6 @@
+import {cookies} from 'next/headers';
+import {changePassword,cookieName,sessionUser} from '../../../../lib/local-auth';
+import {sameOrigin} from '../../../../lib/server';
+const headers={'Cache-Control':'no-store'};
+// Oturum açmış öğretmen şifresini değiştirir: mevcut şifre doğrulanır, geçerli oturum dışındaki tüm oturumlar kapanır.
+export async function POST(request:Request){try{sameOrigin(request);const token=(await cookies()).get(cookieName)?.value,user=await sessionUser(token);if(!user)return Response.json({error:'Şifre değiştirmek için giriş yapın.'},{status:401,headers});const raw=await request.text();if(raw.length>2000)throw new Error('İstek çok büyük.');const b=JSON.parse(raw);if(!b||typeof b.current!=='string'||typeof b.next!=='string'||b.current.length>256)throw new Error('Şifre bilgisi geçersiz.');const result=await changePassword(user,b.current,b.next,token);return Response.json({ok:true,revoked:result.revoked},{headers});}catch(e:any){const limited=e?.message==='RATE_LIMIT';return Response.json({error:limited?'Çok fazla hatalı deneme; 15 dakika sonra tekrar deneyin.':e instanceof SyntaxError?'İstek verisi geçersiz.':e?.constructor===Error?e.message:'Şifre değiştirilemedi.'},{status:limited?429:e?.constructor===Error||e instanceof SyntaxError?400:500,headers});}}

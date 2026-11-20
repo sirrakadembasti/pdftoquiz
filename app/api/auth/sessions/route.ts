@@ -1,0 +1,6 @@
+import {cookies} from 'next/headers';
+import {cookieName,revokeOtherSessions,sessionUser} from '../../../../lib/local-auth';
+import {sameOrigin} from '../../../../lib/server';
+const headers={'Cache-Control':'no-store'};
+// {scope:'others'}: geçerli oturum kalır, diğerleri kapanır. {scope:'all'}: geçerli oturum dahil hepsi kapanır (çerez silinir).
+export async function POST(request:Request){try{sameOrigin(request);const jar=await cookies(),token=jar.get(cookieName)?.value,user=await sessionUser(token);if(!user)return Response.json({error:'Oturumları yönetmek için giriş yapın.'},{status:401,headers});const raw=await request.text();if(raw.length>500)throw new Error('İstek çok büyük.');const b=JSON.parse(raw);if(!b||(b.scope!=='others'&&b.scope!=='all'))throw new Error('Kapsam geçersiz.');const revoked=await revokeOtherSessions(user.id,b.scope==='others'?token:undefined);if(b.scope==='all')jar.delete(cookieName);return Response.json({ok:true,revoked,scope:b.scope},{headers});}catch(e:any){return Response.json({error:e?.constructor===Error?e.message:e instanceof SyntaxError?'İstek verisi geçersiz.':'Oturumlar kapatılamadı.'},{status:e?.constructor===Error||e instanceof SyntaxError?400:500,headers});}}

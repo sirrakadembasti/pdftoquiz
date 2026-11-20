@@ -126,6 +126,10 @@ Kararlar (kullanıcı onaylı): aynı bağlantıyı güncelle (PUT, sürüm numa
 
 Sonuç kaydına hafif özet (`customMetadata.s`) ve ad kilidi anahtarı (`c`) yazılır; liste özetten sayfalanır (`GET ?action=results&page&pageSize&sort&dir`), tüm sonuçlardan istatistik döner. Yeni: `?action=analysis` (soru analizi: şık dağılımı, doğru oranı, ayırt edicilik, uyarılar), `?action=results&format=csv` (Excel TR: BOM, `;`, ondalık virgül, formül enjeksiyonu koruması), `DELETE ?action=result&id=` (tek sonuç; ad kilidini serbest bırakır). Depolamaya `after` imleci eklendi (`lib/db.ts`, `lib/storage.ts`). Arayüz: `ResultsModal` (özet satırı, sıralama, sayfalama, bölüm puan sütunları, süre, sürüm, CSV bağlantısı, onaylı silme, Soru analizi sekmesi). Testler: yeni `tests/results-panel-regression.mjs` (10) ve arayüz akışı (`tests/quiz-regression.mjs`). Sınırlar: ayrı sonuç tablosu/indeks yok (5000 özet, 3000 analiz sınırı); `.xlsx` yok; tek öğrencinin soru bazlı cevap dökümü yok. Madde 22 (hesap) açık.
 
+## Madde 22 tamamlandı: şifre değiştirme ve oturum yönetimi
+
+`lib/local-auth.ts`: `changePassword` (mevcut şifre doğrulama, kullanıcı başına 5 hatalı deneme sınırı, artan gecikme, yeni şifre 12–256 karakter ve farklı; başarıda geçerli oturum dışındakiler iptal), `revokeOtherSessions`, `activeSessions`. Rotalar: `POST /api/auth/password`, `POST /api/auth/sessions` (`others` / `all`), `GET /api/auth/me` oturum sayısını da verir. `db.session` yeni `deleteMany({userId, exceptTokenHash})` ve `count`. `/account` sayfasında şifre formu (uyuşmayan/kısa şifre sunucuya gitmez) ve oturum düğmeleri. Testler: yeni `tests/account-regression.mjs` (9; gerçek geçici SQLite, çerez kavanozu stub'ı, sayfa render). Yapılmadı: oturum listesi (cihaz/son kullanım için şema değişikliği gerekir), kayıt sayfası, e-posta değiştirme, şifre değişince bildirim. Aşama 4 tamamlandı; sırada Aşama 5 (borç).
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

@@ -6,7 +6,7 @@ const policy=spawnSync(process.execPath,['scripts/check-test-policy.mjs'],{stdio
 if(policy.status!==0)process.exit(policy.status||1);
 const lic=spawnSync(process.execPath,['scripts/licenses.mjs','--check'],{stdio:'inherit'});
 if(lic.status!==0)process.exit(lic.status||1);
-const suites=['quiz','result-leak','api-status','exam-lifecycle','results-panel','tail','parsing','phase1','answer-key','ai-redirect','gemini-network','layout-quality','hybrid','answer-color','number-sequence','text-options','crop-quality','ocr-columns','red-ink','option-sequence','number-gap','reading','phase3d2','phase3f','editor-simplification','hydration','phase3g-manual','phase3g-metric','phase3i','phase3i-figure','ui-followup','initial-account'];
+const suites=['quiz','result-leak','api-status','exam-lifecycle','results-panel','account','tail','parsing','phase1','answer-key','ai-redirect','gemini-network','layout-quality','hybrid','answer-color','number-sequence','text-options','crop-quality','ocr-columns','red-ink','option-sequence','number-gap','reading','phase3d2','phase3f','editor-simplification','hydration','phase3g-manual','phase3g-metric','phase3i','phase3i-figure','ui-followup','initial-account'];
 // Varsayılan DATABASE_URL gerçek data/quiz.db'dir; test paketleri onu hiç görmesin.
 const testEnv={...process.env,DATABASE_URL:'file:'+resolve('.test-tmp/run-tests/quiz.db')};
 mkdirSync(resolve('.test-tmp/run-tests'),{recursive:true});

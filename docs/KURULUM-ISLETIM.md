@@ -39,7 +39,8 @@ Windows'ta `build`, pnpm bağımlılık bağlantılarını ve SQLite yerel paket
 - Yanıtlara CSP, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff` ve `Referrer-Policy: same-origin` eklenir.
 - Öğrenci sonucu: sınav açılırken tek kullanımlık deneme belirteci alınır; sınav başına IP başına 10 dakikada `ATTEMPT_LIMIT_PER_10MIN` (varsayılan 60) başlatma/gönderim sınırı vardır. Okul gibi tek IP'den çok öğrenci giriyorsa değeri artırın. Aynı ad (+ IP) ile ikinci gönderim reddedilir; aynı adlı iki öğrenci varsa adlarını ayırt edecek şekilde (ör. sınıf numarası) yazmalarını isteyin. Düzenleyicideki "soru bazlı durumu göster" seçeneği kapalıyken öğrenci yalnız toplam/bölüm sonucunu görür.
 - Şifre 12–256 karakter olmalıdır; `user:add` ve `user:reset` rastgele bir şifre üretip terminalde gösterir.
-- Yeni öğretmen: `pnpm user:add`. Şifre sıfırlama: `user:reset` (eski oturumları da iptal eder). Şifre terminalde gösterilir.
+- Yeni öğretmen: `pnpm user:add`. Şifre sıfırlama (şifre unutulduysa): `user:reset` (eski oturumları da iptal eder). Şifre terminalde gösterilir.
+- Şifreyi bilen öğretmen `/account` sayfasından şifresini değiştirebilir; bu cihaz dışındaki tüm oturumlar kapanır. Aynı sayfadan "diğer oturumları kapat" ve "tüm oturumlardan çık" kullanılabilir (telefon/ortak bilgisayar kaybında).
 
 ## 4. Veri ve yedek
 

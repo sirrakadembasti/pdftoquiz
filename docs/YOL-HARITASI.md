@@ -73,7 +73,7 @@ Madde 14 (kaynak numara, görsel soru başlığı), 15 (sunucuda aynı ad ile ik
 
 ## Aşama 3 durumu (kısmen uygulandı)
 
-Madde 10 (beklenen sayı) ve 7 (sessiz yanlış eşleşme kapısı) uygulandı; testler `tests/number-sequence-regression.mjs` içinde (sentetik PDF dahil). Sertifika belgesinde ölçüm (110 sn, OCR): beklenen sayı artık 120 okunuyor; 1, 44 ve 64 numaralı sorular "başka soru" uyarısı alıyor. Soru sayısı hâlâ 64/120 (madde 6), şıklar (8), bölümler (9) ve anahtar sayfası (11) açık. Kapak tablosundaki "Her ders için N soru" bilgisi bölüm algısıyla (madde 9) birlikte ele alınmalı. Kutu yüksekliği temelli ek sinyal (kutu beklenenin katıysa uyarı) eklenmedi.
+Madde 10 (beklenen sayı) ve 7 (sessiz yanlış eşleşme kapısı) uygulandı; testler `tests/number-sequence-regression.mjs` içinde (sentetik PDF dahil). Sertifika belgesinde ölçüm (110 sn, OCR): beklenen sayı artık 120 okunuyor; 1, 44 ve 64 numaralı sorular "başka soru" uyarısı alıyor. Soru sayısı hâlâ 64/120 (madde 6), şıklar (8), bölümler (9) ve anahtar sayfası (11, sonradan tamamlandı) açık. Kapak tablosundaki "Her ders için N soru" bilgisi bölüm algısıyla (madde 9) birlikte ele alınmalı. Kutu yüksekliği temelli ek sinyal (kutu beklenenin katıysa uyarı) eklenmedi.
 
 ## Madde 6 tanılaması (soru kaybı, 64/120)
 
@@ -107,6 +107,12 @@ Kalan: yer tutuculu 9 soru ve en az bir boş şıklı 47 soru (2×2 ızgara + ha
 ## Madde 8 tamamlandı: ızgara şıklar
 
 Satır içi harfsiz ayırıcılar bölünüyor (`splitOptions`) ve 2×2 / 1×4 ızgarada eksik harfler konumdan çıkarılıyor (`inferGridChoices`). Sertifika belgesi (kurtarma açık, ~200 sn): yer tutucu **9 → 7** (21, 23, 29, 46, 49, 62, 66), en az bir boş şıklı soru **47 → 15**; eksik numara 0. Referans PDF'ler değişmedi (50/50 ×3, aynı uyarı ve boş şık sayıları). Kalan 15 boş şıklı soruda bir şıkkın metni ve harfi birlikte OCR'da yok (parça sayısı < 4), konumdan çıkarılamaz; öğretmen kaynak görselden doldurur. Madde 8'deki "kapaktaki dört seçenek sinyali" kullanılmadı (parça sayısı zaten maxChoices ile sınırlı).
+
+## Madde 11 tamamlandı: taranmış cevap anahtarı sayfası
+
+Kök neden: sayfa "B TEST KİTAPÇIĞI CEVAP ANAHTARI" başlığıyla doğru sınıflanıyordu, ama tam sayfa OCR (PSM 11) tek harfleri hiç okumuyordu: 17. sayfada yalnız numaralar vardı (1–9 bile yok), `answerKeyInfo` 0 cevap buldu. Düzeltme: `keyNumberColumns` (`pdf-layout.ts`) mevcut OCR'daki çıplak numara satırlarını x'e göre sütunlar (≥6 satır); `recoverAnswerKeyColumns` (`pdf-import.ts`) her sütun bandını 2× büyütüp harf beyaz listesiyle (`0123456789ABCDE.`, PSM 6) ayrıca okur; `columnKeyInfo` (`quiz.ts`) yalnız "N. X" satırlarını kabul eder, çelişen numarayı çıkarır, harf düzeltmesi yapmaz. Yalnız taranmış (`ocr`) ve tam sayfadan <6 cevap çıkan anahtar sayfalarında çalışır; sonuç ≥6 cevap değilse atılır. `keyBooklet` "B TEST KİTAPÇIĞI" kalıbını tanır (`quiz.ts`'e taşındı; `answer-key.ts` yeniden dışa aktarır), sınav ve anahtar kitapçık alanı dolar.
+
+Sertifika belgesi: `pdfAnswerKey` null → **120/120 cevap, 0 çelişki**, tamamı kaynak görselle satır satır karşılaştırıldı (OCR "4..C" gibi çift noktalı satırlar da okunur). Cevaplar yine **otomatik uygulanmaz**: toplu anahtar alanında önizlenip öğretmen onayı bekler (soru `correct` alanı `null` kalır). Yer tutuculu 7 soru için anahtar satırı vardır ama eşleşecek soru yoktur; öğretmen soruyu tamamlayınca eşleşir.
 
 ## Önerilen sıra
 

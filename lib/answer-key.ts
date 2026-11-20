@@ -1,5 +1,6 @@
 import type {Exam} from './quiz';
 import {manualPatch} from './hybrid';
+import {keyBooklet} from './quiz';
 
 export type AnswerDisplayRow={id?:string;section:string;number:number;current:number|null;detected?:number;warning?:string;page?:number};
 export function answerKeyDisplayRows(e:Exam):AnswerDisplayRow[]{
@@ -22,7 +23,7 @@ export type KeyPreview={rows:KeyRow[];warnings:string[];canApply:boolean;booklet
 export type KeyMapping={sectionMap?:Record<string,string>;letters?:Record<number,string>};
 export function keyName(value:string){const s=value.toLocaleUpperCase('tr').normalize('NFD').replace(/\p{M}/gu,'').replace(/\b(?:TESTI|TEST|DERSI|DERS|BOLUMU|CEVAP|ANAHTARI)\b/g,'').replace(/[^A-Z0-9]/g,'');return ({FEN:'FENBILIMLERI',FENBILGISI:'FENBILIMLERI',SOSYAL:'SOSYALBILGILER'} as Record<string,string>)[s]||s;}
 const clean=(s:string)=>s.replace(/[*_`]/g,'').replace(/[“”"']/g,'').trim();
-export function keyBooklet(text:string){const t=text.toLocaleUpperCase('tr');return t.match(/[“”"']?([AB])[“”"']?\s*K[İI]TAPÇI(?:ĞI|GI|K)/u)?.[1]||t.match(/K[İI]TAPÇIK\s*(?:TÜRÜ)?\s*[:\-]?\s*[“”"']?([AB])\b/u)?.[1];}
+export {keyBooklet};
 const isNo=(s:string)=>/^(?:SORU\s*(?:NO|NUMARASI|NUMARASI\/NO)?|NO|QUESTION\s*(?:NO|NUMBER))\.?$/i.test(clean(s));
 function cells(line:string):string[]|null{if(line.includes('|'))return line.trim().replace(/^\|/,'').replace(/\|$/,'').split('|').map(clean);if(line.includes('\t'))return line.split('\t').map(clean);if(/[;,]/.test(line))return line.split(/[;,]/).map(clean);const spaces=line.split(/\s{2,}/).map(clean);return spaces.length>1?spaces:null;}
 function pairs(text:string){return [...text.matchAll(/(?<!\d)(\d{1,3})\s*[-.:)]?\s*\(?([A-Z])\)?(?=\s|[,;|]|$|\d)/g)].map(m=>({number:Number(m[1]),letter:m[2]}));}

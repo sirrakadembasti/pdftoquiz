@@ -47,6 +47,7 @@ Taranmış belgelerde yoğun öğretmen kontrolü beklenir; bu uygulamanın belg
 - OCR ayarları: `tur+eng`, OEM 1 (LSTM), PSM 11, 144 DPI. Yalnız LSTM çekirdekleri paketlenir.
 - Yerel OCR sonucu kesin sayılmaz; belirsiz alanlar öğretmen önerisi ve kalite kapısı olarak kalır. Otomatik metin düzeltmesi yapılmaz.
 - **Eksik şık kurtarma:** eksik bir A–E işareti için komşu güvenilir işaretlerin düşey sırası, içerik sütunu, satır başlangıcı ve OCR sembol kutuları kullanılır; aynı fiziksel satırın parçaları soldan sağa birleştirilir. Sonuç otomatik uygulanmaz; öğretmen "Bu metni Şık X olarak kullan" ile onaylar. Belirsiz ya da beklenen bölgeden uzak metin için öneri üretilmez.
+- **Taranmış cevap anahtarı sayfası:** PSM 11 tek harfleri düşürdüğünden, "cevap anahtarı" sınıflı OCR sayfasında tam sayfadan <6 cevap çıkarsa numara sütunları (`keyNumberColumns`) harf beyaz listeli PSM 6 ile ayrıca okunur (`recoverAnswerKeyColumns`); yalnız "N. X" satırları kabul edilir, çelişen numara çıkarılır, harf düzeltmesi yapılmaz. Testler `tests/number-sequence-regression.mjs` içindedir.
 - PDF'deki cevap anahtarı algılansa bile otomatik uygulanmaz. Öğrenci verisine cevap anahtarı, öğretmen kaynak görseli veya birleşik soru+şık görseli gönderilmez.
 - Yeni bir yerleşim stratejisi eklenirken içerik/dosya adı sabitlenmez; yeni geometri sinyali, belirsizlik kapısı ve bağımsız sentetik regresyon birlikte eklenir.
 - Desteklenmeyenler: farklı alfabe, serbest el yazısı, şık işareti olmayan tablo düzeni, alışılmadık cevap yerleşimi. "Her taranmış belgeyi hatasız okuma" garantisi yoktur.

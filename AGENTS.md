@@ -146,6 +146,7 @@ Hata yanıtları `error(e)` (`lib/server.ts`) ile üretilir: `'AUTH'` → 401 ("
 - **Kaynak, TypeScript'ten anlık derlenir:** testler `typescript.transpileModule` ile `lib/*.ts` ve `app/**/*.tsx`'i `.test-tmp/qa/modules/` altına CommonJS yazar; bağımlılıklar test dosyası içinde mock'lanır: derleme çıktısındaki `lib/session.js` yerine `global.__qaUser` döndüren bir stub, `lib/storage.js` yerine bellek kovası yazılır (bu dosyalar `.test-tmp/` altında üretilir, kaynakta yoktur). Modül eklerseniz test dosyalarındaki derleme listesine (`for (const name of [...])`) eklemeniz gerekebilir.
 - **Gerçek DB yok:** `test` tüm testlere `.test-tmp/run-tests/quiz.db` verir; sunucu testi (`test:server`) sistem geçici klasöründe DB kurar. Gerçek `data/quiz.db`'ye dokunan test yazmayın.
 - **Belgeye özgü kabul katmanı** (`test:acceptance`, `RUN_REAL_ACCEPTANCE=1`) standart sayıma girmez; dört `*_REFERENCE_*` yolu ister ve eski bir belgenin içeriğine bağlıdır. `tests/reference/` PDF'leri standart pakete dahil değildir; `pnpm reference` bunları gerçek hattan geçirir (son sonuç: üçü de 50/50 soru).
+- **CI:** `.github/workflows/ci.yml`, `main`'e push ve her PR'da `windows-latest` üzerinde `pnpm install --frozen-lockfile`, `typecheck`, `test`, `build`, `test:server` çalıştırır.
 - **Gerçek tarayıcı/mobil, canlı AI, çift tıklamalı `.cmd`, harici sunucu dağıtımı doğrulanmadı**; React/SSR testleri tarayıcı doğrulaması yerine geçmez.
 
 ## 11. Kod stili ve değişiklik kuralları

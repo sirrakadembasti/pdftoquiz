@@ -5,7 +5,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 
 const root=path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const page=fs.readFileSync(path.join(root,'app/page.tsx'),'utf8');
+const page=['app/page.tsx','app/student-flow.tsx'].map(f=>fs.readFileSync(path.join(root,f),'utf8')).join('\n');
 const css=fs.readFileSync(path.join(root,'app/globals.css'),'utf8');
 const tools=fs.readFileSync(path.join(root,'lib/manual-option-tools.tsx'),'utf8');
 

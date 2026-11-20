@@ -49,6 +49,7 @@ Tarayıcı (ağır iş burada)                          Sunucu (ince)
 | Yol | Rol |
 |---|---|
 | `app/page.tsx` (~107 KB) | **Tüm arayüz** tek dosyada: `Home`, `PDFView`, `ExamCard`, `HybridReview`, `BulkAnswers`, `SectionNavigation`, `Modal`, `AIUsageCard`, `SourceBadge`, `OptionImagePreview`. Görünümler: `home, processing, editor, intro, quiz, result, loading, unavailable`. |
+| `app/student-flow.tsx` | Öğrenci akışı görünümleri (`StudentIntro`, `StudentQuiz`, `StudentResult`) ve `SectionNavigation`; durum `Home`'da kalır, props ile gelir. Testlerdeki derleme listelerinde `app/page.tsx`'ten önce yer alır. |
 | `app/account/page.tsx` | Hesap sayfası: giriş; oturum açıkken şifre değiştirme, etkin oturum sayısı, "diğer oturumları kapat" ve "tüm oturumlardan çık" (kayıt sayfası yok). |
 | `app/api/**` | `exams` (GET liste, POST kaydet), `exams/[id]` (GET sınav/sonuç/pdf/görsel/düzenle, POST sonuç gönder), `auth/{login,logout,me}`, `ai`, `health`, `llm/[...slug]`. |
 | `app/llm/[[...slug]]/route.js`, `app/actions/llm.js`, `llm.js`, `.llm-manager.json`, `instrumentation.ts` | LLM Manager bağlantısı ve açılışta ilk hesap oluşturma (§9). |

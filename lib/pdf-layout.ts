@@ -63,6 +63,26 @@ for(const l of lines){l.ocrGeometry=geometry;l.text=l.text.trim().replace(/^([a-
 // No symbol-to-letter table: the accepted neighbours determine the missing letter.
 // OCR bazen şık harflerini (A/B/C) hiç okumaz ve satırlar yalnız ")" ile başlar. En az 3 (ve en çok maxChoices) hizalı, ")" ile
 // başlayan ya da harfli satır tek sütunda ardışıksa ve harfli olanlar konumlarıyla uyuşuyorsa harf konumdan çıkarılır (uyarılı).
+// Izgara yerleşimi (2×2, 1×4): harfli ve harfsiz (")") şık parçaları satır-büyük-sütun sırasıyla maxChoices adet ve düzenli bir ızgara
+// oluşturuyorsa, harfli parçalar konumlarıyla uyuşuyorsa eksik harfler konumdan çıkarılır. Tek sütun yerleşim eski yola bırakılır.
+function inferGridChoices(block:Line[],maxChoices:number){
+ const rowText=(l:Line)=>l.text.trim(),isBare=(l:Line)=>/^\)\s*\S/.test(rowText(l))&&!l.monospace,isLabeled=(l:Line)=>optionPattern.test(rowText(l));
+ const first=block[0];if(!first)return null;
+ const pieces=block.filter(l=>l!==first&&l.y>first.y&&(isLabeled(l)||isBare(l)));
+ if(pieces.length!==maxChoices||!pieces.some(isBare))return null;
+ const rowTolerance=Math.max(...pieces.map(l=>l.h))*.7,sorted=pieces.slice().sort((a,b)=>a.y-b.y),rows:Line[][]=[];
+ for(const l of sorted){const row=rows.at(-1);if(row&&l.y-row[0].y<=rowTolerance)row.push(l);else rows.push([l]);}
+ rows.forEach(r=>r.sort((a,b)=>a.x-b.x));
+ const xs=pieces.map(l=>l.x).sort((a,b)=>a-b),columns:number[]=[];for(const x of xs){if(columns.length&&x-columns[columns.length-1]<.04)continue;columns.push(x);}
+ if(columns.length<2||rows.slice(0,-1).some(r=>r.length!==columns.length)||rows.at(-1)!.length>columns.length)return null;
+ const column=(l:Line)=>columns.reduce((best,x,i)=>Math.abs(l.x-x)<Math.abs(l.x-columns[best])?i:best,0);
+ if(rows.some(r=>r.some((l,i)=>i&&column(l)<=column(r[i-1]))))return null;
+ const ordered=rows.flat();
+ if(ordered.some((l,i)=>isLabeled(l)&&rowText(l).match(optionPattern)![1].charCodeAt(0)-65!==i))return null;
+ const copy=block.slice(),repairs:{letter:string;original:string;x:number;y:number}[]=[];
+ ordered.forEach((l,i)=>{if(!isBare(l))return;const letter=String.fromCharCode(65+i);copy[block.indexOf(l)]={...l,text:letter+') '+rowText(l).replace(/^\)\s*/,'')};repairs.push({letter,original:l.text,x:l.x,y:l.y});});
+ return {lines:copy,repairs};
+}
 function inferUnlabeledChoices(block:Line[],maxChoices:number){
  const rowText=(l:Line)=>l.text.trim(),isBare=(l:Line)=>/^\)\s*\S/.test(rowText(l))&&!l.monospace;
  const first=block[0];if(!first)return null;
@@ -78,6 +98,7 @@ function inferUnlabeledChoices(block:Line[],maxChoices:number){
 export function repairOptionSequence(block:Line[],maxChoices=4){
  const repairs:{letter:string;original:string;x:number;y:number}[]=[];
  if(!block.some(l=>l.ocrGeometry))return {lines:block,repairs};
+ {const grid=inferGridChoices(block,maxChoices);if(grid)return grid;}
  if(block.filter(l=>optionPattern.test(l.text)).length<2){const inferred=inferUnlabeledChoices(block,maxChoices);if(inferred)return inferred;}
  const labels=block.filter(l=>optionPattern.test(l.text));if(labels.length<2)return {lines:block,repairs};
  const glyph=median(block.filter(l=>l.ocrGeometry).map(l=>l.ocrGeometry!.glyphWidth));
@@ -132,7 +153,7 @@ export function repairOptionSequence(block:Line[],maxChoices=4){
 }
 
 function normalizeOptionPrefix(line:Line):Line{return {...line,text:line.text.replace(/^(\(?)([a-e])(\s*[).:\-])/i,(_,open,letter,separator)=>open+letter.toUpperCase()+separator)};}
-function splitOptions(line:Line):Line[]{const matches=[...line.text.matchAll(/(?:^|\s)(\(?[A-E]\s*[).:\-])(?=\s|$)/gi)];if(matches.length<2)return [normalizeOptionPrefix(line)];const result:Line[]=[];const first=matches[0].index!;if(first>0)result.push({...sliceTextLine(line,0,first),w:line.w*first/line.text.length});for(let i=0;i<matches.length;i++){const start=matches[i].index!+(matches[i][0].startsWith(' ')?1:0),end=i+1<matches.length?matches[i+1].index!:line.text.length;result.push(normalizeOptionPrefix({...sliceTextLine(line,start,end),x:line.x+line.w*start/line.text.length,w:line.w*(end-start)/line.text.length}));}return result;}
+function splitOptions(line:Line):Line[]{const labeled=[...line.text.matchAll(/(?:^|\s)(\(?[A-E]\s*[).:\-])(?=\s|$)/gi)],optionRow=/^\(?[A-E]\s*[).:\-]|^\)\s/i.test(line.text.trim()),bare=optionRow?[...line.text.matchAll(/(?:^|\s)(\))(?=\s+\S)/g)].filter(b=>!labeled.some(m=>b.index!>=m.index!&&b.index!<m.index!+m[0].length)):[],matches=[...labeled,...bare].sort((a,b)=>a.index!-b.index!);if(matches.length<2)return [normalizeOptionPrefix(line)];const result:Line[]=[];const first=matches[0].index!;if(first>0)result.push({...sliceTextLine(line,0,first),w:line.w*first/line.text.length});for(let i=0;i<matches.length;i++){const start=matches[i].index!+(matches[i][0].startsWith(' ')?1:0),end=i+1<matches.length?matches[i+1].index!:line.text.length;result.push(normalizeOptionPrefix({...sliceTextLine(line,start,end),x:line.x+line.w*start/line.text.length,w:line.w*(end-start)/line.text.length}));}return result;}
 
 // Number-only answers stay forbidden in the general pass. They are repaired
 // only inside an already separated, unnumbered proposal when three reliable

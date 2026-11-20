@@ -104,6 +104,10 @@ Kök neden: yalnız tek numaralık boşluklar işleniyordu (`numberGapSpans`, `u
 
 Kalan: yer tutuculu 9 soru ve en az bir boş şıklı 47 soru (2×2 ızgara + harf düşmesi, satır içi "A) .. B) .."; madde 8'in ikinci yarısı), bölümler (9), anahtar sayfası (11). Not: ≥115 hedefi yuva sayısı olarak aşıldı; içerikli soru sayısı 111.
 
+## Madde 8 tamamlandı: ızgara şıklar
+
+Satır içi harfsiz ayırıcılar bölünüyor (`splitOptions`) ve 2×2 / 1×4 ızgarada eksik harfler konumdan çıkarılıyor (`inferGridChoices`). Sertifika belgesi (kurtarma açık, ~200 sn): yer tutucu **9 → 7** (21, 23, 29, 46, 49, 62, 66), en az bir boş şıklı soru **47 → 15**; eksik numara 0. Referans PDF'ler değişmedi (50/50 ×3, aynı uyarı ve boş şık sayıları). Kalan 15 boş şıklı soruda bir şıkkın metni ve harfi birlikte OCR'da yok (parça sayısı < 4), konumdan çıkarılamaz; öğretmen kaynak görselden doldurur. Madde 8'deki "kapaktaki dört seçenek sinyali" kullanılmadı (parça sayısı zaten maxChoices ile sınırlı).
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

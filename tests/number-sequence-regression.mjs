@@ -91,3 +91,26 @@ test('Numarasız grup çıkarımı: tek boşluk, sayı uyuşmazlığı, <3 şık
  assert.ok(!numbers(layout.analyzePage(lines.map(l=>({...l,ocrGeometry:undefined})),2,new Set(),true,{expectedNumber:1,pageKind:'questions'})).includes(2),'dijital');
  assert.ok(!numbers(layout.analyzePage(lines,2,new Set(),true,{expectedNumber:1,pageKind:'questions',total:2})).includes(2),'toplam sınırı');
 });
+const cell=(text,y,x)=>ol(text,y,x,{w:.15});
+test('Izgara şıklar: 2×2 yerleşimde harfsiz parçalar konumdan (satır-büyük-sütun) A–D alır',()=>{
+ const stem=ol('7. Yedinci sorunun metni burada',.10,.09);
+ const allBare=layout.repairOptionSequence([stem,cell(') DrawArc',.20,.57),cell(') DrawPie',.20,.75),cell(') DrawEllipse',.22,.57),cell(') DrawCircle',.22,.75)],4);
+ assert.deepEqual(allBare.lines.slice(1).map(l=>l.text),['A) DrawArc','B) DrawPie','C) DrawEllipse','D) DrawCircle']);
+ const mixed=layout.repairOptionSequence([stem,cell('A) DataRelation',.20,.12),cell('B) DataSet',.20,.30),cell(') DataReader',.22,.13),cell('D) DataView',.22,.30)],4);
+ assert.deepEqual(mixed.lines.slice(1).map(l=>l.text),['A) DataRelation','B) DataSet','C) DataReader','D) DataView']);assert.deepEqual(mixed.repairs.map(r=>r.letter),['C']);
+ const oneRow=layout.repairOptionSequence([stem,cell('A) 8 bit',.20,.12),cell(') 16 bit',.20,.25),cell(') 24 bit',.20,.38),cell('D) 32 bit',.20,.51)],4);
+ assert.deepEqual(oneRow.lines.slice(1).map(l=>l.text),['A) 8 bit','B) 16 bit','C) 24 bit','D) 32 bit']);
+});
+test('Izgara şıklar: satır içi "A) x ) y" ve "C) x ) y" satırları bölünür; tüm soru 4 şıklı çıkar',()=>{
+ const lines=[ol('7. Yedinci sorunun metni burada',.10,.09),ol('A) DrawLine ) MultiLine',.20,.12,{w:.4}),ol('C) DrawLines ) DrawMultiLine',.22,.12,{w:.4})];
+ const a=layout.analyzePage(lines,2,new Set(),true,{expectedNumber:7,pageKind:'questions'});
+ assert.deepEqual(a.regions[0].question.options,['DrawLine','MultiLine','DrawLines','DrawMultiLine']);assert.ok(a.regions[0].question.warnings.some(w=>/Sıra çıkarımı: B/.test(w)));
+});
+test('Izgara şık çıkarımı: konumla çelişen harf, 3 parça, düzensiz ızgara, tek sütun ve dijital satır değişmez',()=>{
+ const stem=ol('7. Yedinci sorunun metni burada',.10,.09);const run=(cells,block=true)=>layout.repairOptionSequence([stem,...cells],4).repairs.length;
+ assert.equal(run([cell('B) a',.20,.12),cell(') b',.20,.30),cell(') c',.22,.12),cell(') d',.22,.30)]),0,'B konumu 0 ile çelişir');
+ assert.equal(run([cell(') a',.20,.12),cell(') b',.20,.30),cell(') c',.22,.12)]),0,'3 parça < 4');
+ assert.equal(run([cell(') a',.20,.12),cell(') b',.20,.30),cell(') c',.22,.30),cell(') d',.22,.12)]),4,'giriş sırası önemsiz: konum belirler');
+ assert.equal(run([cell(') a',.20,.12),cell(') b',.22,.12),cell(') c',.24,.12),cell(') d',.26,.12)]),4,'tek sütun harfsiz koşu eski yoldan (inferUnlabeledChoices) çözülür');
+ assert.equal(layout.repairOptionSequence([stem,cell(') a',.20,.12),cell(') b',.20,.30),cell(') c',.22,.12),cell(') d',.22,.30)].map(l=>({...l,ocrGeometry:undefined})),4).repairs.length,0,'dijital');
+});

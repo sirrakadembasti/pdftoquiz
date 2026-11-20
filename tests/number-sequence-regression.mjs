@@ -23,3 +23,26 @@ test('Numara boşluğu kapısı: kesintisiz dizide uyarı yok; son soru beklenen
 test('Numara boşluğu kapısı bölüm bazlıdır: bir bölümün son sorusu diğer bölümün başlangıcıyla karşılaştırılmaz',()=>{const sections=[{id:'a',name:'A',order:0,expectedCount:2},{id:'b',name:'B',order:1,expectedCount:2}];const qs=[slot(1,{sectionId:'a'}),slot(2,{sectionId:'a'}),slot(1,{sectionId:'b'}),slot(2,{sectionId:'b'})];assert.ok(layout.gapBoundaryWarnings(qs,4,sections).every(q=>!q.warnings));});
 function syntheticPDF(pages){const objs=[];const kids=pages.map((_,i)=>(3+i*2)+' 0 R').join(' ');objs.push('<</Type/Catalog/Pages 2 0 R>>','<</Type/Pages/Kids['+kids+']/Count '+pages.length+'>>');pages.forEach((rows,i)=>{const content='BT /F1 12 Tf '+rows.map((t,k)=>'1 0 0 1 60 '+(740-k*22)+' Tm ('+t.replace(/[()\\]/g,'\\$&')+') Tj').join(' ')+' ET';objs.push('<</Type/Page/Parent 2 0 R/MediaBox[0 0 612 792]/Contents '+(4+i*2)+' 0 R/Resources<</Font<</F1 '+(3+pages.length*2)+' 0 R>>>>>>','<</Length '+content.length+'>>\nstream\n'+content+'\nendstream');});objs.push('<</Type/Font/Subtype/Type1/BaseFont/Helvetica>>');let out='%PDF-1.4\n';const off=[];objs.forEach((o,i)=>{off.push(out.length);out+=(i+1)+' 0 obj\n'+o+'\nendobj\n';});const x=out.length;out+='xref\n0 '+(objs.length+1)+'\n0000000000 65535 f \n'+off.map(o=>String(o).padStart(10,'0')+' 00000 n \n').join('')+'trailer\n<</Size '+(objs.length+1)+'/Root 1 0 R>>\nstartxref\n'+x+'\n%%EOF';return out;}
 test('Sentetik dijital PDF: kapaktaki "Soru Sayısı: N" okunur; numara boşluğundaki soru sınır uyarısı alır',async()=>{const file=path.join(root,'.test-tmp/gap-synthetic.pdf');{fs.writeFileSync(file,syntheticPDF([['SINAV SORU KITAPCIGI','Soru Sayisi: 4  Sinav Suresi: 40 dakika'],['1. Birinci soru nedir?','A) Bir','B) Iki','C) Uc','D) Dort','','4. Dorduncu soru nedir?','A) Bir','B) Iki','C) Uc','D) Dort']]));const r=await convert(file);assert.equal(r.expectedCount,4);const q1=r.questions.find(q=>q.number===1),q4=r.questions.find(q=>q.number===4);assert.ok(q1&&q4,'1 ve 4 numaralı sorular okunmalı');assert.match((q1.warnings||[]).join(' '),/Sonraki soru numarası atlanıyor \(1 → 4\)/);assert.ok(!(q4.warnings||[]).some(w=>/Sonraki soru numarası/.test(w)));assert.match(r.warnings.join(' '),/eksik soru numaraları: 2, 3/);}});
+const og={split:.5,glyphWidth:.009};
+const ol=(text,y,x=.12,extra={})=>({text,x,y,w:.3,h:.012,ocrGeometry:og,confidence:95,...extra});
+const oChoices=(y,x=.12)=>['A) Bir','B) Iki','C) Uc','D) Dort'].map((t,i)=>ol(t,y+i*.018,x));
+test('Noktasız numara: soldaki çıplak sayı, aynı hizadaki metinle birleşir; sıra, şık ve geometri kanıtı ister; uyarı taşır',()=>{
+ const lines=[ol('1. Birinci sorunun metni burada',.10,.09),...oChoices(.14),ol('2',.26,.084,{w:.012}),ol('Ikinci sorunun metni burada',.26),...oChoices(.30),ol('3. Ucuncu sorunun metni burada',.42,.09),...oChoices(.46)];
+ const a=layout.analyzePage(lines,2,new Set(),true,{expectedNumber:1,pageKind:'questions'});
+ assert.deepEqual(a.regions.map(r=>r.question.number),[1,2,3]);
+ assert.match((a.regions[1].question.warnings||[]).join(' '),/numara sıradan çıkarıldı/);assert.match(a.regions[1].question.text,/Ikinci sorunun metni/);
+ assert.ok(!(a.regions[0].question.warnings||[]).some(w=>/ayrı satırdaki sayı/.test(w)));
+ assert.ok(qq.warningClasses(a.regions[1].question).structural.includes('NUMBER_INFERENCE'));
+});
+test('Noktasız numara birleştirme: sıraya uymayan, şıksız, kod görünümlü ve dijital (ocrGeometry yok) satırlar birleşmez',()=>{
+ const base=[ol('5. Beşinci sorunun metni burada',.10,.09),...oChoices(.14),ol('9. Dokuzuncu sorunun metni burada',.50,.09),...oChoices(.54)];
+ const merge=extra=>layout.mergeDetachedNumbers([...base,...extra]).filter(l=>l[layout.MERGED_NUMBER]);
+ assert.equal(merge([ol('7',.30,.084,{w:.012}),ol('Yedinci sorunun metni burada',.30),...oChoices(.34)]).length,1,'5 < 7 < 9 sıraya uyar');
+ assert.equal(merge([ol('3',.30,.084,{w:.012}),ol('Ucuncu sorunun metni burada',.30),...oChoices(.34)]).length,0,'3 < 5 sıra dışı');
+ assert.equal(merge([ol('11',.30,.084,{w:.012}),ol('On birinci sorunun metni burada',.30),...oChoices(.34)]).length,0,'11 > 9 sıra dışı');
+ assert.equal(merge([ol('7',.30,.084,{w:.012}),ol('Yedinci sorunun metni burada',.30)]).length,0,'şık kanıtı yok');
+ assert.equal(merge([ol('7',.30,.084,{w:.012}),ol('printf("x"); return 0;',.30),...oChoices(.34)]).length,0,'kod görünümlü komşu');
+ assert.equal(merge([ol('7',.30,.084,{w:.012}),ol('Yed',.30),...oChoices(.34)]).length,0,'çok kısa komşu');
+ assert.equal(merge([{...ol('7',.30,.084,{w:.012}),ocrGeometry:undefined},ol('Yedinci sorunun metni burada',.30),...oChoices(.34)]).length,0,'dijital satır');
+ assert.equal(layout.mergeDetachedNumbers([...base,ol('7',.30,.084,{w:.012}),ol('Yedinci sorunun metni burada',.30),...oChoices(.34)],6).filter(l=>l[layout.MERGED_NUMBER]).length,0,'toplam sınırı (6) aşıldı');
+});

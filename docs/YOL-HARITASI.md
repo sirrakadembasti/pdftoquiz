@@ -85,6 +85,13 @@ Bulgu: kayıp 56 sorunun soru metni OCR'da yüksek güvenle (%90+) okunuyor; kay
 
 Sonuç ve öneri: 1. neden tek başına 64 → ~109 sorunun yolunu açar ve genel bir geometri sinyaliyle çözülebilir (belgeye özgü kural gerekmez): sütun sol kenarında, bir metin satırının hemen solunda, aynı taban çizgisinde, beklenen sıra numarasına uyan çıplak 1–3 haneli satır → "N." işaretçisi say; "numara noktası okunamadı, sıradan çıkarıldı" uyarısıyla (mevcut NUMBER_INFERENCE sınıfı) öğretmen onayına bırak. 2. neden için kurtarma sınırı ve uygulama politikası ayrıca ele alınmalı. Hedef ≥115/120 için ikisi de gerekir.
 
+## Madde 6 düzeltmesi (noktasız numara) ve kalan
+
+`mergeDetachedNumbers` uygulandı (tests/number-sequence-regression.mjs, 2 test). Sertifika belgesi (kurtarma açık, ~150 sn): **64 → 100 soru**, 38 soru "numara sıradan çıkarıldı" uyarısıyla birleştirildi; referans PDF'ler değişmedi (50/50, 50/50, 50/50). Kalan 20 eksik numaranın dağılımı:
+- **~19 numaralı blok şıksız olarak dışlandı** ("Şıkları olmayan numaralı blok; öğretmen geri alabilir": 27, 31, 34, 36, 39, 40, 44, 54, 76, 91, 101, 102, 106, 108, 109 …). Numara artık okunuyor ama OCR şık harflerini (A/B/C) düşürmüş, dört satır da ")" ile başlıyor. Sıradaki düzeltme: aynı x'te hizalı ardışık ")"-başlı 3–4 satırı sırayla A–D şık say (uyarılı, onaya bağlı) — madde 8 ile birlikte.
+- **OCR'da numara glifi hiç yok:** 2, 3, 4, 5, 7, 8, 9 (sayfa 2) ve 34–36; hedefli OCR kurtarması (limit 6, otomatik uygulamıyor) gerekir (madde 6'nın ikinci nedeni).
+- Not: eski çıktıdaki 40. soru başka sorulardan alınmış şıklarla "4 şık" görünüyordu (sessiz yanlış eşleşme); artık şıksız blok olarak açıkça dışlanıyor.
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

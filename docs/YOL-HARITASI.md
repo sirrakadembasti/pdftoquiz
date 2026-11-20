@@ -140,6 +140,24 @@ Sonuç kaydına hafif özet (`customMetadata.s`) ve ad kilidi anahtarı (`c`) ya
 | 4 — Panel | Güncelle/sil/kapat, sonuç analizi ve dışa aktarma, durum kodları | 18–22 | API regresyonu + `test:server` |
 | 5 — Borç | page.tsx bölme, Playwright | 23–25 | Tüm paket |
 
+## Aşama 5'ten devam rehberi
+
+**Durum (20 Kasım 2026, commit `3a096a0`):** Aşama 1–4 tamamlandı ve uzak repoda. Regresyon paketi 310/310 (`node --test tests/*-regression.mjs`), `tsc` temiz. Bu geliştirme bilgisayarında `pnpm build` ve `pnpm test:server` hiç koşmadı (ağ kısıtlı); **ağı serbest bir makinede ilk iş bunları çalıştırın.** Özellikle `tests/local-server.mjs` içinde yabancı öğretmen beklentisi 400 → 403 yapıldı ve gerçek sunucuda doğrulanmadı.
+
+**Yeni ajana başlangıç adımları**
+1. `git pull`; `pnpm install --frozen-lockfile`; `pnpm build`; `pnpm test`; `pnpm test:server`. Çıkan hata varsa Aşama 5'ten önce düzeltilir.
+2. AGENTS.md'yi (özellikle §10 test düzeni, §11 stil, §13 değişmezler) ve bu belgenin "Madde … tamamlandı" bölümlerini okuyun. Aşama 1–4'ü yeniden yapmayın.
+3. Her madde için önce yapılacakları özetleyin, sonra uygulayın; commit ve push'u kullanıcı isteyince yapın.
+
+**Aşama 5 maddeleri ve dikkat noktaları**
+- **23 — `app/page.tsx` bölme:** Dosya çok uzun satırlı (AGENTS.md §11: biçimlendirici çalıştırılmaz). Davranışı bozmadan, parça parça taşıyın; güvenlik ağı `tests/quiz-regression.mjs` arayüz testleri ve `tsc`. İlk aday: öğrenci akışı (intro/quiz/result). Son aşamalarda eklenen bileşenler (`ExamCard`, `AccessModal`, `DeleteModal`, `ResultsModal`) aynı dosyada ve ayrılmaya hazır. Yeni modül eklenirse testlerdeki derleme listeleri (`for (const name of [...])`) güncellenmeli.
+- **24 — Playwright uçtan uca test:** Tarayıcı indirmek gerekir (ağ serbest olmalı). Gerçek tarayıcıda hiç denenmeyenler: bölüm ekranı ve özeti, sonuç paneli tablosu ve CSV indirme (`a download`), erişim ayarı `datetime-local` alanı (saat dilimi), `/account` şifre formu, CSP altında PDF.js/OCR worker'ları (`worker-src blob:`, `wasm-unsafe-eval`). Testler gerçek `data/quiz.db`'ye dokunmamalı (geçici `DATABASE_URL`).
+- **25 — Sentetik taranmış belge fixture'ı:** İki sütun, kutulu ders başlıkları, 2×2 şıklar, kapakta "DERS ADI / SAYFA" tablosu ve dört sütunlu cevap anahtarı olan **anonim, üretilmiş** bir PDF; `tests/fixtures/` altına. **Gerçek sertifika PDF'i repoya konmaz** (telif). Beklenen sonuçlar: bölümler (`tableSections`/`assignSectionRanges`), anahtar (`recoverAnswerKeyColumns`), ızgara şıklar, ardışık okunmayan numaralar.
+
+**Repoda olmayanlar (yerelde kalır):** `.env`, `data/`, `.test-tmp/` (gerçek sertifika PDF'i ve ölçüm betikleri dahil). Sertifika üzerindeki son ölçüm: 120/120 soru yuvası, 8 bölüm × 15, anahtar 120/120, **7 yer tutucu ve ~15 boş şıklı soru** (OCR'ın hiç okumadığı içerik; öğretmen elle tamamlar). Referans PDF'ler (`pnpm reference`) 50/50 ve değişmedi.
+
+**Açık kalan, Aşama 5 dışı borçlar** (ayrıntı: AGENTS.md §14): sınav listesi sayfalama (100 sınır), sonuç paneli için indeksli tablo (5000/3000 sınırı), `.xlsx` dışa aktarma, oturum listesi (şema değişikliği gerekir), sürüm geçmişi ve kalıcı silme, `Origin` uyuşmazlığının 403'e çevrilmesi, `app/globals.css` bölme.
+
 ## Doğrulanamayanlar
 
 - Gerçek tarayıcıda PDF yükleme ve düzenleyici arayüzü (tarayıcı panelinde dosya yükleme aracı yok). Dönüşüm aynı hattan Node'da koşuldu.

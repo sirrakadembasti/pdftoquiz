@@ -98,6 +98,12 @@ Sonuç ve öneri: 1. neden tek başına 64 → ~109 sorunun yolunu açar ve gene
 
 Açık kalan madde 8 işleri: boş şıklı 44 soru (çoğu 2×2 ızgara/satır içi; örn. "8 bit ) 24 bit ) 32 bit" tek satırda) ve kapaktaki "dört seçenek" sinyalinin kullanılması; bunlar harf düşmesinden ayrı bir sütun içi bölme işidir.
 
+## Madde 6 tamamlandı: ardışık okunmayan numaralar
+
+Kök neden: yalnız tek numaralık boşluklar işleniyordu (`numberGapSpans`, `unreadableRegions`); sayfa 2'de 2–5 ve 7–9 gibi ardışık boşluklarda bloklar birbirine karışıyor, 1. sorunun şıkları 2. sorudan geliyordu. `assignGroupNumbers` ile sütun şık koşusu + boşlukla gruplara bölünüyor ve numaralar komşu numaralarla tam eşleşme koşuluyla çıkarılıyor. Sertifika belgesi (kurtarma açık, ~148 sn): **eksik numara 0 (120/120 yuva)**, 6 soru numara çıkarımı uyarılı (2, 3, 4, 5, 7, 9); **9 yer tutucu** (8, 21, 23, 29, 46, 49, 54, 62, 66: şıkları okunamayan, öğretmen dolduracak), yani 111 içerikli soru. Sayfa 2'de 1–12 doğru gruplanıyor, 1. sorunun şıkları artık kendi şıkları. Referans PDF'ler değişmedi (50/50 ×3).
+
+Kalan: yer tutuculu 9 soru ve en az bir boş şıklı 47 soru (2×2 ızgara + harf düşmesi, satır içi "A) .. B) .."; madde 8'in ikinci yarısı), bölümler (9), anahtar sayfası (11). Not: ≥115 hedefi yuva sayısı olarak aşıldı; içerikli soru sayısı 111.
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

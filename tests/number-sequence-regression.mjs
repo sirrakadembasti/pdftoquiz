@@ -67,3 +67,27 @@ test('Harfsiz şık çıkarımı: 2 satır, 5+ satır (4 şıklı), hizasız, ko
  assert.equal(layout.repairOptionSequence([stemLine,bareRow(.15),bareRow(.17),bareRow(.19)].map(l=>({...l,ocrGeometry:undefined})),4).repairs.length,0,'dijital');
  assert.equal(run([ol('B) Iki',.17,.122),ol('C) Uc',.19,.122),bareRow(.21)]),0,'başlangıçta A boşluğu: konum 0 = B çelişir');
 });
+const group=(top,first,letters=true)=>[ol(first,top,first.match(/^\d+\./)?.09:.12),...['Bir','Iki','Uc','Dort'].map((t,i)=>ol((letters?'ABCD'[i]+') ':') ')+t,top+.04+i*.02,letters?.12:.134))];
+const numbers=a=>a.regions.map(r=>r.question.number);
+test('Numarasız ardışık gruplar: şık koşusu + boşlukla bölünür; sayı komşu numaralar arasındaki boşlukla TAM eşleşirse numaralar çıkarılır (uyarılı)',()=>{
+ const lines=[...group(.10,'1. Birinci sorunun metni burada'),...group(.26,'İkinci sorunun metni burada'),...group(.42,'Üçüncü sorunun metni burada',false),...group(.58,'4. Dördüncü sorunun metni burada')];
+ const a=layout.analyzePage(lines,2,new Set(),true,{expectedNumber:1,pageKind:'questions'});
+ assert.deepEqual(numbers(a),[1,2,3,4]);
+ for(const n of [2,3])assert.match(a.regions[n-1].question.warnings.join(' '),/komşu numaralar ve şık koşusu geometrisinden çıkarıldı/);
+ assert.ok(!a.regions[0].question.warnings.some(w=>/komşu numaralar/.test(w)));assert.ok(!a.regions[3].question.warnings.some(w=>/komşu numaralar/.test(w)));
+ assert.equal(a.regions[1].question.options.length,4);assert.ok(qq.warningClasses(a.regions[1].question).structural.includes('NUMBER_INFERENCE'));
+ assert.match(a.regions[1].question.text,/İkinci sorunun/);assert.deepEqual(a.regions[2].question.options,['Bir','Iki','Uc','Dort']);
+});
+test('Numarasız grup çıkarımı: tek boşluk, sayı uyuşmazlığı, <3 şık, dijital sayfa ve toplam aşımı değişmez',()=>{
+ const assigned=(lines,ctx={expectedNumber:1,pageKind:'questions'})=>numbers(layout.analyzePage(lines,2,new Set(),true,ctx)).filter(n=>n===2||n===3||n===4).length;
+ const marker5=[...group(.10,'1. Birinci sorunun metni burada'),...group(.26,'İkinci sorunun metni burada'),...group(.42,'Üçüncü sorunun metni burada'),...group(.58,'5. Beşinci sorunun metni burada')];
+ assert.equal(assigned(marker5),0,'1 ile 5 arasında 3 numara var, 2 grup: uyuşmaz');
+ const lines=[...group(.10,'1. Birinci sorunun metni burada'),...group(.26,'İkinci sorunun metni burada'),...group(.42,'3. Üçüncü sorunun metni burada')];
+ assert.deepEqual(numbers(layout.analyzePage(lines,2,new Set(),true,{expectedNumber:1,pageKind:'questions'})),[1,3],'tek boşluk (1 grup) mevcut öneri politikasında kalır; numara çıkarılmaz');
+ const twoChoices=[...group(.10,'1. Birinci sorunun metni burada'),ol('İkinci sorunun metni burada',.26,.12),ol('A) Bir',.30,.12),ol('B) Iki',.32,.12),...group(.42,'3. Üçüncü sorunun metni burada')];
+ assert.ok(!numbers(layout.analyzePage(twoChoices,2,new Set(),true,{expectedNumber:1,pageKind:'questions'})).includes(2),'<3 şıklı grup numaralanmaz');
+ const runWithShort=[...group(.10,'1. Birinci sorunun metni burada'),...group(.26,'İkinci sorunun metni burada'),ol('Üçüncü sorunun metni burada',.42,.12),ol('A) Bir',.46,.12),ol('B) Iki',.48,.12),...group(.58,'4. Dördüncü sorunun metni burada')];
+ assert.ok(!numbers(layout.analyzePage(runWithShort,2,new Set(),true,{expectedNumber:1,pageKind:'questions'})).includes(2),'koşudaki bir grup <3 şıklıysa hiçbiri numaralanmaz');
+ assert.ok(!numbers(layout.analyzePage(lines.map(l=>({...l,ocrGeometry:undefined})),2,new Set(),true,{expectedNumber:1,pageKind:'questions'})).includes(2),'dijital');
+ assert.ok(!numbers(layout.analyzePage(lines,2,new Set(),true,{expectedNumber:1,pageKind:'questions',total:2})).includes(2),'toplam sınırı');
+});

@@ -118,6 +118,10 @@ Sertifika belgesi: `pdfAnswerKey` null → **120/120 cevap, 0 çelişki**, tamam
 
 `lib/server.ts`: `NotFound` (404) ve `Forbidden` (403) sınıfları; `readExam`, PDF, görsel ve sahiplik denetimleri bunları kullanır. `error()` bilerek fırlatılan düz `Error`'ı 400, bozuk JSON'u 400, beklenmeyen hata türlerini ayrıntısız 500 (günlüğe yazılarak) döndürür. `/llm`, `LLM_ADMIN_PASSWORD` yokken 503 verir. Testler: yeni `tests/api-status-regression.mjs` (4 test); `tests/local-server.mjs` içindeki yabancı öğretmen beklentisi 400 → 403 (gerçek sunucuda koşulmadı, `build` gerekir). Madde 18 (güncelleme/silme/kapatma), 19 (sonuç paneli) ve 22 (hesap) açık.
 
+## Madde 18 tamamlandı: sınav güncelleme, silme, kapatma
+
+Kararlar (kullanıcı onaylı): aynı bağlantıyı güncelle (PUT, sürüm numarası), yumuşak silme (geri alınabilir), elle aç/kapat + isteğe bağlı başlangıç–bitiş. `PUT /api/exams/{id}`, `DELETE`, `PATCH {closed, opensAt, closesAt, restore}` (`app/api/exams/[id]/route.ts`); ortak yardımcılar `lib/server.ts` içinde (`parseExamForm`, `examSummary`, `assertOpen`, `pruneAssets`, `saveExamState`). Sürüm çakışması `409`; öğrenci erişim kapısı kapalı/zamanlı için `403` + açıklama, silinmiş için `404`; başlamış denemeler kendi süresi içinde gönderilebilir. Sonuç kaydına `version` yazılır. `saveAssets` aynı sınavın görsellerini kopyalamadan yeniden kullanır. Arayüz: "Sınavı güncelle" (PUT; PDF yalnız değiştiyse yüklenir), sınav kartında durum rozeti (KAPALI / PLANLI / SÜRESİ DOLDU / SİLİNDİ), erişim ayarı ve silme pencereleri, "Silinenleri göster" + "Geri al". Testler: `tests/exam-lifecycle-regression.mjs` (12), `tests/quiz-regression.mjs` (arayüz akışı güncellendi). Sürüm geçmişi, kalıcı silme ve ayrı arşiv durumu yapılmadı; madde 19 (sonuç paneli) ve 22 (hesap) açık.
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

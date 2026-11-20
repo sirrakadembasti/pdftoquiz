@@ -1,3 +1,4 @@
+import {sortQuestions,validateExam,type Exam} from './quiz';
 import {sqliteBucket} from './storage';
 import {currentUser} from './session';
 export function bucket(){return sqliteBucket;}
@@ -23,3 +24,32 @@ export async function startAttempt(examId:string,duration:number){const bytes=cr
 export async function consumeAttempt(examId:string,token:unknown){const bad=new HttpError(400,'Sınav oturumu geçersiz veya zaten kullanıldı. Sayfayı yenileyip sınavı yeniden başlatın.');if(typeof token!=='string'||!/^[a-f0-9]{64}$/.test(token))throw bad;const key='exams/'+examId+'/tokens/'+await tokenHash(token);const o=await bucket().get(key);if(!o||Number(o.customMetadata?.exp)<Date.now())throw bad;if(!(await (bucket() as any).delete(key)))throw bad;return Number(o.customMetadata?.st)||Date.now();}
 // Aynı ad (+ IP) ile ikinci gönderimi atomik olarak reddeder.
 export async function claimSubmission(examId:string,name:string,ip:string){const norm=name.toLocaleLowerCase('tr').replace(/\s+/g,' ').trim();if(!(await (bucket() as any).putIfAbsent('exams/'+examId+'/submitted/'+await tokenHash(norm+'|'+ip),'1')))throw new HttpError(409,'Bu ad ile bu sınav daha önce gönderilmiş. Sonucunuz öğretmeninize iletildi.');}
+
+// Yalnız sunucunun yönettiği alanlar: istemciden gelen değerler yok sayılır (sürüm, sahip, kapatma, silme…).
+export const SERVER_FIELDS=['id','created','owner','hasPdf','version','updated','deleted','closed','opensAt','closesAt'] as const;
+// POST (yeni sınav) ve PUT (güncelleme) için ortak: boyut sınırları, doğrulama, PDF sihirli baytı.
+export async function parseExamForm(request:Request){
+ if(Number(request.headers.get('content-length'))>48*1024*1024)throw new Error('Dosya boyutu çok büyük.');
+ const form=await request.formData(),raw=form.get('exam');
+ if(typeof raw!=='string'||raw.length>24*1024*1024)throw new Error('Sınav verisi boyutu aşıldı.');
+ const e=JSON.parse(raw) as Exam;validateExam(e);e.questions=sortQuestions(e.questions,e.sections);
+ const file=form.get('pdf');let pdf:File|undefined;
+ if(file instanceof File){if(file.size>20*1024*1024)throw new Error('PDF en fazla 20 MB olabilir.');const magic=new TextDecoder().decode(await file.slice(0,5).arrayBuffer());if(magic!=='%PDF-')throw new Error('Geçerli bir PDF yükleyin.');pdf=file;}
+ const base=(e as any).version,clean={...e} as any;for(const k of SERVER_FIELDS)delete clean[k];
+ return {exam:clean as Exam,pdf,baseVersion:Number.isInteger(base)?base as number:undefined};
+}
+// "Sınavlarım" listesi için özet; durum alanları yalnız doluyken yazılır.
+export function examSummary(e:any){return {id:e.id,title:e.title,subject:e.subject,duration:e.duration,count:e.questions.length,created:e.created,version:e.version||1,...(e.updated?{updated:e.updated}:{}),...(e.closed?{closed:true}:{}),...(e.opensAt?{opensAt:e.opensAt}:{}),...(e.closesAt?{closesAt:e.closesAt}:{}),...(e.deleted?{deleted:e.deleted}:{})};}
+
+export async function isOwner(e:any){try{return await owner()===e.owner;}catch{return false;}}
+// Öğrenci erişimi: silinmiş sınav 404; elle kapatılmış, henüz açılmamış veya süresi dolmuş sınav 403 (açıklamalı). Öğretmen işlemleri bu kapıdan geçmez.
+export function assertOpen(e:any,now=Date.now()){
+ if(e.deleted)throw new NotFound('Sınav bulunamadı.');
+ const fmt=(iso:string)=>new Date(iso).toLocaleString('tr-TR',{dateStyle:'short',timeStyle:'short',timeZone:'Europe/Istanbul'});
+ if(e.closed===true)throw new Forbidden('Bu sınav öğretmeni tarafından kapatıldı.');
+ if(e.opensAt&&now<Date.parse(e.opensAt))throw new Forbidden('Bu sınav henüz açılmadı; '+fmt(e.opensAt)+' tarihinde açılacak.');
+ if(e.closesAt&&now>Date.parse(e.closesAt))throw new Forbidden('Bu sınavın süresi sona erdi.');
+}
+// Güncellemede artık başvurulmayan görselleri siler (aynı sınavın assets/ klasörü; yalnız yeni tanımda geçmeyenler).
+export async function pruneAssets(id:string,exam:unknown){const used=new Set([...JSON.stringify(exam).matchAll(/action=asset&key=([a-f0-9-]{36})/g)].map(m=>m[1]));const rows=await bucket().list({prefix:`exams/${id}/assets/`,limit:1000});for(const o of rows.objects)if(!used.has(o.key.split('/').pop()!))await (bucket() as any).delete(o.key);}
+export async function saveExamState(e:any){const summary=examSummary(e);await bucket().put(`exams/${e.id}/definition.json`,JSON.stringify(e));await bucket().put(`owned/${e.owner}/${e.id}`,JSON.stringify(summary),{customMetadata:{summary:JSON.stringify(summary)}});}

@@ -18,7 +18,7 @@ Diğer belgeler: kısa başlangıç [README](README.md) · kurulum/sunucu/hesap/
 | `build` | `scripts/build.mjs`: önce lisans envanterini üretir, `next build --webpack`, sonra standalone çıktıyı tamamlar. |
 | `start` | `scripts/serve.mjs`: `.next/standalone/server.js`'i `127.0.0.1:3000`'de başlatır (önce `build`). |
 | `typecheck` | `tsc --noEmit --incremental false`. ESLint **yoktur**; statik denetim yalnız `tsc`. |
-| `test` | Politika + lisans denetimi + 30 regresyon dosyası (aşağıda §10). |
+| `test` | Politika + lisans denetimi + 31 regresyon dosyası (aşağıda §10). |
 | `test:server` | Gerçek üretim sunucusu + SQLite (önce `build`). |
 | `user:add` / `user:reset` | Öğretmen ekle (etkileşimli, rastgele şifre) / şifre sıfırla. |
 | `backup` | SQLite anlık yedeği. |
@@ -60,7 +60,7 @@ Tarayıcı (ağır iş burada)                          Sunucu (ince)
 | `lib/db.ts`, `lib/storage.ts`, `lib/local-auth.ts`, `lib/session.ts`, `lib/server.ts`, `lib/assets.ts`, `lib/initial-account.ts` | Sunucu tarafı: veri, kova, parola/oturum, `currentUser()`, yetki (`owner()`, `sameOrigin()`), görsel kaydı, ilk hesap. |
 | `lib/student-question.tsx`, `question-text-editor.tsx`, `manual-option-tools.tsx`, `editor-*.ts`, `manual-option*.ts`, `draft-storage.ts`, `conversion-diagnostics.ts`, `question-quality.ts` | Öğrenci soru bileşeni, düzenleyici araçları, IndexedDB taslağı, tanılama paketi, uyarı sınıfları. |
 | `public/vendor/` | Çevrimdışı çalışan PDF.js (cmaps, fontlar, wasm) ve Tesseract (worker, LSTM çekirdekleri, `tur`/`eng` dil modelleri), ~25 MB. |
-| `tests/` | 29 `*-regression.mjs` + `local-server.mjs`, `standalone-packaging.mjs`, `fixtures/` (sentetik PDF), `reference/` (3 gerçek sınav PDF'i). |
+| `tests/` | 30 `*-regression.mjs` + `local-server.mjs`, `standalone-packaging.mjs`, `fixtures/` (sentetik PDF), `reference/` (3 gerçek sınav PDF'i). |
 | `scripts/` | build/serve/yedek/hesap, test koşucuları, `licenses.mjs`, OCR ve tanılama araçları (`scripts/ocr/`), `windows/*.cmd`. |
 | `docs/` | Üç rehber (`KURULUM-ISLETIM`, `GELISTIRICI-REHBERI`, `LLM-MANAGER`), `lisanslar/` (otomatik üretilir — elle düzenlemeyin), `tail-comparison.json` (test girdisi). |
 
@@ -72,11 +72,11 @@ Tarayıcı (ağır iş burada)                          Sunucu (ince)
 
 | Anahtar | İçerik |
 |---|---|
-| `exams/{id}/definition.json` | Tam `Exam` (cevaplar dahil, yalnız sunucuda). `owner` alanı = öğretmenin hash'i. |
+| `exams/{id}/definition.json` | Tam `Exam` (cevaplar dahil, yalnız sunucuda). `owner` alanı = öğretmenin hash'i. Sunucunun yönettiği alanlar (`parseExamForm` istemciden gelenleri siler): `version` (1'den başlar, her PUT'ta artar), `updated`, `closed`, `opensAt`, `closesAt`, `deleted` (ISO; yumuşak silme). |
 | `exams/{id}/source.pdf` | Kaynak PDF (yalnız öğretmene açık). |
 | `exams/{id}/assets/{uuid}` | Soru/şık/yönerge görselleri. |
 | `exams/{id}/attempts/{uuid}.json` | Öğrenci sonucu (en fazla 200 listelenir). |
-| `owned/{ownerHash}/{id}` | Öğretmenin sınav özeti (`customMetadata.summary`); "Sınavlarım" listesi (en fazla 100). |
+| `owned/{ownerHash}/{id}` | Öğretmenin sınav özeti (`examSummary`: başlık, sayı, `version`, durum alanları); "Sınavlarım" listesi (en fazla 100). `GET /api/exams` silinmişleri gizler, `?deleted=1` yalnız silinmişleri verir. |
 
 `ownerHash` = `SHA-256(userId)` (`lib/server.ts` → `owner()`).
 
@@ -91,8 +91,11 @@ Tarayıcı (ağır iş burada)                          Sunucu (ince)
 | Rota | Yetki | Not |
 |---|---|---|
 | `GET /api/exams` | öğretmen | Kendi sınav özetleri. |
-| `POST /api/exams` | öğretmen + `sameOrigin` | **Her kayıt yeni sınav oluşturur** (yeni UUID/bağlantı). Güncelleme/silme rotası **yoktur**. `validateExam` yayın kapısını uygular, görselleri `saveAssets` ile kalıcılaştırır, `%PDF-` sihirli baytını doğrular. |
-| `GET /api/exams/{id}` | herkes | Öğrenci görünümü (`studentExam`): cevap anahtarı, kaynak görsel, öğretmen alanları **yok**. |
+| `POST /api/exams` | öğretmen + `sameOrigin` | Yeni sınav (yeni UUID/bağlantı, `version: 1`). `parseExamForm` boyut sınırlarını, `validateExam` yayın kapısını ve `%PDF-` sihirli baytını uygular; görseller `saveAssets` ile kalıcılaşır. |
+| `PUT /api/exams/{id}` | yalnız sahibi + `sameOrigin` | **Aynı bağlantıyı günceller**: kimlik, `created`, sonuçlar, kapatma/zamanlama korunur; `version` artar. İstemci yüklediği `exam.version`'ı gönderir; arada başka yerden güncelleme olduysa `409`. PDF gönderilmezse kaynak PDF korunur. Aynı sınavın görselleri kopyalanmadan yeniden kullanılır, yeni tanımda geçmeyenler silinir (`pruneAssets`). Silinmiş sınav `404`. |
+| `DELETE /api/exams/{id}` | yalnız sahibi + `sameOrigin` | **Yumuşak silme**: `deleted` yazılır; liste ve öğrenci bağlantısı (görünüm/start/gönderim) `404` verir, veri ve sonuçlar saklanır, öğretmen sonuç/düzenleme erişimi sürer. Kalıcı silme yoktur. |
+| `PATCH /api/exams/{id}` | yalnız sahibi + `sameOrigin` | `{closed?, opensAt?, closesAt?, restore?}` (başka alan `400`). Silinmiş sınav yalnız `restore:true` kabul eder. Bitiş > başlangıç olmalı; `null` ayarı kaldırır. |
+| `GET /api/exams/{id}` | herkes | Öğrenci görünümü (`studentExam`): cevap anahtarı, kaynak görsel, öğretmen alanları **yok**. `assertOpen`: silinmiş `404`; kapalı, henüz açılmamış (`opensAt`) veya süresi dolmuş (`closesAt`) sınav açıklamalı `403`. |
 | `?action=results\|pdf\|edit` | yalnız sahibi | Sonuçlar, kaynak PDF, tam düzenleme verisi. |
 | `?action=asset&key=` | görsel öğrenciye açıksa herkes, değilse sahibi | Erişim, `studentExam` çıktısındaki izinli URL listesine bakılarak kararlaştırılır. |
 | `POST /api/exams/{id}?action=start` | herkes + `sameOrigin` | Tek kullanımlık **deneme belirteci** verir (hash'i `exams/{id}/tokens/` altında, süre = sınav süresi + 15 dk). IP + sınav başına hız sınırı (`ATTEMPT_LIMIT_PER_10MIN`, varsayılan 60/10 dk; sayaç süreç belleğindedir). |
@@ -133,7 +136,7 @@ Hata yanıtları `error(e)` (`lib/server.ts`) ile üretilir: `'AUTH'` → 401 ("
 
 ## 10. Test düzeni (bir şey değiştirmeden önce okuyun)
 
-- **Standart paket** `pnpm test` → `scripts/run-tests.mjs`: (1) `check-test-policy.mjs` (`skip` yasak; `lib/db.ts`'i yükleyen test kendi `process.env.DATABASE_URL`'ini ayarlamalı), (2) `licenses.mjs --check`, (3) sabit **liste**deki dosyalar sırayla (`--test`, `tail` hariç). Toplam **279 test**; 30 dosya, yaklaşık yarısı saf mantık, kalanı React/SSR ve API akışı.
+- **Standart paket** `pnpm test` → `scripts/run-tests.mjs`: (1) `check-test-policy.mjs` (`skip` yasak; `lib/db.ts`'i yükleyen test kendi `process.env.DATABASE_URL`'ini ayarlamalı), (2) `licenses.mjs --check`, (3) sabit **liste**deki dosyalar sırayla (`--test`, `tail` hariç). Toplam **291 test**; 31 dosya, yaklaşık yarısı saf mantık, kalanı React/SSR ve API akışı.
 - **Yeni test dosyasını `scripts/run-tests.mjs` içindeki `suites` listesine eklemek zorunludur;** dosya adı `tests/<ad>-regression.mjs` olmalı. Listede olmayan dosya sessizce çalışmaz.
 - **Kaynak, TypeScript'ten anlık derlenir:** testler `typescript.transpileModule` ile `lib/*.ts` ve `app/**/*.tsx`'i `.test-tmp/qa/modules/` altına CommonJS yazar; bağımlılıklar test dosyası içinde mock'lanır: derleme çıktısındaki `lib/session.js` yerine `global.__qaUser` döndüren bir stub, `lib/storage.js` yerine bellek kovası yazılır (bu dosyalar `.test-tmp/` altında üretilir, kaynakta yoktur). Modül eklerseniz test dosyalarındaki derleme listesine (`for (const name of [...])`) eklemeniz gerekebilir.
 - **Gerçek DB yok:** `test` tüm testlere `.test-tmp/run-tests/quiz.db` verir; sunucu testi (`test:server`) sistem geçici klasöründe DB kurar. Gerçek `data/quiz.db`'ye dokunan test yazmayın.
@@ -171,7 +174,7 @@ Hata yanıtları `error(e)` (`lib/server.ts`) ile üretilir: `'AUTH'` → 401 ("
 ## 14. Bilinen borçlar ve geliştirme fırsatları
 
 - `app/page.tsx` (~107 KB) ve `app/globals.css` (~47 KB) tek dosya: bileşenlere bölünebilir (davranışı bozmadan, test eşliğinde).
-- Sınav **güncelleme/silme** rotası yok; her kayıt yeni sürümdür. Eski sürümler birikir.
+- Güncelleme (PUT), yumuşak silme ve kapatma var; **kalıcı silme, sürüm geçmişi ve eski sürüme dönme yok** (PUT eski tanımın üzerine yazar; yalnız sonuç kaydında `version` tutulur). Öğrencinin cihazdaki yarım yanıtı (`attempt-<id>`) soru kimlikleri değişirse yeni sürümle eşleşmeyebilir.
 - `POST /api/exams/{id}` (öğrenci sonucu) kimliksizdir; belirteç + IP başına hız sınırı vardır ama sınır tek süreç belleğindedir ve ortak IP'li sınıflarda (NAT) paylaşılır. Süre denetimi yumuşaktır: sorular belirteçsiz okunabildiğinden öğrenci belirteci geç alarak süreyi uzatabilir; sunucu yalnız belirteç yaşını ve kayıtlı süreyi denetler. Aynı ad kuralı aynı adlı iki öğrenciyi (aynı IP'de) engeller. Sonuç listesi 200, sınav listesi 100 ile sınırlı (sayfalama yok).
 - Kayıt/şifre değiştirme arayüzü yok; hesap yönetimi yalnız CLI (`user:add`, `user:reset`) ve ilk hesap `.env`. Çok kullanıcı portalı ayrı bir tasarım işidir.
 - LLM Manager, uygulama işlevlerine (ör. soru üretme) bağlanmadı; bağlanacaksa `app/actions/llm.js` içindeki yetkilendirme `currentUser()` ile yapılmalı. Panelin token toplamı gizli düşünme tokenlarını saymaz.

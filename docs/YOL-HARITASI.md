@@ -122,6 +122,10 @@ Sertifika belgesi: `pdfAnswerKey` null → **120/120 cevap, 0 çelişki**, tamam
 
 Kararlar (kullanıcı onaylı): aynı bağlantıyı güncelle (PUT, sürüm numarası), yumuşak silme (geri alınabilir), elle aç/kapat + isteğe bağlı başlangıç–bitiş. `PUT /api/exams/{id}`, `DELETE`, `PATCH {closed, opensAt, closesAt, restore}` (`app/api/exams/[id]/route.ts`); ortak yardımcılar `lib/server.ts` içinde (`parseExamForm`, `examSummary`, `assertOpen`, `pruneAssets`, `saveExamState`). Sürüm çakışması `409`; öğrenci erişim kapısı kapalı/zamanlı için `403` + açıklama, silinmiş için `404`; başlamış denemeler kendi süresi içinde gönderilebilir. Sonuç kaydına `version` yazılır. `saveAssets` aynı sınavın görsellerini kopyalamadan yeniden kullanır. Arayüz: "Sınavı güncelle" (PUT; PDF yalnız değiştiyse yüklenir), sınav kartında durum rozeti (KAPALI / PLANLI / SÜRESİ DOLDU / SİLİNDİ), erişim ayarı ve silme pencereleri, "Silinenleri göster" + "Geri al". Testler: `tests/exam-lifecycle-regression.mjs` (12), `tests/quiz-regression.mjs` (arayüz akışı güncellendi). Sürüm geçmişi, kalıcı silme ve ayrı arşiv durumu yapılmadı; madde 19 (sonuç paneli) ve 22 (hesap) açık.
 
+## Madde 19 tamamlandı: sonuç paneli
+
+Sonuç kaydına hafif özet (`customMetadata.s`) ve ad kilidi anahtarı (`c`) yazılır; liste özetten sayfalanır (`GET ?action=results&page&pageSize&sort&dir`), tüm sonuçlardan istatistik döner. Yeni: `?action=analysis` (soru analizi: şık dağılımı, doğru oranı, ayırt edicilik, uyarılar), `?action=results&format=csv` (Excel TR: BOM, `;`, ondalık virgül, formül enjeksiyonu koruması), `DELETE ?action=result&id=` (tek sonuç; ad kilidini serbest bırakır). Depolamaya `after` imleci eklendi (`lib/db.ts`, `lib/storage.ts`). Arayüz: `ResultsModal` (özet satırı, sıralama, sayfalama, bölüm puan sütunları, süre, sürüm, CSV bağlantısı, onaylı silme, Soru analizi sekmesi). Testler: yeni `tests/results-panel-regression.mjs` (10) ve arayüz akışı (`tests/quiz-regression.mjs`). Sınırlar: ayrı sonuç tablosu/indeks yok (5000 özet, 3000 analiz sınırı); `.xlsx` yok; tek öğrencinin soru bazlı cevap dökümü yok. Madde 22 (hesap) açık.
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

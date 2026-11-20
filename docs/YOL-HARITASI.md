@@ -130,6 +130,10 @@ Sonuç kaydına hafif özet (`customMetadata.s`) ve ad kilidi anahtarı (`c`) ya
 
 `lib/local-auth.ts`: `changePassword` (mevcut şifre doğrulama, kullanıcı başına 5 hatalı deneme sınırı, artan gecikme, yeni şifre 12–256 karakter ve farklı; başarıda geçerli oturum dışındakiler iptal), `revokeOtherSessions`, `activeSessions`. Rotalar: `POST /api/auth/password`, `POST /api/auth/sessions` (`others` / `all`), `GET /api/auth/me` oturum sayısını da verir. `db.session` yeni `deleteMany({userId, exceptTokenHash})` ve `count`. `/account` sayfasında şifre formu (uyuşmayan/kısa şifre sunucuya gitmez) ve oturum düğmeleri. Testler: yeni `tests/account-regression.mjs` (9; gerçek geçici SQLite, çerez kavanozu stub'ı, sayfa render). Yapılmadı: oturum listesi (cihaz/son kullanım için şema değişikliği gerekir), kayıt sayfası, e-posta değiştirme, şifre değişince bildirim. Aşama 4 tamamlandı; sırada Aşama 5 (borç).
 
+## Madde 23 başladı: öğrenci akışı ayrıldı
+
+`intro`, `quiz` ve `result` görünümleri ile `SectionNavigation`, davranış değişmeden `app/student-flow.tsx` dosyasına taşındı (JSX birebir; durum `Home`'da, props ile aktarılır). Testlerdeki derleme listelerine yeni modül eklendi; `ui-followup-regression.mjs` kaynak denetimi iki dosyayı birlikte okur. Doğrulama: `tsc` (kullanılmayan tanım denetimiyle) temiz, `pnpm test` 309/309, `pnpm build`, `pnpm test:server` 9/9. Sırada: `ExamCard`, `AccessModal`, `DeleteModal`, `ResultsModal` (bunlar `api` ve `Modal`'ı kullandığından önce bu ikisi ortak bir modüle alınmalı), sonra düzenleyici.
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

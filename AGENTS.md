@@ -18,7 +18,7 @@ Diğer belgeler: kısa başlangıç [README](README.md) · kurulum/sunucu/hesap/
 | `build` | `scripts/build.mjs`: önce lisans envanterini üretir, `next build --webpack`, sonra standalone çıktıyı tamamlar. |
 | `start` | `scripts/serve.mjs`: `.next/standalone/server.js`'i `127.0.0.1:3000`'de başlatır (önce `build`). |
 | `typecheck` | `tsc --noEmit --incremental false`. ESLint **yoktur**; statik denetim yalnız `tsc`. |
-| `test` | Politika + lisans denetimi + 29 regresyon dosyası (aşağıda §10). |
+| `test` | Politika + lisans denetimi + 30 regresyon dosyası (aşağıda §10). |
 | `test:server` | Gerçek üretim sunucusu + SQLite (önce `build`). |
 | `user:add` / `user:reset` | Öğretmen ekle (etkileşimli, rastgele şifre) / şifre sıfırla. |
 | `backup` | SQLite anlık yedeği. |
@@ -60,7 +60,7 @@ Tarayıcı (ağır iş burada)                          Sunucu (ince)
 | `lib/db.ts`, `lib/storage.ts`, `lib/local-auth.ts`, `lib/session.ts`, `lib/server.ts`, `lib/assets.ts`, `lib/initial-account.ts` | Sunucu tarafı: veri, kova, parola/oturum, `currentUser()`, yetki (`owner()`, `sameOrigin()`), görsel kaydı, ilk hesap. |
 | `lib/student-question.tsx`, `question-text-editor.tsx`, `manual-option-tools.tsx`, `editor-*.ts`, `manual-option*.ts`, `draft-storage.ts`, `conversion-diagnostics.ts`, `question-quality.ts` | Öğrenci soru bileşeni, düzenleyici araçları, IndexedDB taslağı, tanılama paketi, uyarı sınıfları. |
 | `public/vendor/` | Çevrimdışı çalışan PDF.js (cmaps, fontlar, wasm) ve Tesseract (worker, LSTM çekirdekleri, `tur`/`eng` dil modelleri), ~25 MB. |
-| `tests/` | 28 `*-regression.mjs` + `local-server.mjs`, `standalone-packaging.mjs`, `fixtures/` (sentetik PDF), `reference/` (3 gerçek sınav PDF'i). |
+| `tests/` | 29 `*-regression.mjs` + `local-server.mjs`, `standalone-packaging.mjs`, `fixtures/` (sentetik PDF), `reference/` (3 gerçek sınav PDF'i). |
 | `scripts/` | build/serve/yedek/hesap, test koşucuları, `licenses.mjs`, OCR ve tanılama araçları (`scripts/ocr/`), `windows/*.cmd`. |
 | `docs/` | Üç rehber (`KURULUM-ISLETIM`, `GELISTIRICI-REHBERI`, `LLM-MANAGER`), `lisanslar/` (otomatik üretilir — elle düzenlemeyin), `tail-comparison.json` (test girdisi). |
 
@@ -102,7 +102,7 @@ Tarayıcı (ağır iş burada)                          Sunucu (ince)
 | `GET /api/health` | herkes | `SELECT 1` + `user.count()`. |
 | `/llm`, `/api/llm/*` | Basic auth (`LLM_ADMIN_*`) | LLM Manager paketine devredilir (§9). |
 
-Hata yanıtları `error(e)` ile üretilir: `'AUTH'` → 401 ("giriş yapın"), diğerleri 400; mesajlar Türkçe.
+Hata yanıtları `error(e)` (`lib/server.ts`) ile üretilir: `'AUTH'` → 401 ("giriş yapın"); `NotFound` → 404 (olmayan/geçersiz sınav, PDF, görsel); `Forbidden` → 403 (başka öğretmenin sonuç/PDF/düzenleme/kaynak görseli); `HttpError(status)` → kendi durumu (409, 429…); bilerek fırlatılan düz `Error` (Türkçe doğrulama iletisi) ve bozuk JSON (`SyntaxError`) → 400; **beklenmeyen hata türleri** (`TypeError`, veritabanı hataları vb.) → ayrıntısız genel ileti + 500, ayrıntı yalnız sunucu günlüğüne (`console.error`) yazılır. Yani istemciye gidecek bir doğrulama iletisi için düz `Error`, durum kodu gereken yer için `HttpError` alt sınıfı kullanın; `new TypeError(...)` gibi türleri doğrulama için fırlatmayın. `Origin` uyuşmazlığı bilerek 400 kalır. `/llm` ve `/api/llm`, `LLM_ADMIN_PASSWORD` yokken 503 döner (`llm.js`).
 
 ## 7. PDF dönüşüm hattı (istemci)
 
@@ -133,7 +133,7 @@ Hata yanıtları `error(e)` ile üretilir: `'AUTH'` → 401 ("giriş yapın"), d
 
 ## 10. Test düzeni (bir şey değiştirmeden önce okuyun)
 
-- **Standart paket** `pnpm test` → `scripts/run-tests.mjs`: (1) `check-test-policy.mjs` (`skip` yasak; `lib/db.ts`'i yükleyen test kendi `process.env.DATABASE_URL`'ini ayarlamalı), (2) `licenses.mjs --check`, (3) sabit **liste**deki dosyalar sırayla (`--test`, `tail` hariç). Toplam **275 test**; 29 dosya, yaklaşık yarısı saf mantık, kalanı React/SSR ve API akışı.
+- **Standart paket** `pnpm test` → `scripts/run-tests.mjs`: (1) `check-test-policy.mjs` (`skip` yasak; `lib/db.ts`'i yükleyen test kendi `process.env.DATABASE_URL`'ini ayarlamalı), (2) `licenses.mjs --check`, (3) sabit **liste**deki dosyalar sırayla (`--test`, `tail` hariç). Toplam **279 test**; 30 dosya, yaklaşık yarısı saf mantık, kalanı React/SSR ve API akışı.
 - **Yeni test dosyasını `scripts/run-tests.mjs` içindeki `suites` listesine eklemek zorunludur;** dosya adı `tests/<ad>-regression.mjs` olmalı. Listede olmayan dosya sessizce çalışmaz.
 - **Kaynak, TypeScript'ten anlık derlenir:** testler `typescript.transpileModule` ile `lib/*.ts` ve `app/**/*.tsx`'i `.test-tmp/qa/modules/` altına CommonJS yazar; bağımlılıklar test dosyası içinde mock'lanır: derleme çıktısındaki `lib/session.js` yerine `global.__qaUser` döndüren bir stub, `lib/storage.js` yerine bellek kovası yazılır (bu dosyalar `.test-tmp/` altında üretilir, kaynakta yoktur). Modül eklerseniz test dosyalarındaki derleme listesine (`for (const name of [...])`) eklemeniz gerekebilir.
 - **Gerçek DB yok:** `test` tüm testlere `.test-tmp/run-tests/quiz.db` verir; sunucu testi (`test:server`) sistem geçici klasöründe DB kurar. Gerçek `data/quiz.db`'ye dokunan test yazmayın.

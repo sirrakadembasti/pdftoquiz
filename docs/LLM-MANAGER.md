@@ -35,7 +35,7 @@ Projede sihirbazın eklediği dosyalar: `llm.js` (yönetici oluşturur ve `.env`
    LLM_ADMIN_PASSWORD=<kendi güçlü parolanız>
    ```
 
-   Parola olmazsa panel hiç açılmaz ve şu hatayı verir: `{"code":"AUTH_NOT_CONFIGURED","error":"Kimlik doğrulama yapılandırılmadı."}`. Bu hata paketin bozuk olduğunu değil, yalnızca parolanın tanımlanmadığını gösterir. **Bu projedeki `.env` dosyasına 16 Kasım 2026'da rastgele bir parola eklendi**; değerini görmek için `.env` dosyasını açın ve `LLM_ADMIN_PASSWORD` satırına bakın (isterseniz değiştirin).
+   Parola olmazsa panel hiç açılmaz ve **503** döner (tarayıcıda açıklayıcı bir sayfa, API'de `{"code":"AUTH_NOT_CONFIGURED","error":"LLM Manager kapalı: …"}`; `llm.js` yönetim paketine ulaşmadan yanıtlar). Bu hata paketin bozuk olduğunu değil, yalnızca parolanın tanımlanmadığını gösterir. **Bu projedeki `.env` dosyasına 16 Kasım 2026'da rastgele bir parola eklendi**; değerini görmek için `.env` dosyasını açın ve `LLM_ADMIN_PASSWORD` satırına bakın (isterseniz değiştirin).
 3. **Sunucuyu yeniden başlatın.** `.env` değişiklikleri çalışan sunucuya yansımaz. `dev` sunucusunu durdurup `pnpm dev` ile yeniden başlatın.
 4. **Panele girin.** `http://127.0.0.1:3000/llm` adresini açın. Tarayıcı kullanıcı adı ve parola sorar: kullanıcı `admin`, parola `.env` içindeki `LLM_ADMIN_PASSWORD`.
 5. **Profil ekleyin.** Paneldeki **LLM Yönetimi** sekmesinde **Yeni profil** ile profil adı, sağlayıcı, model ve API anahtarını girin → **Profili kaydet** → profil kartından bağlantı testi → **Etkinleştir**. **Modelleri getir (canlı)** düğmesi hesabınızın erişebildiği modelleri listeler. Aynı anda tek profil etkindir.
@@ -59,7 +59,7 @@ Projede sihirbazın eklediği dosyalar: `llm.js` (yönetici oluşturur ve `.env`
 | Belirti | Neden | Çözüm |
 |---|---|---|
 | `Can't resolve '@sirrakadembasti/llm-manager/core'` | Paket `node_modules` içinde yok | 1. adım |
-| `AUTH_NOT_CONFIGURED` (500) | `.env` içinde `LLM_ADMIN_PASSWORD` yok ya da sunucu yeniden başlatılmadı | 2. ve 3. adım |
+| `AUTH_NOT_CONFIGURED` (503) | `.env` içinde `LLM_ADMIN_PASSWORD` yok ya da sunucu yeniden başlatılmadı | 2. ve 3. adım |
 | Tarayıcı parola sorup tekrar soruyor (401) | Kullanıcı adı veya parola yanlış | `.env` değerlerini kontrol edin |
 | `Çok fazla hatalı giriş denemesi` (429) | Art arda yanlış parola | Bir süre bekleyin |
 

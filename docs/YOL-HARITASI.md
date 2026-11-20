@@ -114,6 +114,10 @@ Kök neden: sayfa "B TEST KİTAPÇIĞI CEVAP ANAHTARI" başlığıyla doğru sı
 
 Sertifika belgesi: `pdfAnswerKey` null → **120/120 cevap, 0 çelişki**, tamamı kaynak görselle satır satır karşılaştırıldı (OCR "4..C" gibi çift noktalı satırlar da okunur). Cevaplar yine **otomatik uygulanmaz**: toplu anahtar alanında önizlenip öğretmen onayı bekler (soru `correct` alanı `null` kalır). Yer tutuculu 7 soru için anahtar satırı vardır ama eşleşecek soru yoktur; öğretmen soruyu tamamlayınca eşleşir.
 
+## Madde 20 ve 21 tamamlandı: durum kodları ve /llm 503
+
+`lib/server.ts`: `NotFound` (404) ve `Forbidden` (403) sınıfları; `readExam`, PDF, görsel ve sahiplik denetimleri bunları kullanır. `error()` bilerek fırlatılan düz `Error`'ı 400, bozuk JSON'u 400, beklenmeyen hata türlerini ayrıntısız 500 (günlüğe yazılarak) döndürür. `/llm`, `LLM_ADMIN_PASSWORD` yokken 503 verir. Testler: yeni `tests/api-status-regression.mjs` (4 test); `tests/local-server.mjs` içindeki yabancı öğretmen beklentisi 400 → 403 (gerçek sunucuda koşulmadı, `build` gerekir). Madde 18 (güncelleme/silme/kapatma), 19 (sonuç paneli) ve 22 (hesap) açık.
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

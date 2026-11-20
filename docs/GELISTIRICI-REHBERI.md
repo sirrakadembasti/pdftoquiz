@@ -29,7 +29,7 @@ node scripts/measure-leakage.mjs kaynak.pdf ogretmen-taslagi.json sonuc.json   #
 
 Fixture PDF'leri `tests/fixtures/` altındadır; üretici betikler kaldırılmıştır. ESLint kullanılmaz; statik denetimi `tsc` yapar.
 
-**Son doğrulama (19 Kasım 2026, uzak PR #1–#4 ile birleştirme sonrası, Windows, Node 24):** regresyon dosyaları doğrudan koşuldu 264/264 (Aşama 1–2 ve 3'ün 6, 7, 8, 10. maddeleri sonrası) (0 atlanan), `tsc` çıkış 0, test politikası temiz; `test:server` 9/9 (`.env` ile ilk hesap oluşturma eklendikten sonra, 16 Kasım). Bu bilgisayarda `node_modules` Next 16.4.0 içerdiğinden `pnpm test` lisans kontrolünde durur (bölüm 6); gerçek `install` sonrası kalkar.
+**Son doğrulama (19 Kasım 2026, uzak PR #1–#4 ile birleştirme sonrası, Windows, Node 24):** regresyon dosyaları doğrudan koşuldu 275/275 (Aşama 1–2 ve 3'ün 6, 7, 8, 9, 10, 11. maddeleri sonrası) (0 atlanan), `tsc` çıkış 0, test politikası temiz; `test:server` 9/9 (`.env` ile ilk hesap oluşturma eklendikten sonra, 16 Kasım). Bu bilgisayarda `node_modules` Next 16.4.0 içerdiğinden `pnpm test` lisans kontrolünde durur (bölüm 6); gerçek `install` sonrası kalkar.
 
 **Referans PDF sonuçları** (yerel hat, AI yok):
 
@@ -47,6 +47,7 @@ Taranmış belgelerde yoğun öğretmen kontrolü beklenir; bu uygulamanın belg
 - OCR ayarları: `tur+eng`, OEM 1 (LSTM), PSM 11, 144 DPI. Yalnız LSTM çekirdekleri paketlenir.
 - Yerel OCR sonucu kesin sayılmaz; belirsiz alanlar öğretmen önerisi ve kalite kapısı olarak kalır. Otomatik metin düzeltmesi yapılmaz.
 - **Eksik şık kurtarma:** eksik bir A–E işareti için komşu güvenilir işaretlerin düşey sırası, içerik sütunu, satır başlangıcı ve OCR sembol kutuları kullanılır; aynı fiziksel satırın parçaları soldan sağa birleştirilir. Sonuç otomatik uygulanmaz; öğretmen "Bu metni Şık X olarak kullan" ile onaylar. Belirsiz ya da beklenen bölgeden uzak metin için öneri üretilmez.
+- **Kapak tablosundan bölümler:** "DERS ADI / SAYFA" tablosu + "Her ders için N soru" (`tableSections`) ve başlıksız, sürekli numaralı sınavlarda numara aralığından bölümleme (`assignSectionRanges`, `Section.firstNumber`). Testler `tests/number-sequence-regression.mjs` içindedir.
 - **Taranmış cevap anahtarı sayfası:** PSM 11 tek harfleri düşürdüğünden, "cevap anahtarı" sınıflı OCR sayfasında tam sayfadan <6 cevap çıkarsa numara sütunları (`keyNumberColumns`) harf beyaz listeli PSM 6 ile ayrıca okunur (`recoverAnswerKeyColumns`); yalnız "N. X" satırları kabul edilir, çelişen numara çıkarılır, harf düzeltmesi yapılmaz. Testler `tests/number-sequence-regression.mjs` içindedir.
 - PDF'deki cevap anahtarı algılansa bile otomatik uygulanmaz. Öğrenci verisine cevap anahtarı, öğretmen kaynak görseli veya birleşik soru+şık görseli gönderilmez.
 - Yeni bir yerleşim stratejisi eklenirken içerik/dosya adı sabitlenmez; yeni geometri sinyali, belirsizlik kapısı ve bağımsız sentetik regresyon birlikte eklenir.

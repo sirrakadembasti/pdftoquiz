@@ -61,9 +61,24 @@ for(const l of lines){l.ocrGeometry=geometry;l.text=l.text.trim().replace(/^([a-
 
 // Infer a missing label only inside one OCR question, between reliable neighbours.
 // No symbol-to-letter table: the accepted neighbours determine the missing letter.
+// OCR bazen şık harflerini (A/B/C) hiç okumaz ve satırlar yalnız ")" ile başlar. En az 3 (ve en çok maxChoices) hizalı, ")" ile
+// başlayan ya da harfli satır tek sütunda ardışıksa ve harfli olanlar konumlarıyla uyuşuyorsa harf konumdan çıkarılır (uyarılı).
+function inferUnlabeledChoices(block:Line[],maxChoices:number){
+ const rowText=(l:Line)=>l.text.trim(),isBare=(l:Line)=>/^\)\s*\S/.test(rowText(l))&&!l.monospace;
+ const first=block[0];if(!first)return null;
+ const rows=block.filter(l=>l!==first&&l.y>first.y&&(optionPattern.test(rowText(l))||isBare(l))).sort((a,b)=>a.y-b.y);
+ if(rows.length<3||rows.length>maxChoices||!rows.some(isBare))return null;
+ const glyph=median(block.filter(l=>l.ocrGeometry).map(l=>l.ocrGeometry!.glyphWidth)),tolerance=Math.max(glyph*2,.02),anchor=median(rows.map(l=>l.x));
+ if(rows.some(l=>Math.abs(l.x-anchor)>tolerance)||rows.some((l,i)=>i&&l.y-rows[i-1].y>.12))return null;
+ if(rows.some((l,i)=>!isBare(l)&&rowText(l).match(optionPattern)![1].charCodeAt(0)-65!==i))return null;
+ const copy=block.slice(),repairs:{letter:string;original:string;x:number;y:number}[]=[];
+ rows.forEach((l,i)=>{if(!isBare(l))return;const letter=String.fromCharCode(65+i);copy[block.indexOf(l)]={...l,text:letter+') '+rowText(l).replace(/^\)\s*/,'')};repairs.push({letter,original:l.text,x:l.x,y:l.y});});
+ return {lines:copy,repairs};
+}
 export function repairOptionSequence(block:Line[],maxChoices=4){
  const repairs:{letter:string;original:string;x:number;y:number}[]=[];
  if(!block.some(l=>l.ocrGeometry))return {lines:block,repairs};
+ if(block.filter(l=>optionPattern.test(l.text)).length<2){const inferred=inferUnlabeledChoices(block,maxChoices);if(inferred)return inferred;}
  const labels=block.filter(l=>optionPattern.test(l.text));if(labels.length<2)return {lines:block,repairs};
  const glyph=median(block.filter(l=>l.ocrGeometry).map(l=>l.ocrGeometry!.glyphWidth));
  const tolerance=Math.max(glyph*.6,median(labels.map(l=>l.h))*.35);

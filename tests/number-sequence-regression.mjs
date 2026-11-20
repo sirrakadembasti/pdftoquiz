@@ -46,3 +46,24 @@ test('Noktasız numara birleştirme: sıraya uymayan, şıksız, kod görünüml
  assert.equal(merge([{...ol('7',.30,.084,{w:.012}),ocrGeometry:undefined},ol('Yedinci sorunun metni burada',.30),...oChoices(.34)]).length,0,'dijital satır');
  assert.equal(layout.mergeDetachedNumbers([...base,ol('7',.30,.084,{w:.012}),ol('Yedinci sorunun metni burada',.30),...oChoices(.34)],6).filter(l=>l[layout.MERGED_NUMBER]).length,0,'toplam sınırı (6) aşıldı');
 });
+const stemLine=ol('36. Dördüncü sorunun metni burada',.10,.09);
+const bareRow=(y,text='Seçenek metni',x=.134)=>ol(') '+text,y,x);
+test('Harfsiz şıklar: hizalı 3–4 ")" satırı konumdan A–D alır; harfli satır tek başına kalsa da diğerleri tamamlanır',()=>{
+ const all=layout.repairOptionSequence([stemLine,bareRow(.15,'Bir'),bareRow(.17,'Iki'),bareRow(.19,'Uc'),bareRow(.21,'Dort')],4);
+ assert.deepEqual(all.lines.slice(1).map(l=>l.text),['A) Bir','B) Iki','C) Uc','D) Dort']);assert.deepEqual(all.repairs.map(r=>r.letter),['A','B','C','D']);
+ const withD=layout.repairOptionSequence([stemLine,bareRow(.15,'Bir'),bareRow(.17,'Iki'),bareRow(.19,'Uc'),ol('D) Dort',.21,.122)],4);
+ assert.deepEqual(withD.lines.slice(1).map(l=>l.text),['A) Bir','B) Iki','C) Uc','D) Dort']);assert.deepEqual(withD.repairs.map(r=>r.letter),['A','B','C']);
+ const a=layout.analyzePage([ol('36. Dördüncü sorunun metni burada',.10,.09),bareRow(.15,'Bir'),bareRow(.17,'Iki'),bareRow(.19,'Uc'),bareRow(.21,'Dort')],6,new Set(),true,{expectedNumber:36,pageKind:'questions'});
+ assert.deepEqual(a.regions[0].question.options,['Bir','Iki','Uc','Dort']);assert.equal(a.regions[0].question.warnings.filter(w=>/Sıra çıkarımı/.test(w)).length,4);
+ assert.ok(qq.warningClasses(a.regions[0].question).structural.length>0,'onaylanana kadar yapısal uyarı');
+});
+test('Harfsiz şık çıkarımı: 2 satır, 5+ satır (4 şıklı), hizasız, konumla çelişen harf ve dijital (ocrGeometry yok) satırlar değişmez',()=>{
+ const run=rows=>layout.repairOptionSequence([stemLine,...rows],4).repairs.length;
+ assert.equal(run([bareRow(.15),bareRow(.17)]),0,'2 satır');
+ assert.equal(run([bareRow(.15),bareRow(.17),bareRow(.19),bareRow(.21),bareRow(.23)]),0,'5 satır > 4');
+ assert.equal(run([bareRow(.15),bareRow(.17,'Iki',.30),bareRow(.19)]),0,'hizasız');
+ assert.equal(run([bareRow(.15),ol('A) Bir',.17,.122),bareRow(.19)]),0,'B konumunda A harfi çelişir');
+ assert.equal(run([bareRow(.15),bareRow(.17),bareRow(.30)]),0,'satır arası boşluk çok büyük');
+ assert.equal(layout.repairOptionSequence([stemLine,bareRow(.15),bareRow(.17),bareRow(.19)].map(l=>({...l,ocrGeometry:undefined})),4).repairs.length,0,'dijital');
+ assert.equal(run([ol('B) Iki',.17,.122),ol('C) Uc',.19,.122),bareRow(.21)]),0,'başlangıçta A boşluğu: konum 0 = B çelişir');
+});

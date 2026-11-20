@@ -92,6 +92,12 @@ Sonuç ve öneri: 1. neden tek başına 64 → ~109 sorunun yolunu açar ve gene
 - **OCR'da numara glifi hiç yok:** 2, 3, 4, 5, 7, 8, 9 (sayfa 2) ve 34–36; hedefli OCR kurtarması (limit 6, otomatik uygulamıyor) gerekir (madde 6'nın ikinci nedeni).
 - Not: eski çıktıdaki 40. soru başka sorulardan alınmış şıklarla "4 şık" görünüyordu (sessiz yanlış eşleşme); artık şıksız blok olarak açıkça dışlanıyor.
 
+## Madde 8 (harfsiz şıklar) uygulandı
+
+`inferUnlabeledChoices` ile sertifika belgesi (kurtarma açık, ~185 sn) **100 → 113 soru**; şıksız dışlanan blok 19 → 1 (yalnız 54). Eksik kalan 7 numara: 2, 3, 4, 5, 7, 8, 9 (sayfa 2; numara glifi OCR'da yok, hedefli OCR gerekir). Referans PDF'ler değişmedi (50/50 ×3, şık ve uyarı sayıları aynı). Hedef ≥115 için yalnız bu 7 soru (veya 2 tanesi) kaldı.
+
+Açık kalan madde 8 işleri: boş şıklı 44 soru (çoğu 2×2 ızgara/satır içi; örn. "8 bit ) 24 bit ) 32 bit" tek satırda) ve kapaktaki "dört seçenek" sinyalinin kullanılması; bunlar harf düşmesinden ayrı bir sütun içi bölme işidir.
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

@@ -28,7 +28,7 @@ node scripts/measure-leakage.mjs kaynak.pdf ogretmen-taslagi.json sonuc.json   #
 
 **Veritabanı yalıtımı:** `lib/db.ts` varsayılan olarak gerçek `data/quiz.db` dosyasını açar. `test` tüm paketlere `DATABASE_URL=file:.test-tmp/run-tests/quiz.db` verir; `lib/db.ts` modülünü yükleyen her regresyon dosyası ayrıca kendi geçici veritabanını `process.env.DATABASE_URL` ile ayarlamak zorundadır, ayarlamayan dosya `test:policy` tarafından reddedilir. Bu kural, testlerin gerçek veritabanına satır yazdığı bir hatadan sonra eklendi.
 
-Fixture PDF'leri `tests/fixtures/` altındadır; üretici betikler kaldırılmıştır. ESLint kullanılmaz; statik denetimi `tsc` yapar.
+Fixture PDF'leri `tests/fixtures/` altındadır; eski fixture'ların üretici betikleri kaldırılmıştır. İstisna: `scanned-sections.pdf` (taranmış, iki sütun, kapakta "DERS ADI / SAYFA" tablosu, 2×2 şıklar, dört sütunlu cevap anahtarı; anonim içerik) `node scripts/fixtures/scanned-sections.mjs` ile yeniden üretilir. Üreteç Arial kullanır ve aynı makinede aynı baytları üretir; içeriği değiştirirseniz PDF'i yeniden üretip birlikte commit edin, `tests/scanned-sections-regression.mjs` doğru şıkları ve anahtarı üretecin kendisinden okur. ESLint kullanılmaz; statik denetimi `tsc` yapar.
 
 **Son doğrulama (19 Kasım 2026, uzak PR #1–#4 ile birleştirme sonrası, Windows, Node 24):** regresyon dosyaları doğrudan koşuldu 310/310 (Aşama 1–4 sonrası) (0 atlanan), `tsc` çıkış 0, test politikası temiz; `test:server` 9/9 (`.env` ile ilk hesap oluşturma eklendikten sonra, 16 Kasım). Bu bilgisayarda `node_modules` Next 16.4.0 içerdiğinden `pnpm test` lisans kontrolünde durur (bölüm 6); gerçek `install` sonrası kalkar.
 

@@ -51,7 +51,8 @@ Tarayıcı (ağır iş burada)                          Sunucu (ince)
 | `app/page.tsx` (~107 KB) | **Tüm arayüz** tek dosyada: `Home`, `PDFView`, `ExamCard`, `HybridReview`, `BulkAnswers`, `SectionNavigation`, `Modal`, `AIUsageCard`, `SourceBadge`, `OptionImagePreview`. Görünümler: `home, processing, editor, intro, quiz, result, loading, unavailable`. |
 | `app/student-flow.tsx` | Öğrenci akışı görünümleri (`StudentIntro`, `StudentQuiz`, `StudentResult`) ve `SectionNavigation`; durum `Home`'da kalır, props ile gelir. Testlerdeki derleme listelerinde `app/page.tsx`'ten önce yer alır. |
 | `app/exam-panel.tsx` | Öğretmen paneli: `ExamCard`, `AccessModal`, `DeleteModal`, `ResultsModal` (ve yalnız içeride kullanılan `examState`, `fmtSeconds`, `toLocalInput`, `FLAG_TEXT`). |
-| `app/client-ui.tsx` | Arayüz modüllerinin ortak yardımcıları: `api` (zaman aşımlı `fetch` + Türkçe hata iletileri) ve `Modal`. |
+| `app/editor-parts.tsx` | Düzenleyici bileşenleri: `PDFView`, `SourceBadge`, `HybridReview`, `OptionImagePreview`, `BulkAnswers`, `AIUsageCard`. Testler bunları doğrudan `app/editor-parts.js` üzerinden yükler. |
+| `app/client-ui.tsx` | Arayüz modüllerinin ortak yardımcıları: `api` (zaman aşımlı `fetch` + Türkçe hata iletileri), `Modal` ve `loadScript` (PDF.js/Tesseract betiklerini bir kez yükler). |
 | `app/account/page.tsx` | Hesap sayfası: giriş; oturum açıkken şifre değiştirme, etkin oturum sayısı, "diğer oturumları kapat" ve "tüm oturumlardan çık" (kayıt sayfası yok). |
 | `app/api/**` | `exams` (GET liste, POST kaydet), `exams/[id]` (GET sınav/sonuç/pdf/görsel/düzenle, POST sonuç gönder), `auth/{login,logout,me}`, `ai`, `health`, `llm/[...slug]`. |
 | `app/llm/[[...slug]]/route.js`, `app/actions/llm.js`, `llm.js`, `.llm-manager.json`, `instrumentation.ts` | LLM Manager bağlantısı ve açılışta ilk hesap oluşturma (§9). |

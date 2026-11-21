@@ -132,7 +132,7 @@ Sonuç kaydına hafif özet (`customMetadata.s`) ve ad kilidi anahtarı (`c`) ya
 
 ## Madde 23 başladı: öğrenci akışı ayrıldı
 
-`intro`, `quiz` ve `result` görünümleri ile `SectionNavigation`, davranış değişmeden `app/student-flow.tsx` dosyasına taşındı (JSX birebir; durum `Home`'da, props ile aktarılır). Testlerdeki derleme listelerine yeni modül eklendi; `ui-followup-regression.mjs` kaynak denetimi iki dosyayı birlikte okur. Doğrulama: `tsc` (kullanılmayan tanım denetimiyle) temiz, `pnpm test` 309/309, `pnpm build`, `pnpm test:server` 9/9. Sırada: `ExamCard`, `AccessModal`, `DeleteModal`, `ResultsModal` (bunlar `api` ve `Modal`'ı kullandığından önce bu ikisi ortak bir modüle alınmalı), sonra düzenleyici.
+`intro`, `quiz` ve `result` görünümleri ile `SectionNavigation`, davranış değişmeden `app/student-flow.tsx` dosyasına taşındı (JSX birebir; durum `Home`'da, props ile aktarılır). Testlerdeki derleme listelerine yeni modül eklendi; `ui-followup-regression.mjs` kaynak denetimi iki dosyayı birlikte okur. Doğrulama: `tsc` (kullanılmayan tanım denetimiyle) temiz, `pnpm test` 309/309, `pnpm build`, `pnpm test:server` 9/9. İkinci adım: `api` ve `Modal` ortak `app/client-ui.tsx` modülüne, `ExamCard`, `AccessModal`, `DeleteModal`, `ResultsModal` ve yardımcıları `app/exam-panel.tsx` dosyasına birebir taşındı; `app/page.tsx` ~114 KB → ~100 KB. Doğrulama aynı (309/309, build, `test:server` 9/9). Sırada: düzenleyici görünümü (tek satır ~22 KB) ve ona bağlı `HybridReview`, `BulkAnswers`, `OptionImagePreview`, `PDFView`; bunlar testlerde `app/page.js` üzerinden içe aktarıldığından taşınırken `page.tsx` yeniden dışa aktarmalı ya da testler güncellenmeli.
 
 ## Önerilen sıra
 

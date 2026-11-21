@@ -65,7 +65,7 @@ Tarayıcı (ağır iş burada)                          Sunucu (ince)
 | `lib/db.ts`, `lib/storage.ts`, `lib/local-auth.ts`, `lib/session.ts`, `lib/server.ts`, `lib/assets.ts`, `lib/initial-account.ts` | Sunucu tarafı: veri, kova, parola/oturum, `currentUser()`, yetki (`owner()`, `sameOrigin()`), görsel kaydı, ilk hesap. |
 | `lib/student-question.tsx`, `question-text-editor.tsx`, `manual-option-tools.tsx`, `editor-*.ts`, `manual-option*.ts`, `draft-storage.ts`, `conversion-diagnostics.ts`, `question-quality.ts` | Öğrenci soru bileşeni, düzenleyici araçları, IndexedDB taslağı, tanılama paketi, uyarı sınıfları. |
 | `public/vendor/` | Çevrimdışı çalışan PDF.js (cmaps, fontlar, wasm) ve Tesseract (worker, LSTM çekirdekleri, `tur`/`eng` dil modelleri), ~25 MB. |
-| `tests/` | 32 `*-regression.mjs` + `local-server.mjs`, `standalone-packaging.mjs`, `fixtures/` (sentetik PDF), `reference/` (3 gerçek sınav PDF'i). |
+| `tests/` | 34 `*-regression.mjs` + `local-server.mjs`, `standalone-packaging.mjs`, `fixtures/` (sentetik PDF), `reference/` (3 gerçek sınav PDF'i). `fixtures/scanned-sections.pdf` taranmış, iki sütunlu, kapak tablolu, 2×2 şıklı ve dört sütun anahtarlı anonim sınavdır; `scripts/fixtures/scanned-sections.mjs` ile yeniden üretilir ve `scanned-sections-regression.mjs` onu gerçek OCR hattından geçirir (bulduğu açıklar: docs/YOL-HARITASI.md madde 25). |
 | `scripts/` | build/serve/yedek/hesap, test koşucuları, `licenses.mjs`, OCR ve tanılama araçları (`scripts/ocr/`), `windows/*.cmd`. |
 | `docs/` | Üç rehber (`KURULUM-ISLETIM`, `GELISTIRICI-REHBERI`, `LLM-MANAGER`), `lisanslar/` (otomatik üretilir — elle düzenlemeyin), `tail-comparison.json` (test girdisi). |
 
@@ -145,7 +145,7 @@ Hata yanıtları `error(e)` (`lib/server.ts`) ile üretilir: `'AUTH'` → 401 ("
 
 ## 10. Test düzeni (bir şey değiştirmeden önce okuyun)
 
-- **Standart paket** `pnpm test` → `scripts/run-tests.mjs`: (1) `check-test-policy.mjs` (`skip` yasak; `lib/db.ts`'i yükleyen test kendi `process.env.DATABASE_URL`'ini ayarlamalı), (2) `licenses.mjs --check`, (3) sabit **liste**deki dosyalar sırayla (`--test`, `tail` hariç). Toplam **310 test**; 33 dosya, yaklaşık yarısı saf mantık, kalanı React/SSR ve API akışı.
+- **Standart paket** `pnpm test` → `scripts/run-tests.mjs`: (1) `check-test-policy.mjs` (`skip` yasak; `lib/db.ts`'i yükleyen test kendi `process.env.DATABASE_URL`'ini ayarlamalı), (2) `licenses.mjs --check`, (3) sabit **liste**deki dosyalar sırayla (`--test`, `tail` hariç). Toplam **314 test**; 34 dosya, yaklaşık yarısı saf mantık, kalanı React/SSR ve API akışı.
 - **Yeni test dosyasını `scripts/run-tests.mjs` içindeki `suites` listesine eklemek zorunludur;** dosya adı `tests/<ad>-regression.mjs` olmalı. Listede olmayan dosya sessizce çalışmaz.
 - **Kaynak, TypeScript'ten anlık derlenir:** testler `typescript.transpileModule` ile `lib/*.ts` ve `app/**/*.tsx`'i `.test-tmp/qa/modules/` altına CommonJS yazar; bağımlılıklar test dosyası içinde mock'lanır: derleme çıktısındaki `lib/session.js` yerine `global.__qaUser` döndüren bir stub, `lib/storage.js` yerine bellek kovası yazılır (bu dosyalar `.test-tmp/` altında üretilir, kaynakta yoktur). Modül eklerseniz test dosyalarındaki derleme listesine (`for (const name of [...])`) eklemeniz gerekebilir.
 - **Gerçek DB yok:** `test` tüm testlere `.test-tmp/run-tests/quiz.db` verir; sunucu testi (`test:server`) sistem geçici klasöründe DB kurar. Gerçek `data/quiz.db`'ye dokunan test yazmayın.

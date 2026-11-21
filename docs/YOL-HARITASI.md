@@ -140,6 +140,19 @@ Sonuç kaydına hafif özet (`customMetadata.s`) ve ad kilidi anahtarı (`c`) ya
 
 Henüz kapsanmayanlar: bölüm ekranı ve özeti, erişim ayarındaki `datetime-local` zamanlama (saat dilimi), mobil görünüm, düzenleyicide yayınlama akışı (testler sınavı API ile oluşturur), sınav güncelleme/silme arayüzü.
 
+## Madde 25: sentetik taranmış belge fixture'ı eklendi
+
+`tests/fixtures/scanned-sections.pdf` (6 sayfa, yalnız JPEG görüntü, metin katmanı yok) ve üreteci `scripts/fixtures/scanned-sections.mjs` (anonim içerik, Arial, belirlenimci: aynı makinede aynı baytlar). Yapı: kapakta "Soru Sayısı: 24", "B TEST KİTAPÇIĞI", "DERS ADI / SAYFA" tablosu (4 ders) ve "Her ders için 6 soru"; her soru sayfasında kutulu ders başlığı, iki sütun, 2×2 ızgara şıklar; belge boyunca 1–24 kesintisiz numara; son sayfada "B TEST KİTAPÇIĞI CEVAP ANAHTARI" ve dört sütunlu "N. X" anahtarı (düzensiz anahtar: kaydırmalı eşleme hatası yakalanır). Test: `tests/scanned-sections-regression.mjs` (5 test, gerçek PDF.js + Tesseract, AI yok, ~25 sn).
+
+Doğrulananlar: beklenen sayı 24 ve kitapçık B okunur; numaralar benzersiz; 4 şıkkı dolu 20 sorunun hepsi kendi şıklarını taşır (sessiz yanlış eşleşme yok); OCR'ın okumadığı numaralar (2, 3, 8, 9, 11, 20…) komşulardan uyarıyla çıkarılır; okunan anahtar cevaplarının hepsi doğrudur ve otomatik uygulanmaz.
+
+**Fixture'ın bulduğu açıklar** (testler bunları sabitlemez; yalnız okunanın doğru, kaybın uyarılı olduğunu sınar — açık kapandıkça test sıkılaştırılmalı):
+1. **Cevap anahtarının yarısı düşüyor (genel hata):** OCR başlığı "B TEST KİTAPÇIĞI" ve "CEVAP ANAHTARI" olarak iki satır okur; sütunlu okuma sırası metni "B TEST KİTAPÇIĞI, 1–12, CEVAP ANAHTARI, 13–24" diye dizer. `answerKeyInfo` yalnız "cevap anahtarı" ifadesinden sonrasını aldığından 24 doğru okunmuş satırın 1–12'si atılır (anahtar 12/24). Sütun kurtarma yolu (`recoverAnswerKeyColumns`) tam sayfadan ≥6 cevap çıktığı için devreye girmez.
+2. **Bölüm çıkmıyor (OCR sınırı):** PSM 11, kapak tablosunun SAYFA sütunundaki tek haneli sayıları (2–5) hiç okumaz; `tableSections` her satır için sayfa numarası istediğinden bölüm üretmez. Olası çözümler: SAYFA sütunu bandını hedefli OCR ile yeniden okumak ya da sayfa sütunu tümüyle boşsa satır sırasını kullanmak.
+3. **Sütun sonundaki numarasız sorular (bilinen politika sınırı):** 2. sayfada 5 ve 6'nın numarası OCR'da hiç yok ve sonraki numara (7) bir sonraki sayfada; `assignGroupNumbers` yalnız aynı sütundaki komşularla çalıştığından çıkarım yapılmaz, 4. soru blokları yutup şıksız kalır. Kayıp sessiz değildir ("eksik soru numaraları: 5, 6" ve 4. soruda uyarı).
+
+Sıradaki: 1. açığın düzeltmesi (ayrı PR, kendi regresyon testiyle), sonra 2.
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

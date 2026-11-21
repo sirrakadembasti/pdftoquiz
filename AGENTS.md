@@ -203,3 +203,15 @@ Hata yanıtları `error(e)` (`lib/server.ts`) ile üretilir: `'AUTH'` → 401 ("
 6. Öğrenci verisi, kimlik veya depolama mantığına dokunduysanız §13'ü yeniden okuyun ve test ekleyin.
 7. Yeni test dosyasını `suites` listesine ekleyin; yeni `.env` değişkenini `.env.example` ve ilgili rehbere yazın.
 8. Belgeyi güncel tutun: davranış değiştiyse README/KURULUM-ISLETIM/GELISTIRICI-REHBERI/bu belge.
+
+## 16. Çalışma akışı ve pratikte doğrulanmış notlar (21 Kasım 2026)
+
+Bu belge yapay zekâ kod ajanları için tek kaynaktır (Claude Code bu ortamda AGENTS.md'yi kendiliğinden yükler; ayrı bir CLAUDE.md tutulmaz). Yeni oturumda önce [docs/YOL-HARITASI.md](docs/YOL-HARITASI.md) → "Devam rehberi" okunur.
+
+- **Akış:** Yanıtlar, commit, PR ve belgeler Türkçe. Her iş ayrı dalda (`feat/`, `fix/`, `refactor/`, `test/`, `docs/`), Conventional Commits ile commit edilir ve PR açılır. Commit, push, PR ve `main`'e birleştirme (merge commit, `gh pr merge N --merge`) kullanıcı onayıyla yapılır; PR'dan ve birleştirmeden sonra CI sonucu (`gh run watch <id> --exit-status`) takip edilip bildirilir.
+- **Hata düzeltme:** Önce hatayı yeniden üreten test yazılır. Ara sıra kalan bir testte neden kanıtlanmadan (ör. saati dondurarak yeniden üretme) düzeltme yapılmaz.
+- **Doğrulama:** §15'e ek olarak `tsc` için `--noUnusedLocals --noUnusedParameters` bayrakları kullanılır; arayüz değiştiyse `pnpm test:e2e`, dönüşüm hattı (`lib/pdf-*.ts`, `lib/quiz.ts`) değiştiyse `pnpm reference` de koşulur.
+- **Uzun satırlı dosyalarda büyük blok taşıma:** Satırları elle yeniden yazmayın; satırları birebir kopyalayan küçük bir Node betiği kullanın, sınır satırlarını betikte doğrulayın, sonra `tsc --noUnusedLocals` çıktısına göre kullanılmayan import'ları temizleyin.
+- **Yeni `app/` modülü:** 6 test dosyasındaki derleme listelerine (`for(const name of [...])`, `app/page.tsx`'ten önce) ve `tests/ui-followup-regression.mjs` içindeki kaynak dosya listesine eklenir. Bu listeleri `sed` ile toplu güncellerken `if(name==='app/page.tsx')` koşullarını ve `readFileSync` çağrılarını da değiştirmediğinizi `git diff` ile denetleyin.
+- **Node'da OCR:** `tesseract.js`, `global.document` tanımlıyken yüklenirse tarayıcı sürümünü seçer ve her sayfa `OCR_FAILED` olur; `document` tanımlanmadan `require` edin (bkz. `tests/scanned-sections-regression.mjs`).
+- **Zaman varsayımları:** Art arda yapılan işlemler aynı milisaniyeye düşebilir (CI makinesi hızlıdır); zamana göre sıralanan sonuçları sınayan testlerde işlemler arasına kısa bekleme koyun.

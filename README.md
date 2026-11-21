@@ -33,6 +33,7 @@ Hepsi `pnpm <komut>` ile çalışır.
 | `build` / `start` | Üretim derlemesi / üretim sunucusu |
 | `typecheck` / `test` | Tür denetimi / standart test paketi |
 | `test:server` | Gerçek sunucu + SQLite testi (önce `build`) |
+| `test:e2e` | Gerçek tarayıcı (Playwright/Chromium) testleri (önce `build` ve bir kez `pnpm exec playwright install chromium`) |
 | `user:add` / `user:reset` | Öğretmen ekle / şifre sıfırla |
 | `backup` | Veritabanı yedeği |
 

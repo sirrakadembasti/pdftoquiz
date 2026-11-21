@@ -1,6 +1,6 @@
 # Yapay zekâ kod ajanları için proje rehberi (AGENTS.md)
 
-Bu belge, pdftoquiz üzerinde geliştirme yapacak yapay zekâ kod ajanları (ve yeni geliştiriciler) için yazıldı: uygulamanın ne yaptığı, nerede ne olduğu, hangi kuralların bozulmaması gerektiği, nasıl test edildiği ve bilinen tuzaklar. Son güncelleme: 19 Kasım 2026, commit `1bca069` sonrası. Her bilgi kodu okuyarak ya da komut çalıştırarak doğrulandı; doğrulanmayanlar açıkça "doğrulanmadı" diye işaretlidir.
+Bu belge, pdftoquiz üzerinde geliştirme yapacak yapay zekâ kod ajanları (ve yeni geliştiriciler) için yazıldı: uygulamanın ne yaptığı, nerede ne olduğu, hangi kuralların bozulmaması gerektiği, nasıl test edildiği ve bilinen tuzaklar. Son güncelleme: 21 Kasım 2026, Aşama 5 PR #5–#11 sonrası (açık işler ve devam sırası: [docs/YOL-HARITASI.md → "Devam rehberi"](docs/YOL-HARITASI.md)). Her bilgi kodu okuyarak ya da komut çalıştırarak doğrulandı; doğrulanmayanlar açıkça "doğrulanmadı" diye işaretlidir.
 
 Diğer belgeler: kısa başlangıç [README](README.md) · kurulum/sunucu/hesap/yedek [docs/KURULUM-ISLETIM.md](docs/KURULUM-ISLETIM.md) · test ve PDF/OCR ayrıntısı [docs/GELISTIRICI-REHBERI.md](docs/GELISTIRICI-REHBERI.md) · `/llm` paneli [docs/LLM-MANAGER.md](docs/LLM-MANAGER.md).
 
@@ -40,7 +40,7 @@ Tarayıcı (ağır iş burada)                          Sunucu (ince)
          ▲ AI anahtarı yalnız sekme belleğinde └──────────────────────────────┘
 ```
 
-- **Çerçeve:** Next.js 16.4 App Router, React 19, Tailwind 4, TypeScript 5.9. `output: 'standalone'`. Kurulu Next sürümü yerelde 16.4.0, `package.json` 16.4.6 ister (bkz. §12). **Next 16 önceki sürümlerden farklı olabilir**; API'ye dokunmadan önce `node_modules/next/dist/docs/` altındaki ilgili rehberi okuyun.
+- **Çerçeve:** Next.js 16.4 App Router, React 19, Tailwind 4, TypeScript 5.9. `output: 'standalone'`. `package.json` Next 16.4.6 ister; temiz `pnpm install --frozen-lockfile` sonrası kurulu sürüm de 16.4.6'dır. **Next 16 önceki sürümlerden farklı olabilir**; API'ye dokunmadan önce `node_modules/next/dist/docs/` altındaki ilgili rehberi okuyun.
 - **Veritabanı:** ORM yok. `lib/db.ts`, `@libsql/client`'ı sarmalayan küçük bir `db` nesnesi (`db.user`, `db.session`, `db.loginLimit`, `db.storedObject`…) ve şema tek kaynak olarak dosyanın içinde; ilk sorguda `ensureDatabase()` tabloları oluşturur (ayrı migrasyon adımı gerekmez).
 - **Depolama:** `lib/storage.ts` bir "kova" (bucket) taklidi yapar; her şey `StoredObject` tablosunda anahtar/değer olarak durur (§5).
 - **Sunucu tarafı küçük tutuldu:** PDF işleme, OCR ve düzenleme istemcide; sunucu yalnızca kayıt, yetki, puanlama, görsel/PDF dağıtımı ve AI isteği aktarımı yapar.
@@ -49,7 +49,7 @@ Tarayıcı (ağır iş burada)                          Sunucu (ince)
 
 | Yol | Rol |
 |---|---|
-| `app/page.tsx` (~107 KB) | **Tüm arayüz** tek dosyada: `Home`, `PDFView`, `ExamCard`, `HybridReview`, `BulkAnswers`, `SectionNavigation`, `Modal`, `AIUsageCard`, `SourceBadge`, `OptionImagePreview`. Görünümler: `home, processing, editor, intro, quiz, result, loading, unavailable`. |
+| `app/page.tsx` (~71 KB) | Tek sayfa uygulama: `Home` bileşeni (tüm durum ve işleyiciler) ve görünümlerin JSX'i; düzenleyici görünümü hâlâ burada (~22 KB'lık tek satır). Görünümler: `home, processing, editor, intro, quiz, result, loading, unavailable`. Bileşenler aşağıdaki dört modüle taşındı (Aşama 5, madde 23). |
 | `app/student-flow.tsx` | Öğrenci akışı görünümleri (`StudentIntro`, `StudentQuiz`, `StudentResult`) ve `SectionNavigation`; durum `Home`'da kalır, props ile gelir. Testlerdeki derleme listelerinde `app/page.tsx`'ten önce yer alır. |
 | `app/exam-panel.tsx` | Öğretmen paneli: `ExamCard`, `AccessModal`, `DeleteModal`, `ResultsModal` (ve yalnız içeride kullanılan `examState`, `fmtSeconds`, `toLocalInput`, `FLAG_TEXT`). |
 | `app/editor-parts.tsx` | Düzenleyici bileşenleri: `PDFView`, `SourceBadge`, `HybridReview`, `OptionImagePreview`, `BulkAnswers`, `AIUsageCard`. Testler bunları doğrudan `app/editor-parts.js` üzerinden yükler. |
@@ -165,12 +165,13 @@ Hata yanıtları `error(e)` (`lib/server.ts`) ile üretilir: `'AUTH'` → 401 ("
 
 ## 12. Ortam tuzakları
 
-- **Bu geliştirme bilgisayarı (Windows, kısıtlı ağ):** PATH'te `pnpm`/`npm` yok; `. D:\dnm\use-node.ps1` ile pnpm 9.15.1 gelir (depo 11.25.0 ister; kilit dosyası ikisiyle de çözülür). Node'un `dns.lookup`'ı bozuk (`ENOTFOUND`), kayıt defteri bazı paket tarball'ları için 403 verir; bu yüzden `node_modules` güncel kilitten geridedir (Next 16.4.0; `@sirrakadembasti/llm-manager` yerel kopyadan elle yerleştirildi). Sonuç: bu makinede `pnpm test` lisans denetiminde durur; testleri `node --test tests/*-regression.mjs` ile doğrudan koşun. Gerçek `pnpm install --frozen-lockfile` ağı serbest bir makinede yapılmalıdır.
+- **Geliştirme bilgisayarı (21 Kasım 2026 doğrulaması, Windows 11):** Node 22.23.2 ve pnpm 11.25.0 PATH'te; ağ serbest. `pnpm install --frozen-lockfile`, `pnpm test` (lisans denetimi dahil), `build`, `test:server` ve `test:e2e` çalışır. Komutlar Bash (Git Bash) ya da PowerShell'den koşulabilir. Makinede başka projelerin geliştirme sunucuları da çalışıyor olabilir (ör. 3000, 3300, 5000, 5173 portları); bu projenin test portları `test:server` için 3291, `test:e2e` için 3292'dir. Elle başlatılmış bir `scripts/e2e-server.mjs` açık kalırsa `.test-tmp/e2e/server/quiz.db` kilitli kalır ve sonraki `test:e2e` `EBUSY` ile açılamaz; o süreci kapatın. **Eski bilgisayar notu (16–20 Kasım):** kısıtlı ağlı başka bir makinede `pnpm` PATH'te yoktu (`D:\dnm\use-node.ps1`), `dns.lookup` bozuktu ve `node_modules` kilitten gerideydi; o makinede `pnpm test` lisans denetiminde durur, testler `node --test tests/*-regression.mjs` ile koşulurdu.
 - **`.env` yükleme önceliği:** süreçte tanımlı ortam değişkeni `.env` değerini ezer (boş dize bile). Test/deney yaparken `INITIAL_ADMIN_*` gibi değerleri açıkça verin.
 - **Derleme:** `next build --webpack`; `next.config.ts` üretim derlemesinde webpack önbelleğini kapatır (Windows/pnpm symlink sorunu). Windows'ta standalone çıktısının bağımlılık bağlantılarını `scripts/standalone-links.mjs` tamamlar; yalnız `next build` çağırmayın, `pnpm build` kullanın. `@libsql/*` ve llm-manager `serverExternalPackages` içindedir.
 - Bu `AGENTS.md` elle yazılmıştır. `next.config.ts` içinde `agentRules: false` olduğundan `next dev` bu dosyaya Next.js'in kendi kural bloğunu eklemez; dosyada o bloğun işaretleri (`<!-- BEGIN:nextjs-agent-rules -->`) bulunmaz, bu yüzden silinmez.
 - `next-env.d.ts` çalışan `next dev` tarafından yeniden yazılır (`.next/dev/...` yolları); commit'e almayın (`git checkout -- next-env.d.ts`).
-- Çalışan `build`/`licenses`, yerel `node_modules` eski olduğundan `docs/lisanslar/DEPENDENCIES.md` içine yanlış Next sürümü yazabilir; geri alın.
+- `node_modules` kilit dosyasından geride kalırsa `build`/`licenses` `docs/lisanslar/DEPENDENCIES.md` içine yanlış sürüm yazabilir; önce `pnpm install --frozen-lockfile` çalıştırın, beklenmeyen lisans değişikliğini commit etmeyin.
+- `pnpm add` `package.json` içindeki bağımlılık listelerini alfabetik olarak yeniden sıralar; ilgisiz satır değişikliği bırakmamak için yeni satırı elle ekleyip `pnpm install` ile kilidi güncelleyin. Bağımlılıklar tam sürüme sabitlenir (`^` yok; istisna mevcut `zod`).
 - Git dışı yerel veri: `.env`, `data/` (gerçek `quiz.db`, LLM profilleri/anahtarı), `backups/`, `.next/`, `.test-tmp/`. Bunları commit etmeyin, içeriklerini günlüğe/çıktıya yazmayın.
 
 ## 13. Değişmezler (güvenlik ve veri bütünlüğü)
@@ -184,7 +185,7 @@ Hata yanıtları `error(e)` (`lib/server.ts`) ile üretilir: `'AUTH'` → 401 ("
 
 ## 14. Bilinen borçlar ve geliştirme fırsatları
 
-- `app/page.tsx` (~107 KB) ve `app/globals.css` (~47 KB) tek dosya: bileşenlere bölünebilir (davranışı bozmadan, test eşliğinde).
+- `app/page.tsx` (~71 KB): `Home` ve düzenleyici görünümü JSX'i kaldı; ayrılması için önce durumun bir kanca/bağlam altında toplanması gerekir (tasarım işi). `app/globals.css` (~47 KB) tek dosya. Taranmış belgelerde sentetik fixture'ın bulduğu üç dönüşüm açığı (anahtarın yarısının düşmesi, kapak tablosundan bölüm çıkmaması, sütun sonundaki numarasız sorular) ve öncelik sırası: docs/YOL-HARITASI.md "Devam rehberi".
 - Güncelleme (PUT), yumuşak silme ve kapatma var; **kalıcı silme, sürüm geçmişi ve eski sürüme dönme yok** (PUT eski tanımın üzerine yazar; yalnız sonuç kaydında `version` tutulur). Öğrencinin cihazdaki yarım yanıtı (`attempt-<id>`) soru kimlikleri değişirse yeni sürümle eşleşmeyebilir.
 - `POST /api/exams/{id}` (öğrenci sonucu) kimliksizdir; belirteç + IP başına hız sınırı vardır ama sınır tek süreç belleğindedir ve ortak IP'li sınıflarda (NAT) paylaşılır. Süre denetimi yumuşaktır: sorular belirteçsiz okunabildiğinden öğrenci belirteci geç alarak süreyi uzatabilir; sunucu yalnız belirteç yaşını ve kayıtlı süreyi denetler. Aynı ad kuralı aynı adlı iki öğrenciyi (aynı IP'de) engeller. Sınav listesi 100 ile sınırlı (sayfalama yok); sonuç listesi sayfalı ama her istekte tüm özetler okunur (5000 sınırı) ve analiz tüm tam kayıtları yükler (3000 sınırı); çok büyük sınavlar için indeksli bir sonuç tablosu gerekir. Dışa aktarma yalnız CSV'dir (.xlsx yok).
 - Kayıt sayfası yok; yeni hesap yalnız CLI (`user:add`) ve ilk hesap `.env` ile eklenir; şifre unutulursa `user:reset`. Şifre değiştirme ve oturum kapatma arayüzde var ama oturum listesi (cihaz/son kullanım) yok. Çok kullanıcı portalı ayrı bir tasarım işidir.
@@ -202,3 +203,15 @@ Hata yanıtları `error(e)` (`lib/server.ts`) ile üretilir: `'AUTH'` → 401 ("
 6. Öğrenci verisi, kimlik veya depolama mantığına dokunduysanız §13'ü yeniden okuyun ve test ekleyin.
 7. Yeni test dosyasını `suites` listesine ekleyin; yeni `.env` değişkenini `.env.example` ve ilgili rehbere yazın.
 8. Belgeyi güncel tutun: davranış değiştiyse README/KURULUM-ISLETIM/GELISTIRICI-REHBERI/bu belge.
+
+## 16. Çalışma akışı ve pratikte doğrulanmış notlar (21 Kasım 2026)
+
+Bu belge yapay zekâ kod ajanları için tek kaynaktır (Claude Code bu ortamda AGENTS.md'yi kendiliğinden yükler; ayrı bir CLAUDE.md tutulmaz). Yeni oturumda önce [docs/YOL-HARITASI.md](docs/YOL-HARITASI.md) → "Devam rehberi" okunur.
+
+- **Akış:** Yanıtlar, commit, PR ve belgeler Türkçe. Her iş ayrı dalda (`feat/`, `fix/`, `refactor/`, `test/`, `docs/`), Conventional Commits ile commit edilir ve PR açılır. Commit, push, PR ve `main`'e birleştirme (merge commit, `gh pr merge N --merge`) kullanıcı onayıyla yapılır; PR'dan ve birleştirmeden sonra CI sonucu (`gh run watch <id> --exit-status`) takip edilip bildirilir.
+- **Hata düzeltme:** Önce hatayı yeniden üreten test yazılır. Ara sıra kalan bir testte neden kanıtlanmadan (ör. saati dondurarak yeniden üretme) düzeltme yapılmaz.
+- **Doğrulama:** §15'e ek olarak `tsc` için `--noUnusedLocals --noUnusedParameters` bayrakları kullanılır; arayüz değiştiyse `pnpm test:e2e`, dönüşüm hattı (`lib/pdf-*.ts`, `lib/quiz.ts`) değiştiyse `pnpm reference` de koşulur.
+- **Uzun satırlı dosyalarda büyük blok taşıma:** Satırları elle yeniden yazmayın; satırları birebir kopyalayan küçük bir Node betiği kullanın, sınır satırlarını betikte doğrulayın, sonra `tsc --noUnusedLocals` çıktısına göre kullanılmayan import'ları temizleyin.
+- **Yeni `app/` modülü:** 6 test dosyasındaki derleme listelerine (`for(const name of [...])`, `app/page.tsx`'ten önce) ve `tests/ui-followup-regression.mjs` içindeki kaynak dosya listesine eklenir. Bu listeleri `sed` ile toplu güncellerken `if(name==='app/page.tsx')` koşullarını ve `readFileSync` çağrılarını da değiştirmediğinizi `git diff` ile denetleyin.
+- **Node'da OCR:** `tesseract.js`, `global.document` tanımlıyken yüklenirse tarayıcı sürümünü seçer ve her sayfa `OCR_FAILED` olur; `document` tanımlanmadan `require` edin (bkz. `tests/scanned-sections-regression.mjs`).
+- **Zaman varsayımları:** Art arda yapılan işlemler aynı milisaniyeye düşebilir (CI makinesi hızlıdır); zamana göre sıralanan sonuçları sınayan testlerde işlemler arasına kısa bekleme koyun.

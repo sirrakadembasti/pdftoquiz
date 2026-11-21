@@ -30,7 +30,7 @@ node scripts/measure-leakage.mjs kaynak.pdf ogretmen-taslagi.json sonuc.json   #
 
 Fixture PDF'leri `tests/fixtures/` altındadır; eski fixture'ların üretici betikleri kaldırılmıştır. İstisna: `scanned-sections.pdf` (taranmış, iki sütun, kapakta "DERS ADI / SAYFA" tablosu, 2×2 şıklar, dört sütunlu cevap anahtarı; anonim içerik) `node scripts/fixtures/scanned-sections.mjs` ile yeniden üretilir. Üreteç Arial kullanır ve aynı makinede aynı baytları üretir; içeriği değiştirirseniz PDF'i yeniden üretip birlikte commit edin, `tests/scanned-sections-regression.mjs` doğru şıkları ve anahtarı üretecin kendisinden okur. ESLint kullanılmaz; statik denetimi `tsc` yapar.
 
-**Son doğrulama (19 Kasım 2026, uzak PR #1–#4 ile birleştirme sonrası, Windows, Node 24):** regresyon dosyaları doğrudan koşuldu 310/310 (Aşama 1–4 sonrası) (0 atlanan), `tsc` çıkış 0, test politikası temiz; `test:server` 9/9 (`.env` ile ilk hesap oluşturma eklendikten sonra, 16 Kasım). Bu bilgisayarda `node_modules` Next 16.4.0 içerdiğinden `pnpm test` lisans kontrolünde durur (bölüm 6); gerçek `install` sonrası kalkar.
+**Son doğrulama (21 Kasım 2026, `main` PR #11 sonrası, Windows 11, Node 22.23.2, pnpm 11.25.0):** temiz `pnpm install --frozen-lockfile` sonrası `pnpm test` 314/314 (0 atlanan, lisans denetimi dahil), `tsc --noUnusedLocals --noUnusedParameters` temiz, `pnpm build`, `pnpm test:server` 9/9, `pnpm test:e2e` 4/4. Aynı adımlar GitHub Actions'ta (`windows-latest`) her PR'da koşar.
 
 **Referans PDF sonuçları** (yerel hat, AI yok):
 
@@ -84,7 +84,9 @@ pnpm install --frozen-lockfile
 
 Kurulum `pnpm-lock.yaml` ile birebir paketleri getirir (Next 16.4.6 ve `@sirrakadembasti/llm-manager` dahil). `node_modules` eski kalırsa `test` ilk adımda `docs/lisanslar` ile kurulu sürümleri karşılaştırır ve güncel değil diye durur; `dev`/`build` ise paket eksikse `Can't resolve '@sirrakadembasti/llm-manager/core'` hatası verir ([LLM-MANAGER.md](LLM-MANAGER.md)).
 
-**Bu bilgisayardaki kısıtlar (16 Kasım 2026 gözlemi):**
+**Güncel geliştirme bilgisayarı (21 Kasım 2026):** ağ serbest, pnpm 11.25.0 PATH'te; aşağıdaki kısıtlar yoktur ve kurulum normal çalışır.
+
+**Eski, kısıtlı ağlı bilgisayardaki kısıtlar (16 Kasım 2026 gözlemi; benzer bir ortamda yeniden çalışırsanız geçerlidir):**
 
 - Node'un `dns.lookup` çağrısı (getaddrinfo) `ENOTFOUND` verir, `dns.resolve4/6` çalışır. `D:\dnm\localhost-fix.cjs` yalnız `localhost` için geçerlidir, kayıt defteri adlarını kapsamaz. PowerShell'in kendi istekleri etkilenmez.
 - Bu bilgisayarda PATH'te `pnpm` yoktur (yalnız `node` ve `bun`). pnpm, `D:\dnm\use-node.ps1` ile oturuma eklenir; o betik pnpm 9.15.1 getirir, depo ise 11.25.0 ister (kilit dosyası ikisiyle de çözülür, ama `pnpm-workspace.yaml` içindeki bazı ayarlar yalnız pnpm 10/11'de geçerlidir).
@@ -94,7 +96,6 @@ Kurulum `pnpm-lock.yaml` ile birebir paketleri getirir (Next 16.4.6 ve `@sirraka
 
 ## 7. Doğrulanamayanlar ve bilinen borçlar
 
-- Sıfırdan bağımlılık kurulumu bu geliştirme bilgisayarında tamamlanamadı (bölüm 6: DNS ve 403 kısıtları); kilit dosyası tutarlılığı doğrulandı, gerçek kurulum ağı serbest bir makinede denenmelidir.
-- Gerçek tarayıcıda PDF yükleme arayüzü, native metin araçları (geri al, araç çubuğu), dokunmatik/mobil yerleşim, çift tıklamalı `.cmd` başlatıcılar, harici sunucu (ters vekil) dağıtımı ve canlı AI sağlayıcı çağrıları bu ortamda doğrulanmadı. Yalnız tarayıcıda yerel OCR çalışması ayrıca denendi.
-- `app/page.tsx` (~107 KB) ve `app/globals.css` (~47 KB) tek dosyada; bileşenlere bölünmesi ayrı bir iş.
+- Gerçek tarayıcıda PDF yükleme ve dönüşüm, öğrenci akışı, sonuç paneli/CSV, erişim kapatma ve şifre değiştirme Playwright ile sınanıyor (`test:e2e`). Native metin araçları (geri al, araç çubuğu), düzenleyicide yayınlama akışı, dokunmatik/mobil yerleşim, çift tıklamalı `.cmd` başlatıcılar, harici sunucu (ters vekil) dağıtımı ve canlı AI sağlayıcı çağrıları doğrulanmadı.
+- `app/page.tsx` (~71 KB; `Home` ve düzenleyici görünümü) ve `app/globals.css` (~47 KB) tek dosyada; kalan bölme işi ve taranmış belge dönüşüm açıkları için bkz. [YOL-HARITASI.md → "Devam rehberi"](YOL-HARITASI.md).
 - Öğrenci sonuç gönderimi (POST) kimliksizdir; tek kullanımlık deneme belirteci ve IP başına hız sınırı ister (bkz. AGENTS.md §6, §13).

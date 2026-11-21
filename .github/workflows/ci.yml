@@ -29,3 +29,11 @@ jobs:
       - run: pnpm test
       - run: pnpm build
       - run: pnpm test:server
+      - run: pnpm exec playwright install chromium
+      - run: pnpm test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-results
+          path: .test-tmp/e2e/results
+          retention-days: 7

@@ -17,6 +17,7 @@
     "test:acceptance": "node scripts/run-acceptance-tests.mjs",
     "test:ocr": "node scripts/ocr/run.mjs",
     "test:server": "node --import tsx --test tests/standalone-packaging.mjs tests/local-server.mjs",
+    "test:e2e": "playwright test",
     "db:migrate": "node scripts/db-command.mjs migrate",
     "user:add": "node --import tsx scripts/admin.ts",
     "user:reset": "node --import tsx scripts/admin.ts --reset",
@@ -46,6 +47,7 @@
     "@types/react-dom": "19.2.3",
     "typescript": "5.9.3",
     "react-test-renderer": "19.3.0",
-    "@napi-rs/canvas": "0.1.100"
+    "@napi-rs/canvas": "0.1.100",
+    "@playwright/test": "1.65.1"
   }
 }

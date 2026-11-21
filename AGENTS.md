@@ -20,6 +20,7 @@ Diğer belgeler: kısa başlangıç [README](README.md) · kurulum/sunucu/hesap/
 | `typecheck` | `tsc --noEmit --incremental false`. ESLint **yoktur**; statik denetim yalnız `tsc`. |
 | `test` | Politika + lisans denetimi + 33 regresyon dosyası (aşağıda §10). |
 | `test:server` | Gerçek üretim sunucusu + SQLite (önce `build`). |
+| `test:e2e` | Playwright ile gerçek Chromium'da uçtan uca testler (`e2e/`; önce `build` ve bir kez `pnpm exec playwright install chromium`). |
 | `user:add` / `user:reset` | Öğretmen ekle (etkileşimli, rastgele şifre) / şifre sıfırla. |
 | `backup` | SQLite anlık yedeği. |
 | `reference` / `test:ocr` | Gerçek referans PDF'lerle dönüşüm simülasyonu / OCR ölçümü. |
@@ -149,8 +150,9 @@ Hata yanıtları `error(e)` (`lib/server.ts`) ile üretilir: `'AUTH'` → 401 ("
 - **Kaynak, TypeScript'ten anlık derlenir:** testler `typescript.transpileModule` ile `lib/*.ts` ve `app/**/*.tsx`'i `.test-tmp/qa/modules/` altına CommonJS yazar; bağımlılıklar test dosyası içinde mock'lanır: derleme çıktısındaki `lib/session.js` yerine `global.__qaUser` döndüren bir stub, `lib/storage.js` yerine bellek kovası yazılır (bu dosyalar `.test-tmp/` altında üretilir, kaynakta yoktur). Modül eklerseniz test dosyalarındaki derleme listesine (`for (const name of [...])`) eklemeniz gerekebilir.
 - **Gerçek DB yok:** `test` tüm testlere `.test-tmp/run-tests/quiz.db` verir; sunucu testi (`test:server`) sistem geçici klasöründe DB kurar. Gerçek `data/quiz.db`'ye dokunan test yazmayın.
 - **Belgeye özgü kabul katmanı** (`test:acceptance`, `RUN_REAL_ACCEPTANCE=1`) standart sayıma girmez; dört `*_REFERENCE_*` yolu ister ve eski bir belgenin içeriğine bağlıdır. `tests/reference/` PDF'leri standart pakete dahil değildir; `pnpm reference` bunları gerçek hattan geçirir (son sonuç: üçü de 50/50 soru).
-- **CI:** `.github/workflows/ci.yml`, `main`'e push ve her PR'da `windows-latest` üzerinde `pnpm install --frozen-lockfile`, `typecheck`, `test`, `build`, `test:server` çalıştırır.
-- **Gerçek tarayıcı/mobil, canlı AI, çift tıklamalı `.cmd`, harici sunucu dağıtımı doğrulanmadı**; React/SSR testleri tarayıcı doğrulaması yerine geçmez.
+- **Tarayıcı testleri** (`pnpm test:e2e`, `playwright.config.ts`, `e2e/*.spec.ts`): Playwright 1.65 + Chromium. `scripts/e2e-server.mjs` standalone sunucuyu 3292 portunda, her koşuda silinip yeniden oluşturulan `.test-tmp/e2e/server/quiz.db` ve test öğretmeniyle (`INITIAL_ADMIN_*`) açar. Testler tek işçide sırayla çalışır ve aynı veritabanını paylaşır: hesap testi şifreyi değiştirip `finally` içinde geri alır. Giriş formu React bağlanmadan doldurulursa boş gönderilir, `login()` bu yüzden `networkidle` bekler. Konsol hataları ve CSP ihlalleri testi düşürür. Sayfa kendi yönlendirmesini yaparken (`location.assign`) `page.goto` çağırmayın; gezinme `ERR_ABORTED` ile kesilir.
+- **CI:** `.github/workflows/ci.yml`, `main`'e push ve her PR'da `windows-latest` üzerinde `pnpm install --frozen-lockfile`, `typecheck`, `test`, `build`, `test:server`, Chromium kurulumu ve `test:e2e` çalıştırır; tarayıcı testi kalırsa izler `playwright-results` artefaktı olarak yüklenir.
+- **Mobil, canlı AI, çift tıklamalı `.cmd`, harici sunucu dağıtımı doğrulanmadı**; React/SSR testleri tarayıcı doğrulaması yerine geçmez.
 
 ## 11. Kod stili ve değişiklik kuralları
 

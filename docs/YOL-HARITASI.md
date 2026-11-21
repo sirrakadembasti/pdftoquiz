@@ -134,6 +134,12 @@ Sonuç kaydına hafif özet (`customMetadata.s`) ve ad kilidi anahtarı (`c`) ya
 
 `intro`, `quiz` ve `result` görünümleri ile `SectionNavigation`, davranış değişmeden `app/student-flow.tsx` dosyasına taşındı (JSX birebir; durum `Home`'da, props ile aktarılır). Testlerdeki derleme listelerine yeni modül eklendi; `ui-followup-regression.mjs` kaynak denetimi iki dosyayı birlikte okur. Doğrulama: `tsc` (kullanılmayan tanım denetimiyle) temiz, `pnpm test` 309/309, `pnpm build`, `pnpm test:server` 9/9. İkinci adım: `api` ve `Modal` ortak `app/client-ui.tsx` modülüne, `ExamCard`, `AccessModal`, `DeleteModal`, `ResultsModal` ve yardımcıları `app/exam-panel.tsx` dosyasına birebir taşındı; `app/page.tsx` ~114 KB → ~100 KB. Doğrulama aynı (309/309, build, `test:server` 9/9). Üçüncü adım: `PDFView`, `SourceBadge`, `HybridReview`, `OptionImagePreview`, `BulkAnswers` ve `AIUsageCard` `app/editor-parts.tsx` dosyasına, `loadScript` ortak `app/client-ui.tsx` dosyasına taşındı; `app/page.tsx` ~100 KB → ~72 KB. Testler bu bileşenleri artık `app/editor-parts.js` üzerinden yükler; `page.js`'e sonradan `exports` ekleyen geçici satırlar kaldırıldı. Kalan büyük parça `Home` içindeki düzenleyici görünümü JSX'i (tek satır ~22 KB): çok sayıda `Home` durumuna ve işleyicisine bağlı olduğundan ayrılması için önce durumun (ör. bir `useEditor` kancası veya bağlam) düzenlenmesi gerekir; bu ayrı bir tasarım işidir.
 
+## Madde 24: Playwright uçtan uca testleri eklendi
+
+`@playwright/test` 1.65.1 (geliştirme bağımlılığı, yalnız Chromium) ve `pnpm test:e2e`. Senaryolar (`e2e/`): öğretmen girişi ve şifre değiştirme (uyuşmayan şifre sunucuya gitmez); dijital (`exam.pdf`) ve taranmış (`scanned.pdf`, OCR) PDF yükleme ile düzenleyiciye dönüşüm (PDF.js ve Tesseract worker'ları CSP altında, konsol hatası/CSP ihlali yok); oturumsuz öğrencinin sınavı çözmesi ve puanı; öğretmenin Sınavlarım → sonuç tablosu, CSV indirme (`a download`, BOM ve satır içeriği) ve erişim ayarıyla sınavı kapatması (öğrenci bağlantısı "Sınav açılamadı."). Sunucu `scripts/e2e-server.mjs` ile geçici veritabanında açılır. Yerelde iki ardışık koşu 4/4 (~46 sn). CI'a Chromium kurulumu ve `test:e2e` adımı eklendi.
+
+Henüz kapsanmayanlar: bölüm ekranı ve özeti, erişim ayarındaki `datetime-local` zamanlama (saat dilimi), mobil görünüm, düzenleyicide yayınlama akışı (testler sınavı API ile oluşturur), sınav güncelleme/silme arayüzü.
+
 ## Önerilen sıra
 
 | Aşama | Kapsam | Maddeler | Doğrulama |

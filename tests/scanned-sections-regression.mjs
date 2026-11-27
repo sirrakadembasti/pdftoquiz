@@ -18,8 +18,7 @@ if(process.env.SCANNED_SECTIONS_DUMP)fs.writeFileSync(process.env.SCANNED_SECTIO
 const truth=courses.flatMap(([,qs])=>qs),total=truth.length;
 // OCR Türkçe harfleri ve büyük/küçük harfi değişken okur (Ağ→Ag, İndeksleme→indeksleme); karşılaştırma yalnız harf/rakam iskeleti üzerinden.
 const norm=s=>s.toLocaleLowerCase('tr').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/ı/g,'i').replace(/[^a-z0-9]/g,'');
-// Bilinen açıklar (docs/YOL-HARITASI.md, madde 25): kapak tablosundaki tek haneli sayfa numaraları OCR'da okunmadığından bölüm çıkmıyor;
-// sütun sonunda numarası okunmayan 5–6 kayboluyor.
+// Bilinen açık (docs/YOL-HARITASI.md, madde 25): sütun sonunda numarası okunmayan 5–6 kayboluyor.
 // Bu testler yanlış davranışı sabitlemez: okunanın doğru olduğunu ve kaybın uyarıyla bildirildiğini sınar. Açıklar kapandıkça sıkılaştırın.
 
 test('Taranmış sentetik sınav: OCR ile okunur; kapaktan beklenen sayı ve kitapçık, AI olmadan',()=>{
@@ -49,6 +48,12 @@ test('OCR\'ın okumadığı numaralar komşu numaralardan çıkarılır ve uyar�
  const inferred=result.questions.filter(q=>(q.warnings||[]).some(w=>/numara sıradan çıkarıldı/.test(w)));
  assert.ok(inferred.length>=1,'en az bir çıkarım beklenir');
  for(const q of inferred)assert.deepEqual(q.options.filter(Boolean).map(norm),truth[q.number-1][1].map(norm).filter((_,i)=>q.options[i]),'Soru '+q.number);
+});
+
+test('Kapak tablosu: SAYFA sütunu ayrıca okunur; 4 bölüm × 6 soru, numara aralığından atanır',()=>{
+ assert.deepEqual(result.sections.map(s=>[s.name,s.expectedCount,s.firstNumber]),[['VERİ TABANI YÖNETİMİ',6,1],['AĞ TEMELLERİ',6,7],['WEB PROGRAMLAMA',6,13],['İŞLETİM SİSTEMLERİ',6,19]]);
+ assert.ok(result.warnings.some(w=>/SAYFA sütunu ayrıca okundu/.test(w)));
+ assert.ok(result.questions.every(q=>q.sectionId&&result.sections.find(s=>s.id===q.sectionId&&q.number>=s.firstNumber&&q.number<s.firstNumber+6)),'her soru numara aralığına uyan bölümde');
 });
 
 test('PDF cevap anahtarı: son sayfadan okunur, okunan her cevap doğrudur ve otomatik uygulanmaz',()=>{

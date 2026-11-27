@@ -147,3 +147,20 @@ test('Cevap anahtarı metni: başlık zaten başta ya da cevapların altındaysa
  assert.deepEqual(layout.answerKeyPageText(below),layout.pageReadingOrder(below).map(x=>x.text).join('\n'));
  assert.equal(layout.answerKeyPageText([ol('1. A',.1,.1)]),'1. A');
 });
+// Kapak tablosu: OCR SAYFA sütunundaki tek haneli sayıları okumazsa bölüm çıkmaz; sütun bandı ayrıca okunur.
+const coverLines=(pages=[])=>{const row=(name,y,i)=>[ol(name,y,.235,{w:.2}),...(pages[i]?[ol(String(pages[i]),y,.68,{w:.012})]:[])];return [ol('DERS ADI',.249,.237,{w:.09}),ol('SAYFA',.249,.672,{w:.065}),...row('VERİ TABANI YÖNETİMİ',.284,0),...row('AĞ TEMELLERİ',.322,1),...row('WEB PROGRAMLAMA',.363,2),...row('İŞLETİM SİSTEMLERİ',.398,3),ol('Her ders için 6 soru bulunmaktadır.',.457,.22,{w:.3}),ol('Soru Sayısı: 24 Sinav Süresi: 40 dakika',.178,.313,{w:.375})];};
+test('Kapak tablosu: eksik SAYFA hücresi varsa sütun bandı bulunur; tablo eksiksizse ya da başlık yoksa bulunmaz',()=>{
+ assert.equal(layout.tableSections(coverLines()).length,0,'yeniden üretim: sayfa numarasız bölüm çıkmaz');
+ const band=layout.coverPageColumn(coverLines());assert.ok(band&&band.x0<.672&&band.x1>.737&&band.y0>=.249&&band.y1<.457);
+ assert.equal(layout.coverPageColumn(coverLines([2,3,4,5])),null);assert.equal(layout.coverPageColumn(coverLines().filter(x=>x.text!=='SAYFA')),null);
+});
+test('recoverCoverPageNumbers: band rakam beyaz listesiyle (PSM 6) okunur, sayılar sayfa koordinatına çevrilir ve bölümler çıkar; hata sessizce boş döner',async()=>{
+ const params=[];const word=(text,y)=>({text,bbox:{x0:40,y0:y,x1:52,y1:y+14}});
+ const mk=fail=>({cancelled:()=>false,ocr:async()=>({setParameters:async s=>params.push(s),recognize:async c=>{if(fail)throw new Error('OCR bozuldu');return {data:{lines:[{text:'2 3',bbox:{},words:[word('2',10),word('x',20)]},{text:'3',bbox:{x0:40,y0:60,x1:52,y1:74}},{text:'4',bbox:{x0:40,y0:110,x1:52,y1:124}},{text:'5',bbox:{x0:40,y0:160,x1:52,y1:174}}]}};},terminate:async()=>{}})});
+ const canvas=canvasLib.createCanvas(1000,1400),lines=coverLines(),got=await importer.recoverCoverPageNumbers(canvas,lines,mk(false));
+ assert.equal(got.length,4,'yalnız rakam sözcükleri alınır');assert.ok(params.every(p=>p.tessedit_pageseg_mode==='6'&&p.tessedit_char_whitelist==='0123456789'));
+ assert.ok(got.every(g=>g.x>.63&&g.x<.74&&g.y>=.249&&g.y<.457));
+ const sections=layout.tableSections([...lines,...got.map((g,i)=>({...g,y:[.284,.322,.363,.398][i]}))]);assert.equal(sections.length,4);
+ assert.deepEqual(await importer.recoverCoverPageNumbers(canvas,lines,mk(true)),[]);assert.deepEqual(await importer.recoverCoverPageNumbers(canvas,coverLines([2,3,4,5]),mk(false)),[]);
+});
+test('Kapak: "Soru Sayısı" OCR noktasız ı ile okusa da kapak tablosu tanınır',()=>{const lines=coverLines([2,3,4,5]);assert.equal(layout.classifyPage(lines).kind,'cover');const m=layout.coverMetadata(lines);assert.equal(m.sections?.length,4);assert.equal(m.expectedCount,24);});

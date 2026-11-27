@@ -19,7 +19,7 @@ const truth=courses.flatMap(([,qs])=>qs),total=truth.length;
 // OCR Türkçe harfleri ve büyük/küçük harfi değişken okur (Ağ→Ag, İndeksleme→indeksleme); karşılaştırma yalnız harf/rakam iskeleti üzerinden.
 const norm=s=>s.toLocaleLowerCase('tr').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/ı/g,'i').replace(/[^a-z0-9]/g,'');
 // Bilinen açıklar (docs/YOL-HARITASI.md, madde 25): kapak tablosundaki tek haneli sayfa numaraları OCR'da okunmadığından bölüm çıkmıyor;
-// iki parça okunan anahtar başlığı yüzünden ilk iki sütun anahtara girmiyor; sütun sonunda numarası okunmayan 5–6 kayboluyor.
+// sütun sonunda numarası okunmayan 5–6 kayboluyor.
 // Bu testler yanlış davranışı sabitlemez: okunanın doğru olduğunu ve kaybın uyarıyla bildirildiğini sınar. Açıklar kapandıkça sıkılaştırın.
 
 test('Taranmış sentetik sınav: OCR ile okunur; kapaktan beklenen sayı ve kitapçık, AI olmadan',()=>{
@@ -53,7 +53,7 @@ test('OCR\'ın okumadığı numaralar komşu numaralardan çıkarılır ve uyar�
 
 test('PDF cevap anahtarı: son sayfadan okunur, okunan her cevap doğrudur ve otomatik uygulanmaz',()=>{
  const key=result.pdfAnswerKey;assert.ok(key,'anahtar sayfası bulunmalı');assert.equal(key.page,6);
- const entries=Object.entries(key.keys);assert.ok(entries.length>=12,'en az 12 cevap: '+entries.length);
+ const entries=Object.entries(key.keys);assert.equal(entries.length,answerKey.length,'anahtarın tamamı okunmalı: '+entries.length);
  for(const [n,v] of entries)assert.equal('ABCDE'[v],answerKey[Number(n)-1],'Cevap '+n);
  assert.ok(result.questions.every(q=>q.correct===null),'anahtar öğretmen onayı olmadan uygulanmamalı');
 });
